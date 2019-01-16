@@ -72,8 +72,18 @@ console.log(querystring.parse('name=%E5%88%98%E4%B8%80%E5%8D%9A', null, null, {
 
 默认被querystring.stringify()调用
 
+```javascript
+console.log(querystring.escape('%3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E'));
+// => %3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E
+```
+
 ##### querystring.unescape(str)
 
 > 将查询字符串解码
 
 默认被querystring.parse()调用
+
+```javascript
+console.log(querystring.unescape('%3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E'));
+// => <这是一个标签>
+```
