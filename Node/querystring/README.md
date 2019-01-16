@@ -16,7 +16,7 @@ var querystring = require('querystring');
 - @param obj
 - @param sep 查询字符串键值对的分隔符
 - @param eq 查询字符串键与值之间的分隔符
-- @param options 
+- @param options
   - encodeURIComponent 编码查询字符串使用的函数。默认为querystring.escape()
 
 ```javascript
@@ -73,7 +73,7 @@ console.log(querystring.parse('name=%E5%88%98%E4%B8%80%E5%8D%9A', null, null, {
 默认被querystring.stringify()调用
 
 ```javascript
-console.log(querystring.escape('%3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E'));
+console.log(querystring.escape('<这是一个标签>'));
 // => %3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E
 ```
 

@@ -39,7 +39,7 @@ console.log(querystring.parse('name=%E5%88%98%E4%B8%80%E5%8D%9A', null, null, {
 
 
 // ----------querystring.escape()----------
-console.log(querystring.escape('%3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E'));
+console.log(querystring.escape('<这是一个标签>'));
 // => %3C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%3E
 
 
