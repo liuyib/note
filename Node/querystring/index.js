@@ -1,6 +1,6 @@
 var querystring = require("querystring");
 
-// ----------querystring.stringify----------
+// ----------querystring.stringify()----------
 
 var urlQueryObj = {
   name: 'liuyibo',
@@ -21,7 +21,7 @@ console.log(querystring.stringify(urlQueryObj, null, null, {
 }));
 
 
-// ----------querystring.parse----------
+// ----------querystring.parse()----------
 
 console.log(querystring.parse('name=liuyibo&hobby=football&hobby=code&age=20'));
 // => { name: 'liuyibo', hobby: [ 'football', 'code' ], age: '20' }
