@@ -7,6 +7,12 @@ node API - url 学习
 
 ---
 
+##### 引入模块
+
+```javascript
+var url = require('url');
+```
+
 一个完整的 url 示例：
 
 ```node
