@@ -1,15 +1,7 @@
-// 爬取网页源码
+// 爬取网页所有源码
 
 var http = require('http');
-
 var url = 'http://www.imooc.com/learn/348/';
-
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write('http crawler test');
-
-  res.end();
-}).listen(8888);
 
 http.get(url, function (res) {
   var html = '';
