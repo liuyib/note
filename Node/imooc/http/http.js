@@ -1,3 +1,4 @@
+// 创建一个服务器
 var http = require('http');
 
 http.createServer(function (req, res) {
