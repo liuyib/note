@@ -22,24 +22,24 @@ function filterChapters(html) {
   var courseDatas = [];
 
   courses.each(function (item) {
-    var _course = $(this); // 获取单个课程
-    var _courseTitle = _course.find('.study-hd').find('a').text();
-    var _pointsWrapper = _course.find('.study-points');
-    var _points = { // 课程的一些信息
+    var courseItem = $(this); // 获取单个课程
+    var courseTitle = courseItem.find('.study-hd').find('a').text();
+    var pointsWrapper = courseItem.find('.study-points');
+    var coursePoints = { // 课程的一些信息
       progress: '', // 进度
       useTime: '', // 观看时间
       chapter: '' // 当前观看章节
     };
 
-    _points.progress = _pointsWrapper.find('.i-left').text();
-    _points.useTime = _pointsWrapper.find('.i-mid').text();
-    _points.chapter = _pointsWrapper.find('.i-right').text();
+    coursePoints.progress = pointsWrapper.find('.i-left').text();
+    coursePoints.useTime = pointsWrapper.find('.i-mid').text();
+    coursePoints.chapter = pointsWrapper.find('.i-right').text();
 
-    var _courseData = {};
-    _courseData.courseTitle = _courseTitle;
-    _courseData.points = _points;
+    var courseData = {};
+    courseData.courseTitle = courseTitle;
+    courseData.points = coursePoints;
 
-    courseDatas.push(_courseData);
+    courseDatas.push(courseData);
   });
 
   return courseDatas;
