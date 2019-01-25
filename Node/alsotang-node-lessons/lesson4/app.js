@@ -58,6 +58,6 @@ superagent.get(CNODE_URL)
           var _html = res.text;
           // 给 ep 发送 topic_html 事件
           ep.emit('topic_html', [topicUrl, _html]);
-        })
-    })
+        });
+    });
   });

@@ -1,0 +1,19 @@
+{
+  "name": "lesson6",
+  "version": "0.0.0",
+  "description": "测试永立：mocha, should, istanbul",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liuyib/study-note/blob/master/Node/alsotang-node-lessons/lesson5"
+  },
+  "keywords": [
+    "test",
+    "study"
+  ],
+  "author": "liuyibo",
+  "license": "MIT"
+}
