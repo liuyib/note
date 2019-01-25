@@ -1,0 +1,19 @@
+{
+  "name": "lesson3",
+  "version": "0.0.0",
+  "description": "使用 superagent 与 cheerio 完成简单的爬虫",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test splicified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liuyib/study-note/blob/master/Node/alsotang-node-lessons/lesson3"
+  },
+  "keywords": [
+    "test",
+    "study"
+  ],
+  "author": "liuyibo",
+  "license": "MIT"
+}

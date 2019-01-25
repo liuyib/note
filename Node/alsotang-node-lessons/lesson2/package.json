@@ -1,0 +1,19 @@
+{
+  "name": "lesson2",
+  "version": "0.0.1",
+  "description": "学习使用外部模块",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test splicified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liuyib/study-note/blob/master/Node/alsotang-node-lessons/lesson2"
+  },
+  "keywords": [
+    "test",
+    "study"
+  ],
+  "author": "liuyibo",
+  "license": "MIT"
+}
