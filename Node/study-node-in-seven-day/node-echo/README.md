@@ -19,9 +19,13 @@ bin/node-echo.js:
 输出命令行中的参数。
 ```node
 var echo = require('../lib/echo');
-var argv = process.argv[2];
+var argv = process.argv.slice(2); // 命令行中的参数
 
-console.log(echo(argv));
+console.log(echo(argv.join(' ')));
+
+// 例如，命令行中执行下面这条命令：
+$ node node-echo.js hello world
+// => hello world
 ```
 
 lib/echo.js:
