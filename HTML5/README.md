@@ -141,7 +141,7 @@ pattern      自定义验证（pattern="正则表达式"）
 
 ### 6、表单事件
 
-表单元素验证无法通过时触发 `oninvalid 事件`。
+表单中输入的内容无法通过表单元素自带的验证时触发 `oninvalid 事件`。
 当验证无法通过时，可以使用 `setCustomValidity 方法` 来自定义错误提示，例如：
 
 ```javascript
@@ -213,10 +213,21 @@ alert("Start: " + video.buffered.start(0) + " End: " + video.buffered.end(0));
 
 classList 的一些方法：
 
+- length（返回元素上的类名个数）
+- item（通过索引获取类名）
 - add
 - remove
-- toggle（指定的类已存在，就删除；不存在，就添加。即达到切换操作）
+- toggle *
 - contains（是否存在某个类名。返回 true / false）
+- replace（用新类名替换旧类）
+
+> add, remove 可以同时添加多个类名，类名之间用逗号分隔。
+
+> toggle
+> 只有一个参数时，如果类名存在则删除，并返回 false ；如果类名不存在则添加，返回 true。
+> 有两个参数时，第二个参数 **计算结果** 如果为 true，则强制添加；为 false，则强制删除。
+> 注意：第二个参数可以是一个表达式。例如：elem.classList.toggle('div1', i < 10);
+> 也可以是一个非 Boolean 类型的值，如果是一个非 Boolean 类型的值，会根据 `一定的规则` 将其转换为 Boolean 值。
 
 9.3、自定义属性
 
