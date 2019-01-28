@@ -215,19 +215,21 @@ alert("Start: " + video.buffered.start(0) + " End: " + video.buffered.end(0));
 
 classList 的一些方法：
 
-- item（通过索引获取类名）
+- item（通过索引获取元素）
 - add
 - remove
 - toggle *
 - contains（是否存在某个类名。返回 true / false）
 - replace（用新类名替换旧类）
 
-> add, remove 可以同时添加多个类名，类名之间用逗号分隔。
+> add / remove 可以同时 `添加 / 删除` 多个类名，类名之间用逗号分隔。
 
 > toggle
 > 只有一个参数时，如果类名存在则删除，并返回 false ；如果类名不存在则添加，返回 true。
+>
 > 有两个参数时，第二个参数 **计算结果** 如果为 true，则强制添加；为 false，则强制删除。
-> 注意：第二个参数可以是一个表达式。例如：elem.classList.toggle('div1', i < 10);
+>
+> 注意：第二个参数可以是一个表达式。例如：`elem.classList.toggle('div1', i < 10);`
 > 也可以是一个非 Boolean 类型的值，如果是一个非 Boolean 类型的值，会根据 `一定的规则` 将其转换为 Boolean 值。
 
 一个实用技巧：利用数组原型对象 `Array` 上的 `slice`方法，将 **类数组对象** 转换为 **数组**：
@@ -239,9 +241,10 @@ classList 的一些方法：
 ```javascript
 var oDiv = document.getElementById('oDiv');
 
-console.log(oDiv.classList);
-console.log(Array.prototype.slice.call(oDiv.classList));
+console.log(oDiv.classList); // => 类数组
+console.log(Array.prototype.slice.call(oDiv.classList)); // => 数组
 ```
+
 打印结果如下：
 
 ![](./imgs/fake_array_to_array.png)
@@ -250,7 +253,13 @@ console.log(Array.prototype.slice.call(oDiv.classList));
 
 自定义属性随意命名，但要以 `data-` 开头。
 
-获取自定义属性（`node.dataset['xxx']`），设置自定义属性（`node.dataset['xxx'] = 'xxx'`）：
+例如：
+
+```html
+<div data-name="div-test"></div>
+```
+
+获取自定义属性（`node.dataset['xxx']`），设置自定义属性（`node.dataset['xxx'] = 'xxx'`），例如：
 
 ```html
 <div data-name="zhangsan"></div>
