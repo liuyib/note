@@ -211,9 +211,10 @@ alert("Start: " + video.buffered.start(0) + " End: " + video.buffered.end(0));
 
 9.2、类名操作 `classList`
 
+> classList 是一个 **类数组** 对象。类数组对象不是真正意义上的数组。可以通过 `索引` 或 `item 方法` 访问其中的元素。像数组一样，类数组对象也有 `length` 属性。
+
 classList 的一些方法：
 
-- length（返回元素上的类名个数）
 - item（通过索引获取类名）
 - add
 - remove
@@ -228,6 +229,22 @@ classList 的一些方法：
 > 有两个参数时，第二个参数 **计算结果** 如果为 true，则强制添加；为 false，则强制删除。
 > 注意：第二个参数可以是一个表达式。例如：elem.classList.toggle('div1', i < 10);
 > 也可以是一个非 Boolean 类型的值，如果是一个非 Boolean 类型的值，会根据 `一定的规则` 将其转换为 Boolean 值。
+
+一个实用技巧：利用数组原型对象 `Array` 上的 `slice`方法，将 **类数组对象** 转换为 **数组**：
+
+```html
+<div id="oDiv" class="div1 div2 div3"></div>
+```
+
+```javascript
+var oDiv = document.getElementById('oDiv');
+
+console.log(oDiv.classList);
+console.log(Array.prototype.slice.call(oDiv.classList));
+```
+打印结果如下：
+
+![](./imgs/fake_array_to_array.png)
 
 9.3、自定义属性
 
