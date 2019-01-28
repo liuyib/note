@@ -1,0 +1,22 @@
+{
+  "name": "node-echo",
+  "version": "0.0.1",
+  "description": "一个标准的 node 工程目录示例",
+  "main": "./lib/echo.js",
+  "bin": {
+    "node-echo": "node-echo.js"
+  },
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"no test specified\""
+  },
+  "keywords": [
+    "test",
+    "study"
+  ],
+  "author": "liuyibo",
+  "license": "MIT"
+}

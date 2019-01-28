@@ -1,0 +1,19 @@
+{
+  "name": "lesson7",
+  "version": "0.0.0",
+  "description": "",
+  "main": "mocha.js",
+  "scripts": {
+    "test": "mocha-phantomjs index.html --ssl-protocol=any --ignore-ssl-errors=true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liuyib/study-note/blob/master/Node/alsotang-node-lessons/lesson6"
+  },
+  "keywords": [
+    "test",
+    "study"
+  ],
+  "author": "liuyibo",
+  "license": "MIT"
+}

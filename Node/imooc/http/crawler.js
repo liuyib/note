@@ -2,12 +2,13 @@
 // 爬取imooc里面个人信息中最近学习的课程信息
 
 var http = require('http');
-var cheerio = require('cheerio');
+var cheerio = require('cheerio'); // 一个第三方库
 var url = 'http://www.imooc.com/u/6286176/courses';
 
 function filterChapters(html) {
-  var $ = cheerio.load(html); // 获取所有的html代码
-  var courses = $('.course-one'); // 获取收藏列表里的所有课程
+  // 使用 cheerio.load 得到一个实现 jquery 接口的变量。用法和 jquery 一样
+  // 将其命名为 $，当做 jquery 来用即可。
+  var $ = cheerio.load(html);
 
   // 要获取的数据格式如下：
   // [{
@@ -21,8 +22,8 @@ function filterChapters(html) {
 
   var courseDatas = [];
 
-  courses.each(function (item) {
-    var courseItem = $(this); // 获取单个课程
+  $('.course-one').each(function (index, item) {
+    var courseItem = $(item); // 获取单个课程
     var courseTitle = courseItem.find('.study-hd').find('a').text();
     var pointsWrapper = courseItem.find('.study-points');
     var coursePoints = { // 课程的一些信息
@@ -35,11 +36,10 @@ function filterChapters(html) {
     coursePoints.useTime = pointsWrapper.find('.i-mid').text();
     coursePoints.chapter = pointsWrapper.find('.i-right').text();
 
-    var courseData = {};
-    courseData.courseTitle = courseTitle;
-    courseData.points = coursePoints;
-
-    courseDatas.push(courseData);
+    courseDatas.push({
+      'courseTitle': courseTitle,
+      'points': coursePoints
+    });
   });
 
   return courseDatas;
@@ -55,7 +55,7 @@ function printCourseInfo(courseDatas) {
 }
 
 http.get(url, function (res) {
-  var html = '';
+  var html = ''; // 整个网页的字符串代码
 
   res.on('data', function (data) {
     html += data;
