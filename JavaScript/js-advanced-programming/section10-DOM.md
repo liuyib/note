@@ -10,16 +10,22 @@ DOM1 中定义了一个 Node 接口，JS 中作为 Node 类型实现了这个接
 
 ##### 4、nodeName 和 nodeValue 属性
 
-这两个属性的值取决于节点类型（所以使用之前最好检测一下节点类型）。
-例如：元素节点的 nodeName 是元素名，nodeValue 是 null
+> 这两个属性的值取决于节点类型（所以使用之前最好检测一下节点类型）。
+> 例如：元素节点的 nodeName 是元素名，nodeValue 是 null
 
 ##### 5、访问节点
 
 访问子节点：
 
 - childNodes 属性
+- firstChild
+- lastChild
 
-childNodes 属性中保存着 NodeList 对象。NodeList 对象是一种类数组对象。
+> childNodes 属性中保存着 NodeList 对象。NodeList 对象是一种类数组对象。
+> 其中
+childNodes[0] == firstChild
+childNodes[childNodes.length - 1] == lastChild
+如果没有子节点，则 firstChild, lastChild 均为 null 
 
 访问父节点：
 
@@ -30,4 +36,8 @@ childNodes 属性中保存着 NodeList 对象。NodeList 对象是一种类数�
 - previousSibling
 - nextSibling
 
-如果一个节点没有上一个 / 下一个节点，那么他的 previousSibling / nextSibling 属性为 null。
+> 如果一个节点没有上一个 / 下一个节点，那么他的 previousSibling / nextSibling 属性为 null。
+
+节点之间的访问属性可以用下图表示：
+
+![](./imgs/section10/node_map.png)
