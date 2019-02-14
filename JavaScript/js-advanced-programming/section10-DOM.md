@@ -139,10 +139,92 @@ someNode.removeChild(someNode.lastChild);
 
 上面这四个方法操作的都是 `某个节点的子节点`。所以，在使用这几个方法之前，需要先获取父节点。但并不是所有的节点都有子节点。如果在不支持子节点的节点上调用了这个方法，会导致错误。
 
+##### 7、其他方法
 
+- cloneNode()
 
+该方法用于复制一个节点，接收一个布尔值参数。参数为 `true`，表示深复制，会复制节点及其整个子节点树；参数为 `false`，表示浅复制，只会复制节点本身。
 
+```html
+<ul id="oUl">
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+  <li>4</li>
+</ul>
+```
 
+```javascript
+var oUl = document.getElementById('oUl');
+var deepClone = oUl.cloneNode(true);
+var shallowClone = oUl.cloneNode(false);
 
+console.log(deepClone); // <ul id="oUl">
+                        //   <li>1</li>
+                        //   <li>2</li>
+                        //   <li>3</li>
+                        //   <li>4</li>
+                        // </ul>
 
+console.log(shallowClone); // => <ul id="oUl"></ul>
+```
+
+- normalize()
+
+该方法用于处理文档树中的文本节点。由于解释器的实现或者 `DOM` 操作的原因，可能会出现文本节点中不包含文本，或连续出现两个文本节点。在某个节点上调用这个方法，就会在该节点的后代节点中查找上面两种情况。找到空白节点删除，则删除；找到连续的两个文本节点，则合并为一个文本节点。
+
+##### 8、Document 类型
+
+`Document` 表示整个文档。在浏览器中常用的是 `document` 对象，它是 `HTMLDocument` 类型的示例（`HTMLDocument` 继承自 `Document` 类型），同时它也是 `window` 对象的一个属性。
+
+8.1、文档子节点
+
+文档的子节点可能是：`DocumentType`（最多一个）、`Element`（最多一个）、`ProcessingInstruction` 或 `Comment`。
+
+访问其子节点的快捷方式有：
+
+- documentElement
+- childNodes
+
+```javascript
+var html = document.documentElement; // 获取对 <html> 的引用
+
+console.log(html === document.childNodes[0]); // true
+console.log(html === document.firstChild);    // true
+```
+
+类似于 `documentElement` 属性，`document` 对象还有一个 `body` 属性，用于获取对 `<body>` 的引用：
+
+```javascript
+var body = document.body; // 获取对 <body> 的引用
+```
+
+8.2、文档信息
+
+- title 属性
+
+包含着文档的标题（即 `<title>` 元素中的文本）。
+
+- URL 属性
+
+包含着页面的完整 URL。
+
+- domain 属性
+
+包含着页面的域名。
+
+- referrer 属性
+
+`referrer` 属性中保存着连接到当前页面的那个页面的 `URL`。
+
+上面四个属性中 `title` 和 `domain` 是可写的。
+
+其中 `domain` 并不是可以设置为任何值，有一些限制：不能设置为 `URL` 中不包含的域。例如：
+
+```javascript
+// 假设页面来自 p2p.wrox.com
+
+document.domain = wrox.com     // => 成功
+document.domain = nczonline.cn // => 出错
+```
 
