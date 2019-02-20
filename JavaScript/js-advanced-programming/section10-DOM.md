@@ -219,7 +219,9 @@ var body = document.body; // 获取对 <body> 的引用
 
 上面四个属性中 `title` 和 `domain` 是可写的。
 
-其中 `domain` 并不是可以设置为任何值，有一些限制：不能设置为 `URL` 中不包含的域。例如：
+其中 `domain` 并不是可以设置为任何值，有一些限制：
+
+- 不能设置为 `URL` 中不包含的域：
 
 ```javascript
 // 假设页面来自 p2p.wrox.com
@@ -228,3 +230,104 @@ document.domain = wrox.com     // => 成功
 document.domain = nczonline.cn // => 出错
 ```
 
+- 在根域范围内，域名不能从 “松散” 设置为 “绷紧”：
+
+```javascript
+// 假设页面来自 p2p.wrox.com
+
+document.domain = wrox.com     // => 松散（成功）
+document.domain = p2p.wrox.com // => 绷紧（出错！）
+```
+
+8.3、查找元素
+
+- document.getElementById()
+
+> IE <= 7 中：
+> - 不区分 ID 的大小写（例如：myDiv 和 mydiv 被视为相同 ID）
+> - 如果有表单元素的 name 和 元素 ID 相同，并且表单元素在前，则该方法会获取到这个表单元素。
+
+- document.getElementsByClassName()
+
+- document.getElementsByTagName()
+
+- document.getElementsByName()
+
+> 前两种方法会获取一个 HTMLCollection 对象，这个对象是一个 **动态的集合**，与 NodeList 很相似。
+最后一个方法会获取到一个 NodeList 对象，这是一种类数组对象。
+
+> 如果获取到的元素集合里的元素上面有 name 属性，则可以用该对象的 **namedItem() 方法** 或 **使用中括号** 取得这个元素：
+
+```html
+<img src="./img1.jpg" name="myImg1" />
+<img src="./img2.jpg" name="myImg2" />
+<img src="./img3.jpg" name="myImg3" />
+```
+
+```javascript
+var aImgs = document.getElementsByTagName('img');
+
+console.log(aImgs.namedItem('myImg2')); // => <img src="./img2.jpg" name="myImg2" />
+console.log(aImgs['myImg2']);           // => <img src="./img2.jpg" name="myImg2" />
+```
+
+8.4、特殊集合
+
+- document.anchors - 获取带有 name 属性的 `<a>` 元素
+- document.links - 获取带有 href 属性的 `<a>` 元素
+- document.forms - 获取所有 `<form>` 元素
+- document.images - 获取所有 `<img>` 元素
+- document.scripts - 获取所有 `<script>` 元素
+- document.applets - 获取所有 `<applet>` 元素
+- document.embeds - 获取所有 `<embed>` 元素
+- document.plugins - 获取所有 `<embed>` 元素
+
+> 这些方法都会返回一个 HTMLCollection 对象。
+
+##### 9、ELement 类型
+
+- nodeType 为 1
+- nodeName 为 标签名
+- nodeValue 为 null
+
+> 要访问标签名，可以使用 `nodeName` 或 `tagName` 属性，后者主要是为了清晰起见。两个属性返回的都是标签名的 `全大写` 形式。例如，对 `<div>` 元素 操作，返回：DIV。所以和字符串进行比较操作时，最好转换一下大小写。
+
+9.1、HTML 元素
+
+所有的 HTML 元素都存在一下标准特性：
+
+- id
+- className - 因为 class 是 ECMAScript 中的保留字，所以在 DOM 中要使用 className 来访问元素的 class 属性。
+- title - 鼠标经过元素时显示出来的就是 title 属性
+- lang - 元素内容的语言
+- dir - 文本的对齐方向（值为：`ltr：left-to-right`，从左至右（左对齐）；`rtl：right-to-left`，从右至左（右对齐））
+
+> 这些属性都是可写的
+
+9.2、操作属性
+
+- getAttribute()
+
+> 有两种属性，通过 `getAttribute` 获取到的值和通过 `对象属性` 获取到的值是不同的：
+> 1. style - 行间样式
+> 通过 `getAttribute` 获取到的是 style 里的 文本。
+> 通过 对象属性（elem.style）获取到的是一个对象。
+> 2. 事件处理程序（例如：onclick）
+
+> **由于这些差别，所以平时只使用对象属性。只有获取自定义属性时，才使用 `getAttribute`**
+
+- setAttribute()
+- removeAttribute()
+
+> 这些方法可以操作自定义属性（根据 H5 标准规定，自定义属性要加 `data-` 前缀）。
+> 不过 HTML 中元素的自定义特性，在 DOM 中是不能作为属性访问到的（IE除外），例如：
+
+```html
+<div data-my-attribute="test"></div>
+```
+
+```javascript
+var oDiv = document.getElementById('oDiv');
+
+console.log(oDiv.getAttribute('data-my-attribute')); // => undefined（IE除外）
+```
