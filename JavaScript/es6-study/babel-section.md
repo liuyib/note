@@ -1,5 +1,3 @@
-# 使用 babel 编译 ES6 文件
-
 ## 初始化 package.json 文件
 
 ```shell
