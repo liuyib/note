@@ -1,3 +1,5 @@
+# ES6 中的一些基础特性
+
 > 目录
 > 1. 解构赋值
 > 2. 箭头函数
@@ -202,7 +204,7 @@ console.log(obj2); // => {a: 1, b: 2, c: 3}
 - filter()
 - forEach()
 
-1.map()
+### 1.map()
 
 ```javascript
 let arr = [68, 55, 98, 32, 66];
@@ -213,7 +215,7 @@ let arr2 = arr1.map(item => item >= 60 ? '及格' : '不及格');
 console.log(arr2); // => ["及格", "不及格", "及格", "不及格", "及格"]
 ```
 
-2.reduce()
+### 2.reduce()
 
 ```javascript
 let arr = [68, 55, 98, 32, 66];
@@ -226,7 +228,7 @@ let result = arr.reduce((acc, curr, index) => {
 console.log(result); // => 63.8
 ```
 
-3.filter()
+### 3.filter()
 
 ```javascript
 let arr = [68, 55, 98, 32, 66];
@@ -237,7 +239,7 @@ let even = arr.filter((item) => item % 2 === 0);
 console.log(even); // => [68, 98, 32, 66]
 ```
 
-4.forEach()
+### 4.forEach()
 
 ```javascript
 let  arr  = [68,  55,  98,  32,  66];
