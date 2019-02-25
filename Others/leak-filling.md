@@ -4,7 +4,7 @@
 > 防抖：事件持续触发结束后，间隔 n 秒才执行函数
 > 学习资料：https://github.com/mqyqingfeng/Blog/issues/26（讶羽大大的博客）
 
-## 2、JS 中的 6 种基本类型（原始数据类型）
+## 2、基本数据类型 6 种（原始数据类型）
 
 - boolean
 - number
@@ -55,13 +55,16 @@ console.log('hello world' instanceof PrimitiveString); // true
 
 ```
 
-## 4、数据转换要注意的点
+## 4、类型转换
 
 - `NaN` 是 `number` 类型的数据，所以 `number` 转其他类型时不要漏掉它。
 - 对象转字符串，结果为：`[object Object]`
 - 数组转数字：空数组、只有一个数字元素的数组转为数字，其余情况均为 `NaN`
 - `undefined` 和 `null` 转数字，分别为：`NaN` 和 `0`
-- 转为 `Boolean` 时，除了 `undefined`，`null`，`false`，`NaN`，`0`，`-0` 转为 `false`，其他的都转为 `true`，包括所有对象。
+
+### 转为 `Boolean`
+
+除了 `undefined`，`null`，`false`，`NaN`，`0`，`-0` 转为 `false`，其他的都转为 `true`，包括所有对象。
 
 ### 对象转为基本类型：
 
@@ -101,7 +104,7 @@ console.log(1 + a); // => 3
 
 ### + 号运算符
 
-`+` 号运算符相较其他运算符比较特殊，它的特点如下：
+四则运算中，`+` 号运算符相较其他运算符比较特殊，它的特点如下：
 
 - 运算中存在字符串，则结果为字符串
 - 运算的结果只有数字和字符串
@@ -147,3 +150,11 @@ let a = {
 
 console.log(a > 2); // => false
 ```
+
+### == 操作 和 === 操作
+
+// TODO
+
+### 为什么 `0.1 + 0.2 != 0.3`
+
+// TODO
