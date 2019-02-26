@@ -2,15 +2,14 @@
 
 ![](https://s2.ax1x.com/2019/02/25/kI8xr8.md.png)
 
+> 首先，既然是查漏补缺，那就不会面面俱到。有些知识会给出较好的参考文章，可以通过这些文章来详细学习某个知识点。
+
 ## JavaScript 部分
 
-### 1、节流 和 防抖
+> 这部分的知识总结，大部分来源于对掘金小册 [《前端面试之道》](https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bed40d951882545f73004f6) 的学习。
+> 知识体系参考上图（顺序有所调整，有些知识合在一起总结了）
 
-> 节流：事件持续触发的时候，每 n 秒执行一次函数
-> 防抖：事件持续触发结束后，间隔 n 秒才执行函数
-> 学习资料：https://github.com/mqyqingfeng/Blog/issues/26（讶羽大大的博客）
-
-### 2、基本数据类型 6 种（原始数据类型）
+### 1、基本数据类型 6 种（原始数据类型）
 
 - boolean
 - number
@@ -24,7 +23,7 @@
 - `null` 不是对象类型的。（虽然 `typeof null` 得到的结果是 `object`，但是这是一个很悠久的 `Bug` 造成的）
 - `number` 类型是浮点类型的。（`0.1 + 0.2 != 0.3`）
 
-### 3、typeof 和 instanceof
+### 2、typeof 和 instanceof
 
 - `typeof` 对于基本类型来说，除了 `null` 都可以显示正确类型。
 - `typeof` 对于对象来说，除了函数，都显示 `object`
@@ -61,7 +60,7 @@ console.log('hello world' instanceof PrimitiveString); // true
 
 ```
 
-### 4、类型转换
+### 3、类型转换
 
 - `NaN` 是 `number` 类型的数据，所以 `number` 转其他类型时不要漏掉它。
 - 对象转字符串，结果为：`[object Object]`
@@ -198,11 +197,11 @@ console.log(a > 2); // => false
 
 关于 `===` 就很简单了，类型和值都相同时，结果才相同。
 
-### 5、为什么 `0.1 + 0.2 != 0.3`
+### 4、new
 
 // TODO
 
-### 6、this
+### 5、this
 
 `this` 这个概念并不难，只是很多文章把简单的东西说复杂了。这里一次将这个概念搞清楚。
 
@@ -292,10 +291,71 @@ fn.bind(a).bind()(); // => {}
 
 `new` 方式优先级最高，然后是 `bind` 这类函数，接着是 `obj.foo()` 这种方式，最后是 `直接调用: foo()`。同时要记得，箭头函数的 `this` 一旦被绑定，就不会再改变。
 
+
+### 6、call、apply 和 bind 的区别
+
+// TODO
+
 ### 7、上下文 和 执行上下文
 
 > 上下文始终是 this 的值
 > 执行上下文是不同于上下文的另一个概念
 
+[https://github.com/mqyqingfeng/Blog/issues/4](https://github.com/mqyqingfeng/Blog/issues/4)
+
 // TODO
+
+### 8、原型链
+
+// TODO
+
+### 9、继承
+
+// TODO
+
+### 10、闭包
+
+// TODO
+
+### 11、节流 和 防抖
+
+> 节流：事件持续触发的时候，每 n 秒执行一次函数
+> 防抖：事件持续触发结束后，间隔 n 秒才执行函数
+> 学习资料：https://github.com/mqyqingfeng/Blog/issues/26（讶羽大大的博客）
+
+// TODO
+
+### 12、深浅拷贝
+
+// TODO
+
+### 13、模块化
+
+// TODO
+
+### 14、Promise
+
+// TODO
+
+### 15、Generator
+
+// TODO
+
+### 16、async 和 await
+
+// TODO
+
+### 17、Map、FlapMap 和 Reduce
+
+// TODO
+
+### 18、Proxy
+
+// TODO
+
+### 19、为什么 `0.1 + 0.2 != 0.3`
+
+// TODO
+
+### 20、正则表达式
 
