@@ -2,7 +2,7 @@
 
 ![](https://s2.ax1x.com/2019/02/25/kI8xr8.md.png)
 
-> 首先，既然是查漏补缺，那就不会面面俱到。有些知识会给出较好的参考文章，可以通过这些文章来详细学习某个知识点。
+> 首先，既然是查漏补缺，那就不会面面俱到。有些知识会给出较好的参考文章，可以通过这些参考文章来详细学习某个知识点。
 
 ## JavaScript 部分
 
@@ -193,7 +193,7 @@ console.log(a > 2); // => false
 
 > 思考题：请问 `[] == ![]` 的结果是什么？
 
-[思考题答案戳我](https://s2.ax1x.com/2019/02/26/koaW4O.png)
+[思考题答案戳这里](https://s2.ax1x.com/2019/02/26/koaW4O.png)
 
 关于 `===` 就很简单了，类型和值都相同时，结果才相同。
 
@@ -315,13 +315,137 @@ fn.bind(a).bind()(); // => {}
 
 ### 10、闭包
 
-// TODO
+> 闭包就是能够读取其他函数内部变量的函数
+> 学习资料：[http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html](http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html)（阮一峰）
+
+**闭包的用途：**
+
+- 读取 / 设置一个函数内部的私有变量
+- 让这个变量的值始终保持在内存中
+
+```javascript
+function f1() {
+  var n = 999;
+
+  add = function () { n += 1 }
+
+  function f2() {
+    console.log(n);
+  }
+
+  return f2;
+}
+
+var result = f1();
+
+result(); // => 999
+
+add();
+
+result(); // => 1000
+```
+
+上面代码的执行结果，第一次为 `999`，第二次为 `1000`。这就证明了，函数 `f1` 中的局部变量一直保存在内存中，并没有在 `f1` 被调用后被清除。
+
+为什么会这样？原因是因为 `f1` 是 `f2` 的父函数，`f2` 被返回赋给了一个全局变量，这就导致 `f2` 始终保存在内存中，而 `f2` 的存在依赖于 `f1` 的存在，所以 `f1` 也始终保存在内存中，而不是被垃圾回收机制回收。
+
+这段代码中有一个值得注意的地方，就是 `add = function () { n += 1 }` 这一行，首先由于 `add` 没有使用关键字 `var（let、const）`，所以它是一个全局变量，而不是局部变量。其次，`add` 的值是一个匿名函数，而这个匿名函数本身也是一个闭包，所以 `add` 的作用就相当于 `setter`，可以在函数外部对函数内部的局部变量进行操作。
+
+> 两个思考题（如果能理解这两个思考题，应该就算理解闭包的运行机制了）：
+
+```javascript
+var name = "The Window";
+
+var object = {
+  name: "My Object",
+
+  showName: function() {
+    return function() {
+      return this.name;
+    };
+  }
+};
+
+console.log(object.showName()());
+```
+
+```javascript
+var name = "The Window";
+
+var object = {
+  name: "My Object",
+
+  showName: function() {
+    var _this = this;
+    return function() {
+      return _this.name;
+    };
+  }
+};
+
+console.log(object.showName()());
+```
+
+[思考题答案戳这里](https://s2.ax1x.com/2019/02/27/kThxIS.png)
+
+关于闭包，面试中必问的问题：
+
+```javascript
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  data[i] = function() {
+    console.log(i);
+  };
+}
+
+data[0]();
+data[1]();
+data[2]();
+```
+
+对于上面的输出结果，很显然都是 `3`。至于为什么都是 3，可以这样来理解：循环结束后，上面的代码等价于：
+
+```javascript
+data[0] = function(){ console.log(i) };
+data[1] = function(){ console.log(i) };
+data[2] = function(){ console.log(i) };
+```
+
+此时 `i` 的值已经为 3 ，所以当 `data[0]、data[1]、data[2]` 中任意一个执行时输出结果都为 `3`。
+
+用闭包解决上面的问题：
+
+```javascript
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  (function (i) {
+    data[i] = function () {
+      console.log(i);
+    }
+  })(i);
+
+  // 或者写成下面这种形式
+  // data[i] = (function(i) {
+  //   return function() {
+  //     console.log(i);
+  //   };
+  // })(i);
+}
+
+data[0](); // => 0
+data[1](); // => 1
+data[2](); // => 2
+```
+
+当然更简单的方法就是使用 `let`。
 
 ### 11、节流 和 防抖
 
 > 节流：事件持续触发的时候，每 n 秒执行一次函数
 > 防抖：事件持续触发结束后，间隔 n 秒才执行函数
-> 学习资料：https://github.com/mqyqingfeng/Blog/issues/26（讶羽大大的博客）
+> 学习资料：[https://github.com/mqyqingfeng/Blog/issues/26](https://github.com/mqyqingfeng/Blog/issues/26)（讶羽）
 
 // TODO
 
