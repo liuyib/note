@@ -209,7 +209,9 @@ alert("Start: " + video.buffered.start(0) + " End: " + video.buffered.end(0));
 
 9.1、获取元素 `querySelector、querySelectorAll`
 
-9.2、类名操作 `classList`
+9.2、类名操作
+
+H5 中新添了一个类名操作对象：`classList`。可以通过它里面的方法对元素的类名进行操作。
 
 > classList 是一个 **类数组** 对象。类数组对象不是真正意义上的数组。可以通过 `索引` 或 `item 方法` 访问其中的元素。像数组一样，类数组对象也有 `length` 属性。
 
@@ -536,3 +538,7 @@ oDrag.ondrop = function(e) {
 ![](./imgs/h5_upload_drag.gif)
 
 > 这里需要将 html 对象上的 ondrop、ondragover 默认事件给禁用掉。
+
+以上 :rocket:
+
+原文地址：[https://segmentfault.com/a/1190000017097413](https://segmentfault.com/a/1190000017097413)
