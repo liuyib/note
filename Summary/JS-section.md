@@ -51,7 +51,7 @@ console.log('hello world' instanceof PrimitiveString); // true
 手动实现一个 `instanceof：`
 
 ```javascript
-
+// TODO~
 ```
 
 ### 3、类型转换
@@ -93,7 +93,7 @@ console.log(1 + a); // => 3
 
 #### 详细的数据类型转换表：
 
-![](https://s2.ax1x.com/2019/02/25/k5hCM6.jpg)
+![](./imgs/JS_type_change.jpg)
 
 #### 类型转换的一些小技巧
 
@@ -187,7 +187,7 @@ console.log(a > 2); // => false
 
 > 思考题：请问 `[] == ![]` 的结果是什么？
 
-[思考题答案戳这里](https://s2.ax1x.com/2019/02/26/koaW4O.png)
+[思考题答案戳这里](./imgs/type_change_think.png)
 
 关于 `===` 就很简单了，类型和值都相同时，结果才相同。
 
@@ -380,7 +380,7 @@ var object = {
 console.log(object.showName()());
 ```
 
-[思考题答案戳这里](https://s2.ax1x.com/2019/02/27/kThxIS.png)
+[思考题答案戳这里](./imgs/bibao_think.png)
 
 关于闭包，面试中必问的问题：
 
