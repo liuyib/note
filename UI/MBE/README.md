@@ -9,5 +9,5 @@
 ![](./imgs/chandle_origin.jpg)|![](./imgs/chandle_background.jpg)|![](./imgs/chandle_transparent.png)
 ![](./imgs/ice_cream_origin.jpg)|![](./imgs/ice_cream_background.jpg)|![](./imgs/ice_cream_transparent.png)
 ![](./imgs/egg_love_origin.png)|![](./imgs/egg_love_background.jpg)|![](./imgs/egg_love_transparent.png)
-自己设计|![](./imgs/515_cloud_disk_logo_background.jpg)|![](./imgs/515_cloud_disk_logo_transparent.png)
-![](./imgs/ice_cream2_origin.jpg)|![]()TODO|![]()TODO
+![](./imgs/515_cloud_disk_origin.png)|![](./imgs/515_cloud_disk_logo_background.jpg)|![](./imgs/515_cloud_disk_logo_transparent.png)
+![](./imgs/ice_cream2_origin.jpg)|![](./imgs/ice_cream2_background.jpg)|![](./imgs/ice_cream2_transparent.png)
