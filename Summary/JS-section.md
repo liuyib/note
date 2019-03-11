@@ -1,6 +1,7 @@
 ## JavaScript 总结
 
 > 这部分的知识总结，大部分来源于对掘金小册 [《前端面试之道》](https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bed40d951882545f73004f6) 的学习。
+>
 > 知识体系参考上图（顺序有所调整，有些知识合在一起总结了）
 
 ### 1、基本数据类型 6 种（原始数据类型）
@@ -438,7 +439,9 @@ data[2](); // => 2
 ### 11、节流 和 防抖
 
 > 节流：事件持续触发的时候，每 n 秒执行一次函数
+> 
 > 防抖：事件持续触发结束后，间隔 n 秒才执行函数
+> 
 > 学习资料：[https://github.com/mqyqingfeng/Blog/issues/26](https://github.com/mqyqingfeng/Blog/issues/26)（讶羽）
 
 // TODO

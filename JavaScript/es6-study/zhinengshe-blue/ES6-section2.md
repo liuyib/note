@@ -15,7 +15,7 @@
 > 异步操作执行成功会调用 resolve，并将 promise 的状态改为 fulfilled（完成）
 > 异步操作执行失败会调用 reject，并将 promise 的状态改为 rejected（失败）
 
-Demo:
+例子:
 
 ```javascript
 // 延迟一秒后输出结果
@@ -43,7 +43,7 @@ $.ajax(// ...).then(res => {
 });
 ```
 
-和上面 `Demo` 中的 `promise` 写法一模一样。
+和上面 `例子` 中的 `promise` 写法一模一样。
 
 > 注意：`Promise` 内部的报错不会被抛出，需要手动捕获（`try-catch` 包裹异步操作代码）
 
@@ -55,7 +55,7 @@ $.ajax(// ...).then(res => {
 > const p = Promise.all([p1, p2, p3])；
 > ```
 
-Demo:
+例子:
 
 ```javascript
 // p1，p2，p3 是异步操作
@@ -75,7 +75,7 @@ Promise.all([p1, p2, p3]).then(res => {
 > 使用 async 关键字，表名函数内部有异步操作。调用该函数会立即返回一个 Promise 对象。
 > 使用 await 关键字，代码会等待 “被 await 修饰的异步操作” 执行完毕后，再继续向下执行。
 
-Demo:
+例子:
 
 ```javascript
 // 间隔指定时间，且异步操作成功后，输出 value
