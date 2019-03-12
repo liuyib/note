@@ -15,7 +15,7 @@
 
 ```javascript
 <%- xss %> // 注意这里的写法，不是 <%= %> ，因为不能让 XSS 代码进行转义，用 = 号就会进行转义
-```
+``` 
 
 在 routes/index.js 中添加代码：
 
@@ -72,26 +72,28 @@ router.get('/', function(req, res, next) {
 
 ## XSS 攻击的防御措施
 
-> 防御大致思路：将用户输入的数据进行编码，然后使用的时候进行解码，解码的同时进行过滤，最后再进行校正。
+> 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（script、style、link、iframe、frame、img）、所有 JS 事件进行过滤。
 
 ### 编码
 
-- 进行 HTML Entity（字符实体） 编码
+进行 HTML Entity（字符实体） 编码
 
-例如：
+常用的有：
 
-![](./imgs/html_entity_encode.png)
+字符|十进制|转义字符
+:---:|:---:|:---:
+`<`|`&#60;`|`&lt;`
+`>`|`&#62;`|`&gt;`
+`'`|`&#39;`|`&apos;`
+`"`|`&#34;`|`&quot;`
+`&`|`&#38;`|`&amp;`
+空格|`&#160;`|`&nbsp;`
 
 ### 过滤（最重要）
 
-- 过滤用户上传的 DOM 节点。例如：style、script、iframe、frame、img 等
-- 过滤用户上传的 DOM 属性 / 方法。例如：onerror、onclick 等
+- 过滤用户上传的 DOM 节点。例如：script、style、iframe、frame、img 等
+- 过滤用户上传的 DOM 节点中的所有 JS 事件。
 
 ### 校正
 
-- 避免直接对 HTML Entity 解码
-- 使用 DOM Parse 转换、校正不匹配的 DOM 标签
-  > 使用 DOM Parse 将文本或字符串解析成 DOM 对象，然后进行过滤
-
-## 实战部分
-
+将响应数据解码得到字符串，使用 DOM Parse 转换字符串为 DOM 对象，然后将 DOM 对象中的危险标签、JS 事件过滤。
