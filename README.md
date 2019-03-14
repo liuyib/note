@@ -13,10 +13,10 @@
   - [JavaScript部分](https://github.com/liuyib/study-note/tree/master/JavaScript/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E9%81%93)
 
 - HTML
-  - [HTML5]()
+  - [HTML5](https://github.com/liuyib/study-note/tree/master/HTML/HTML5)
 
 - CSS
-  - [一些知识点](https://github.com/liuyib/study-note/blob/master/CSS/other.md)
+  - [一些知识点](https://github.com/liuyib/study-note/blob/master/CSS/others.md)
 
 - JavaScript
   - [ES6](https://github.com/liuyib/study-note/tree/master/JavaScript/ES6)
@@ -36,4 +36,4 @@
 
 - 读书笔记
   - [JavaScript高级程序设计](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1) -- 未完
-  - [Node.js开发实战]() -- 未完
+  - [Node.js开发实战](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Node.js%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98) -- 未完
