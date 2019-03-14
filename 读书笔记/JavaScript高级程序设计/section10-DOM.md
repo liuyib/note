@@ -1,19 +1,19 @@
-##### 1、DOM 是针对 HTML 和 **XML** 的一套 API。
+## 1、DOM 是针对 HTML 和 **XML** 的一套 API。
 
-##### 2、文档元素
+## 2、文档元素
 
 文档元素是每个文档的根节点，在 `HTML` 中，文档元素始终是 `<html>`；在 `XML` 中，没有预定的元素，因此任何元素都有可能成为文档元素。
 
-##### 3、节点类型
+## 3、节点类型
 
 `DOM1` 中定义了一个 `Node` 接口，`JS` 中作为 `Node` 类型实现了这个接口。`JS` 中总共有 `12 种节点类型`，这些节点类型都继承自 `Node` 类型，并都有一个 `nodeType` 属性。这些节点类型中，常用的是 `元素、文本、注释` 节点，他们的 `nodeType` 分别是 `1、3、8`。
 
-##### 4、nodeName 和 nodeValue 属性
+## 4、nodeName 和 nodeValue 属性
 
 > 这两个属性的值取决于节点类型（所以使用之前最好检测一下节点类型）。
 > 例如：元素节点的 nodeName 是元素名，nodeValue 是 null
 
-##### 5、访问节点
+## 5、访问节点
 
 访问子节点：
 
@@ -56,7 +56,7 @@ childNodes[childNodes.length - 1] == lastChild
 
 - hasChildNodes() 判断是否有 `子节点`（12 种节点之一）
 
-##### 6、操作节点
+## 6、操作节点
 
 - appendChild()
 
@@ -139,7 +139,7 @@ someNode.removeChild(someNode.lastChild);
 
 上面这四个方法操作的都是 `某个节点的子节点`。所以，在使用这几个方法之前，需要先获取父节点。但并不是所有的节点都有子节点。如果在不支持子节点的节点上调用了这个方法，会导致错误。
 
-##### 7、其他方法
+## 7、其他方法
 
 - cloneNode()
 
@@ -173,7 +173,7 @@ console.log(shallowClone); // => <ul id="oUl"></ul>
 
 该方法用于处理文档树中的文本节点。由于解释器的实现或者 `DOM` 操作的原因，可能会出现文本节点中不包含文本，或连续出现两个文本节点。在某个节点上调用这个方法，就会在该节点的后代节点中查找上面两种情况。找到空白节点删除，则删除；找到连续的两个文本节点，则合并为一个文本节点。
 
-##### 8、Document 类型
+## 8、Document 类型
 
 `Document` 表示整个文档。在浏览器中常用的是 `document` 对象，它是 `HTMLDocument` 类型的示例（`HTMLDocument` 继承自 `Document` 类型），同时它也是 `window` 对象的一个属性。
 
@@ -284,7 +284,7 @@ console.log(aImgs['myImg2']);           // => <img src="./img2.jpg" name="myImg2
 
 > 这些方法都会返回一个 HTMLCollection 对象。
 
-##### 9、ELement 类型
+## 9、ELement 类型
 
 - nodeType 为 1
 - nodeName 为 标签名

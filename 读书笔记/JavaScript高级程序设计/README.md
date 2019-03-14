@@ -1,1 +1,1 @@
-- DOM 部分学习笔记：[https://github.com/liuyib/study-note/tree/master/JavaScript/js-advanced-programming/section10-DOM.md](https://github.com/liuyib/study-note/tree/master/JavaScript/js-advanced-programming/section10-DOM.md)
+- [DOM 部分学习笔记](https://github.com/liuyib/study-note/tree/master/JavaScript/js-advanced-programming/section10-DOM.md)
