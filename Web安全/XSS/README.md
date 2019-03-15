@@ -214,17 +214,99 @@ JSON.stringify(str)
   > - 白名单过滤
   >   只保留安全的标签和属性
 
-  过滤富文本时，需要解析 HTML，这里推荐使用第三方库 [cheerio](https://github.com/cheeriojs/cheerio) 来解析 HTML。使用 cheerio 解析 HTML 之后，会返回一个类似 DOM 的对象，这个对象上具有类似 JQuery 的 API。可以使用这些 API 来操作被解析的 HTML，并且也可以进行 XSS 过滤操作。
+  过滤富文本时，需要解析 HTML，这里推荐使用第三方库 [cheerio](https://github.com/cheeriojs/cheerio) 来解析 HTML。使用 cheerio 解析 HTML 之后，会返回一个类似 DOM 的对象。
+
+  <br />
 
   借助 cheerio 进行 XSS 过滤的示例代码：
 
   ```js
-  
+  // cheerio 解析后返回的对象如下：
+  [
+    {
+      type: 'tag',
+      name: 'img',
+      attribs: {
+        src: 'null',
+        onerror: 'alert(1)'
+      },
+      // ...
+    },
+    // ...
+  ]
+
+  var xssFilter = function (html) {
+    if (!html) return '';
+
+    var cheerio = require(cheerio);
+    var $ = cheerio.load(html);
+
+    // 过滤白名单（举例！）
+    var whiteList = {
+      img: ['src'],
+      font: ['size', 'color']
+    };
+
+    $('*').forEach(function (index, elem) {
+      if (!whiteList[elem.name]) { // 元素名称不在白名单中
+        $(elem).remove();
+        return;
+      }
+
+      for (var attr in elem.attribs) {
+        if (!whiteList[elem.name].includes(attr)) {
+          $(elem).attr(attr, null); // 移除这个属性
+        }
+      }
+    });
+
+    return $.html();
+  };
   ```
 
 XSS 过滤的第三方库推荐：[js-xss](https://github.com/leizongmin/js-xss)
 
+使用 js-xss 库过滤 XSS 脚本示例代码：
+
+```js
+var xssFilter = function (html) {
+  if (!html) return '';
+
+  var xss = require('xss');
+
+  return xss(html, {
+    whiteList: {
+      img: ['src'],
+      font: ['size', 'color'],
+      // ...
+    },
+    onIgnoreTag: function () {
+      // ...
+    },
+    // ...
+  });
+};
+```
+
 > 第三方库过滤 XSS 适用于快速开发。如果业务要求对每一种情况进行精确控制，那么还是需要自己手写过滤代码。
+
+## 设置 CSP 防御 XSS
+
+CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻击，例如：XSS 和数据注入等。
+
+该安全策略的实现基于一个 http 请求头： `Content-Security-Policy`。通过设置 CSP 的值来指定网页中哪些内容可以执行，哪些内容不可以执行。只有设置的内容才能被执行，没有设置的都会被阻止。
+
+可以设置的内容有：
+
+![](./imgs/XSS_CSP.png)
+
+例如，指定内容能从文档源和 `trustedscripts.foo.com` 加载：
+
+```js
+Content-Security-Policy: default-src 'self' trustedscripts.foo.com
+```
+
+学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
 ## 浏览器自带 XSS 防御
 
