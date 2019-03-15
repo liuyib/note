@@ -80,30 +80,152 @@ router.get('/', function(req, res, next) {
 
 反射型 XSS 跟存储型 XSS 的区别是：存储型 XSS 的恶意代码存在数据库里，反射型 XSS 的恶意代码存在 URL 里。
 
+## XSS 攻击的注入点
+
+- HTML 节点内容
+
+  ```diff
+  <div>
+    ...
+  +   文本中带有JS代码<script>alert(1);</script>
+    ...
+  </div>
+  ```
+
+- HTML 属性
+
+  ```html
+  <!-- 例一 -->
+  <a href="javascript:alert('这是XSS脚本');">XSS</a>
+
+  <!-- 例二 -->
+  <img src="null" onerror="alert('XSS脚本');" />
+  这里 src 属性的值是 null" onerror="alert('XSS脚本'); 其中包含的特殊字符改变了双引号的边界，从而被注入了 XSS 脚本
+  ```
+
+- JavaScript 代码
+
+  ```js
+  var data = ""; // 变量初始值
+        ↓
+  var data = "hello";alert('这是XSS脚本');""; // 获取数据后的值
+
+  // 这里获取到的数据为 hello";alert('这是XSS脚本');" 其中包含的特殊符号改变了字符串的边界，从而被注入了 XSS 脚本
+  ```
+
+- 富文本
+
+  > 由于富文本编辑器是通过添加 HTML 标签和属性来实现的，所以如果用户输入的信息中包含一些恶意脚本代码，那么这些恶意脚本代码也会被执行。
+
 ## XSS 攻击的防御措施
 
 > 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（script、style、link、iframe、frame、img）、所有 JS 事件进行过滤。
 
-### 编码
+### 转义
 
-进行 HTML Entity（字符实体） 编码
+- **对 HTML 代码进行转义**
 
-常用的有：
+一般会对下面的字符进行转义：
 
-字符|十进制|转义字符
+字符|实体编号|实体名称
 :---:|:---:|:---
 `<`|`&#60;`|`&lt;`
 `>`|`&#62;`|`&gt;`
-`'`|`&#39;`|`&apos;`(IE不兼容，推荐使用十进制转义符)
+`'`|`&#39;`|`&apos;`(IE不支持)
 `"`|`&#34;`|`&quot;`
 `&`|`&#38;`|`&amp;`
 空格|`&#160;`|`&nbsp;`
 
-### 过滤（最重要）
+示例代码：
 
-- 过滤用户上传的 DOM 节点。例如：script、style、iframe、frame、img 等
-- 过滤用户上传的 DOM 节点中的所有 JS 事件。
+```js
+function escapeHtml(str) {
+  if (!str) return '';
+
+  // 首先对 & 符号进行转义（转义后的字符也带有 &，这样可以防止重复转义）
+  str = str.replace(/&/g, '&amp;');
+  str = str.replace(/</g, '&lt;');
+  str = str.replace(/>/g, '&gt;');
+  str = str.replace(/'/g, '&#39;');
+  str = str.replace(/"/g, '&quot;');
+  str = str.replace(/\s/g, '&#160;'); // 空白字符
+  str = str.replace(/\n/g, '<br>');
+
+  return str;
+}
+```
+
+- **对 JS 代码进行转义**
+
+如果数据中存在某些特殊符号，就会使得 JS 中的字符边界改变，从而产生新的 JS 语句，这些新的 JS 语句可以是任意的恶意脚本。
+
+例如：
+
+```js
+// 有一个数据
+var data = "";
+
+// 当从服务端获取数据后 data 的值为
+data = "hello";alert(1);"";
+
+// 也就是说从服务端接收的数据为
+hello";alert(1);"
+
+// 这个数据改变了字符串的边界，并产生了另外的一些 JS 语句
+```
+
+转义的方法：
+
+将 `'`，`"`，`\` 等进行转义
+
+```js
+function escapeJS(str) {
+  if (!str) return '';
+
+  str = str.replace(/\\/, '\\\\');
+  str = str.replace(/"/, '\\&quot;');
+  str = str.replace(/'/, '\\&#39;');
+
+  return str;
+}
+```
+
+上面的转义方法比较麻烦，而且可能会漏掉某些特殊字符，这里使用 `JSON.stringify` 进行转义最保险：
+
+```js
+JSON.stringify(str)
+```
 
 ### 校正
 
-将响应数据解码得到字符串，使用 DOM Parse 转换字符串为 DOM 对象，然后将 DOM 对象中的危险标签、JS 事件过滤。
+将转义后的数据反转义得到字符串，使用 DOM Parse 转换字符串为 DOM 对象，然后将 DOM 对象中的危险标签、JS 事件等过滤。
+
+### 过滤
+
+- 过滤危险的标签。例如：script、style、iframe、frame、img 等
+- 过滤文本中包含的 JS 事件
+- **对富文本过滤**（一般在客户端进行）
+
+  > 过滤富文本相对来说比较复杂。由于富文本的实现原理是通过添加 html 标签和 css 属性，所以并不能直接将所有的标签和属性全过滤掉。有两种可选的方法：
+  > 
+  > - 黑名单过滤
+  >   过滤危险的标签、属性、方法、以及一些特殊的代码（javascript:alert(1);）等
+  > 
+  > - 白名单过滤
+  >   只保留安全的标签和属性
+
+  过滤富文本时，需要解析 HTML，这里推荐使用第三方库 [cheerio](https://github.com/cheeriojs/cheerio) 来解析 HTML。使用 cheerio 解析 HTML 之后，会返回一个类似 DOM 的对象，这个对象上具有类似 JQuery 的 API。可以使用这些 API 来操作被解析的 HTML，并且也可以进行 XSS 过滤操作。
+
+  借助 cheerio 进行 XSS 过滤的示例代码：
+
+  ```js
+  
+  ```
+
+XSS 过滤的第三方库推荐：[js-xss](https://github.com/leizongmin/js-xss)
+
+> 第三方库过滤 XSS 适用于快速开发。如果业务要求对每一种情况进行精确控制，那么还是需要自己手写过滤代码。
+
+## 浏览器自带 XSS 防御
+
+> 关于浏览器自带的 XSS 防御，这里只是提一下。因为浏览器自带的 XSS 防御很有限，它只能防御反射型的 XSS 攻击。并且如果反射型的 XSS 代码被注入到 JS 中，那么浏览器并不会进行防御。

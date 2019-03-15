@@ -1,3 +1,5 @@
+<div style="background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%);background-size: 20px 20px;background-position: center center;">
+
 ## JavaScript 总结
 
 > 这部分的知识总结，大部分来源于对掘金小册 [《前端面试之道》](https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bed40d951882545f73004f6) 的学习。
@@ -444,6 +446,12 @@ data[2](); // => 2
 > 
 > 学习资料：[https://github.com/mqyqingfeng/Blog/issues/26](https://github.com/mqyqingfeng/Blog/issues/26)（讶羽）
 
+应用场景举例：
+
+- 用户在输入用户名和密码的时候，在不停的敲字，如果每敲一次字就发 Ajax 请求验证一次，是不可取的
+
+- 用户在阅读文章的时候，我们需要监听用户滚动到了哪个标题，但是如果每滚动一下就监听一次，就会太过频繁，消耗内存，甚至卡住
+
 // TODO
 
 ### 12、深浅拷贝
@@ -480,3 +488,4 @@ data[2](); // => 2
 
 ### 20、正则表达式
 
+</div>

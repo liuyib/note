@@ -9,19 +9,17 @@ var comments = {};
  * @param {String} str  要编码的字符串
  */
 function html_encode(str) {
-  var result = '';
+  if (!str) return '';
 
-  if (result.length === 0) return '';
+  str = str.replace(/</g, '&lt;');
+  str = str.replace(/>/g, '&gt;');
+  str = str.replace(/\'/g, '&apos;');
+  str = str.replace(/\"/g, '&quot;');
+  str = str.replace(/&/g, '&amp;');
+  str = str.replace(/\s/g, '&nbsp;'); // 空白字符
+  str = str.replace(/\n/g, '<br>');
 
-  reslt = str.replace(/</g, '&lt;');
-  reslt = str.replace(/>/g, '&gt;');
-  reslt = str.replace(/\'/g, '&apos;');
-  reslt = str.replace(/\"/g, '&quot;');
-  reslt = str.replace(/&/g, '&amp;');
-  reslt = str.replace(/\s/g, '&nbsp;'); // 空白字符
-  reslt = str.replace(/\n/g, '<br>');
-
-  return result;
+  return str;
 }
 
 /* GET home page. */
