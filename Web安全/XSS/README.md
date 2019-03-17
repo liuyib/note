@@ -15,7 +15,6 @@
 
 例子：
 
-
 使用 express 脚手架（express-generator）搭建一个服务器
 在 views/index.ejs 页面中添加代码：
 
@@ -75,10 +74,6 @@ router.get('/', function(req, res, next) {
   });
 });
 ```
-
-### 区别
-
-反射型 XSS 跟存储型 XSS 的区别是：存储型 XSS 的恶意代码存在数据库里，反射型 XSS 的恶意代码存在 URL 里。
 
 ## XSS 攻击的注入点
 
@@ -298,16 +293,33 @@ CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻
 
 可以设置的内容有：
 
-![](./imgs/XSS_CSP.png)
+![](./imgs/browser_csp_value.png)
 
-例如，指定内容能从文档源和 `trustedscripts.foo.com` 加载：
+例如，指定内容能从 `文档源` 和 `www.example.com` 加载：
 
 ```js
-Content-Security-Policy: default-src 'self' trustedscripts.foo.com
+Content-Security-Policy: default-src 'self' www.example.com
 ```
+
+其中，`default-src` 包括：
+
+- `child-src`
+- `connect-src`
+- `font-src`
+- `img-src`
+- `media-src`
+- `object-src`
+- `script-src`
+- `style-src`
 
 学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
 ## 浏览器自带 XSS 防御
 
-> 关于浏览器自带的 XSS 防御，这里只是提一下。因为浏览器自带的 XSS 防御很有限，它只能防御反射型的 XSS 攻击。并且如果反射型的 XSS 代码被注入到 JS 中，那么浏览器并不会进行防御。
+通过设置 HTTP 响应头：`X-XSS-Protection: 1; mode=block`
+
+这个请求头的其他值如下：
+
+![](./imgs/browser_xss_protectino.png)
+
+> 关于浏览器自带的 XSS 防御，只能防御反射型的 XSS 攻击。并且如果反射型的 XSS 代码被注入到 JS 中，那么浏览器并不会拦截。
