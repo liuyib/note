@@ -228,9 +228,8 @@ Origin 在下面的两种情况下并不存在：
 
 **使用 Token 要注意的点：**
 
-- Token 必须是随机生成的。
-- 通常，只需要为当前会话生成一次 Token。在第一次生成 Token 之后，将其储存在会话中，并用于后续的每一个请求，直到会话结束。
-- 用户发出请求时，要验证请求中 Token 的 **存在性** 和 **有效性**。如果请求中没有 Token，或 Token 的值与会话中储存的不一致，则要终止请求，然后重置 Token。
+- 通常，只需为当前会话生成一次 Token。在初始生成 Token 后，将其储存在会话中，并用于后续的每一个请求，直到会话结束。
+- 用户发出请求时，要验证请求中 Token 的 **存在性** 和 **有效性**。如果请求中没有 Token，或 Token 的值与会话中储存的不一致，则要终止请求，然后 **重置 Token**。
 
 **分布式校验：**
 
@@ -241,6 +240,12 @@ Origin 在下面的两种情况下并不存在：
 由于 Session 储存，读取和验证 Token 会引起很大的复杂度和性能问题，所以目前很多网站采取 `Encrypted Token Pattern` 方式。这种方式的 Token 是一个计算出来的结果，而非随机生成的字符串。这样在校验 Token 时，不用去读取储存的 Token，只需再计算一次即可。
 
 这种方式计算出来的 Token 值，通常使用 UserID、时间戳和随机数，通过加密方法生成。
+
+**缺点：**
+
+- 实现较为复杂，给服务端造成压力。
+- 所有用户，不论是否提交数据，都会生成一个 Token 并储存到 Session 中，造成资源浪费。
+- 许多语言中 Session 是可选项，所有有的并不会使用 Session。
 
 **总结：**
 
@@ -255,7 +260,7 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 - 用户访问网站时，向请求的域名添加 Cookie 来储存一个 Token 值（例如：`csrf_token=v8g9e4ksfhw`）
 - 当前端向后端请求数据时，取出 Cookie 中的 Token，并添加到 URL 的参数中（例如：POST `https://www.a.com/comment?csrf_token=v8g9e4ksfhw`）
-- 后端验证 Cookie 中的 `csrf_token` 字段与 URL 参数中的 `csrf_token` 字段是否一致，不一致则拒绝
+- 后端验证 Cookie 中的 `csrf_token` 字段与 URL 参数中的 `csrf_token` 字段是否一致，不一致则拒绝。
 
 **优点：**
 
@@ -265,23 +270,19 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 **缺点：**
 
-- Cookie 中增加额外字段
 - 如果存在 XSS等漏洞，攻击者可以修改 Cookie，这种方法就会失效
-- 难以做到子域名隔离
+- 难以做到子域名隔离（只要有子域名中存在安全漏洞，使得 Cookie 可控，就会威胁整站）
 - 为了确保 Cookie 传输安全，整站要采用 HTTPS
 
 由于任何跨域都会导致前端无法获取 Cookie，所以会发生以下情况：
 
 ![](./imgs/csrf_double_cookie_test.png)
 
-**总结：**
-
-这种方式并不能大规模的应用，其在大型网站上的安全性并没有 Token 高。
-
+> 这种方式的缺点是可控的，只要确保整站没有其他漏洞（XSS等）泄漏 Cookie，这种方式就不会有问题。也就是说，这种方法的前提是：保证 Cookie 的安全！
 
 ## 结语
 
-总之，防御 CSRF 并不能仅依靠一种办法，并且 CSRF 也不可能被完全阻止。我们能做的只有使用现有的方法来提高网站的安全性。并且如果网站存在其他漏洞（XSS等），那么许多 CSRF 防御也就如同虚设。所以提高网站的整体安全性是至关重要的。
+总之，防御 CSRF 并不能仅依靠一种办法，并且 CSRF 也不可能被完全阻止。我们能做的只有使用现有的方法来提高网站的安全性。目前可行的防御方案是：使用 Token 或 双重 Cookie 为主，同源检测 或 Samesite 为辅。
 
 ---
 
@@ -291,3 +292,4 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 - OWASP. [跨站请求伪造（CSRF）](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29)
 - IBM. [CSRF 攻击的应对之道](https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html)
 - 慕课视频. [Web前后端漏洞分析与防御](https://coding.imooc.com/class/104.html)
+- phithon. [Cookie-Form型CSRF防御机制的不足与反思](https://www.leavesongs.com/PENETRATION/think-about-cookie-form-csrf-protected.html#0x01-sessioncsrf)
