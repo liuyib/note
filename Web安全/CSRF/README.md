@@ -15,7 +15,7 @@
 其中攻击主要发生在第三步，攻击的特点如下：
 
 - B 网站向 A 网站发送请求
-- 请求带有 A 网站的 Cookies
+- 请求中带有 A 网站的 Cookies
 - 不访问 A 网站的前端，直接与 A 网站后端交互
 - 发送的请求中，请求头 referer 为 B 网站
 
@@ -34,14 +34,12 @@
   GET 类型的 CSRF 攻击很简单，只需要一个简单的 HTTP 请求。例如：
 
   ```html
-  <img src="http://xxx.com/get/article?id=1000&content=CSRF攻击的内容" />
+  <img src="http://a.com/get/article?id=1000&content=CSRF攻击的内容" />
   ```
 
-  当受害者访问这个页面时，浏览器就会立即向 `xxx.com` 发送一个 HTTP 请求。`xxx.com`就会收到一个包含受害者登录信息的跨域请求。
+  当受害者访问这个页面时，浏览器就会立即向 `a.com` 发送一个 HTTP 请求。`a.com`就会收到一个包含受害者登录信息的跨域请求。
 
   <br />
-
-  > 防御：加上 Token 参数，并在服务端验证
 
 - POST 类型
 
@@ -51,7 +49,7 @@
   <form
     target="csrf"
     method="post"
-    action="http://aaa.com/post/article"
+    action="http://a.com/post/article"
   >
     <input type="hidden" name="id" value="13" />
     <input type="hidden" name="content" value="一个来自 CSRF 攻击的文本" />
@@ -87,8 +85,8 @@
   这种类型的 CSRF 攻击就是把 GET 类型的 CSRF 攻击链接嵌入了超链接中，通过诱导用户点击进行发动。
 
   ```html
-  <a href="http://xxx.com/get/article?id=1000&content=CSRF攻击的内容" taget="_blank">
-    一刀99级！！
+  <a href="http://a.com/get/article?id=1000&content=CSRF攻击的内容" taget="_blank">
+    点击领取红包
   <a/>
   ```
 
@@ -101,30 +99,85 @@
 主要有以下几点防御措施：
 
 - 同源检测
-- 限制 / 禁止第三方网站请求携带 Cookies（设置 Samesite）
-- 添加 Token
+- 设置 Samesite
+- 添加 Token（**验证码** 和 **再次输入密码** 也有 Token 的作用）
 - 双重 Cookie 验证
 
 具体内容如下：
 
 ### 1、同源检测
 
-// TODO
+CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信任的域名）请求。
 
-### 2、限制 / 禁止第三方网站请求携带 Cookies
+判断请求是否来自跨域，有两种办法：
 
-为了从源头上解决问题，Google 起草了一份草案来改进 HTTP 协议，那就是为响应头 `Set-Cookie` 增加 `Samesite` 属性（取值：`Strict / Lax`）
+- 检测 Origin
+- 检测 Referer
+
+**使用 Origin 确定来源域名：**
+
+在部分与 CSRF 有关的请求中，请求头中会携带 Origin 字段（包含协议和域名，不包含 path 和 query）。
+如果 Origin 存在，直接使用 Origin 中的字段判断来源域名即可。
+Origin 在下面的两种情况下并不存在：
+
+- IE11 的同源策略
+- 302 重定向
+
+**使用 Referer 确定来源域名：**
+
+这个字段记录了请求的来源地址。在 script、img、Ajax等 **资源请求** 中，Referer 为发起请求的页面地址。对于 **页面跳转**，Referer 为打开页面历史记录中的前一个页面地址。
+
+**新版本的 Referrer Policy 如下：**
+
+![](./imgs/new_referer_policy.png)
+![](./imgs/referer_policy_value.png)
+
+关于这个策略的详尽信息，可以查阅：MDN. [Referrer-Policy
+](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referrer-Policy)
+
+为了防御 CSRF，我们应该将 Referrer Policy 的策略设置为：**same-origin**。这样只要是跨域的请求就不会携带 Referer。
+
+**设置 Referrer Policy 的方法有三种：**
+
+- 在 <ruby>C S P<rp>（</rp><rt>内容安全策略</rt><rp>）</rp></ruby> 设置
+- 使用 meta 标签设置
+- a 标签添加 referrerpolicy 属性
+
+**下面几种情况下 Referer 没有或者不可信：**
+
+- IE6、7 下使用 `window.location.href=url` 进行页面跳转，会丢失 Referer。
+- IE6、7 下使用 `window.open`，会丢失 Referer。
+- HTTPS 跳转到 HTTP，浏览器中所有 Referer 都丢失。
+- 点击 Flash 到达另外一个网站时，Referer 比较杂乱，不可信。
+
+> 另外，如果 Origin 和 Referer 都不存在，建议直接阻止！特别是网站没有其他的 CSRF 防御措施作为再次检查。
+
+**总结：**
+
+同源验证是一个相对简单的防御办法，但这种方法只能防御 **跨域** 的 CSRF，对于本域的请求是起不到作用的。所以还需要进一步进行 CSRF 检查。
+
+### 2、设置 Samesite
+
+为了从源头上解决问题，Google 起草了一份草案来改进 HTTP 协议，那就是为响应头 `Set-Cookie` 增加 `Samesite` 属性（取值：`Strict / Lax`）。通过设置这个响应头，可以限制 / 禁止第三方网站请求携带 Cookies。
 
 这个属性的两种取值的作用分别如下：
 
   - `Samesite=strict`
     这种称为严格模式，表明 Cookie 在任何情况下都不能作为第三方 Cookie，绝无例外！
+
+    ``` http
+    Set-Cookie: bar=xxx; Samesite=Strict;
+    ```
     
     例如：
     淘宝网站用来识别用户登录与否的 Cookie 被设置成了 `Samesite=Strict`，那么用户从其他任意链接进入淘宝网站后，用户都不会是登录状态。
   
   - `Samesite=Lax`
     这种称为宽松模式，比严格模式放宽了一些限制：如果一个请求是 GET 请求，并且这个请求改变了当前页面或者打开了新页面，那么这个 Cookie 可以作为第三方 Cookie。
+
+    ``` http
+    Set-Cookie: bar=xxx; Samesite=Lax;
+    ```
 
 这个属性浏览器的支持情况如下（2019-3-16）：
 
@@ -155,8 +208,9 @@
 使用 Token 进行防护分为三个步骤：
 
 1. 将 Token 保存到页面中
-  用户打开页面时，服务器给用户生成一个 Token，一般来说，Token 通过随机字符串和时间戳加密获得。然后将这个 Token 存入服务器的 Session 中。之后每次页面加载时，使用 JS 遍历 DOM 树，在所有 a 和 form 标签后加入 Token。
-  这样可以解决大部分的请求，但是对于页面加载之后动态生成的 HTML 代码，这种方法就没有用了，需要程序员在编码时手动添加 Token。
+  用户打开页面时，服务器给用户生成一个 Token（一般来说，Token 会根据：用户ID、时间戳、随机数，然后用一个唯一的 key 进行加密获得）然后将这个 Token 存入服务器的 Session 中。之后每次页面加载时，使用 JS 遍历 DOM 树，在所有 a 和 form 标签后加入 Token（将 Token 保存到前端页面中）。
+  
+    > 这样可以解决大部分的请求，但是对于页面加载之后动态生成的 HTML 代码，这种方法就没有用了，需要程序员在编码时手动添加 Token。
 
 2. 页面提交请求时携带 Token
   对于 GET 请求，将 Token 作为参数添加到 URL 中。
@@ -167,7 +221,7 @@
     ```
 
 3. 服务器验证 Token 是否正确
-  服务器接收到用户发送过来的 Token 之后，先解密 Token，然后对比加密的字符串和时间戳，如果字符串一致并且时间未过期，那么这个 Token 就是有效的。
+  服务器接收到用户发送过来的 Token 之后，先使用 key 解密 Token，然后对比用户ID和时间戳，如果用户ID一致并且时间未过期，那么这个 Token 就是有效的。
 
 > 对于 **验证码** 和 **密码** 其实也可以起到 Token 的作用，而且更安全。
 > 比如：银行账户进行转账前，要求已经登录的用户再次输入密码，现在看是不是有一定道理了？
@@ -176,7 +230,7 @@
 
 - Token 必须是随机生成的。
 - 通常，只需要为当前会话生成一次 Token。在第一次生成 Token 之后，将其储存在会话中，并用于后续的每一个请求，直到会话结束。
-- 用户发出请求时，要验证请求中 Token 的 **存在性** 和 **有效性**。如果请求中没有 Token，或 Token 的值与会话中储存的不一致，则要终止请求，然后重置 Token，并标记可能是 CSRF 攻击。
+- 用户发出请求时，要验证请求中 Token 的 **存在性** 和 **有效性**。如果请求中没有 Token，或 Token 的值与会话中储存的不一致，则要终止请求，然后重置 Token。
 
 **分布式校验：**
 
@@ -195,7 +249,41 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 ### 4、双重 Cookie 验证
 
-// TODO
+这种方式验证利用了 CSRF 攻击不能读取用户 Cookis 的特点（只会在请求时携带 Cookie）
+
+双重 Cookie 验证采用以下的流程：
+
+- 用户访问网站时，向请求的域名添加 Cookie 来储存一个 Token 值（例如：`csrf_token=v8g9e4ksfhw`）
+- 当前端向后端请求数据时，取出 Cookie 中的 Token，并添加到 URL 的参数中（例如：POST `https://www.a.com/comment?csrf_token=v8g9e4ksfhw`）
+- 后端验证 Cookie 中的 `csrf_token` 字段与 URL 参数中的 `csrf_token` 字段是否一致，不一致则拒绝
+
+**优点：**
+
+- 无需在服务端使用 Session，简单，试用面广
+- Token 储存在客户端中，不会给服务端造成压力
+- 相对于 Token，可以前后端统一拦截校验
+
+**缺点：**
+
+- Cookie 中增加额外字段
+- 如果存在 XSS等漏洞，攻击者可以修改 Cookie，这种方法就会失效
+- 难以做到子域名隔离
+- 为了确保 Cookie 传输安全，整站要采用 HTTPS
+
+由于任何跨域都会导致前端无法获取 Cookie，所以会发生以下情况：
+
+![](./imgs/csrf_double_cookie_test.png)
+
+**总结：**
+
+这种方式并不能大规模的应用，其在大型网站上的安全性并没有 Token 高。
+
+
+## 结语
+
+总之，防御 CSRF 并不能仅依靠一种办法，并且 CSRF 也不可能被完全阻止。我们能做的只有使用现有的方法来提高网站的安全性。并且如果网站存在其他漏洞（XSS等），那么许多 CSRF 防御也就如同虚设。所以提高网站的整体安全性是至关重要的。
+
+---
 
 参考文献 / 资料：
 
