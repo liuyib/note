@@ -1,58 +1,3 @@
-# gulp
-
-## 安装
-
-gulp 既要全局安装，又要本地安装：
-
-```shell
-npm install gulp -g
-npm install gulp -D
-```
-
-官网：[https://gulpjs.com/](https://gulpjs.com/)
-GitHub：[https://github.com/gulpjs/gulp](https://github.com/gulpjs/gulp)
-
-## 安装其他的插件
-
-插件搜索网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
-
-> 安装方法均为：npm install 包名 -D
-
-- gulp-htmlclean 压缩 HTML
-
-- gulp-clean-css 压缩 CSS
-
-- gulp-uglify 压缩 JS
-
-- gulp-less
-
-- gulp-babel
-
-  ```shell
-  # Babel 7
-  $ npm install gulp-babel @babel/core @babel/preset-env -D
-
-  # Babel 6
-  $ npm install gulp-babel@7 babel-core babel-preset-env -D
-  ```
-
-- gulp-jshint
-
-  > 依赖于 jshint
-
-- gulp-concat 连接文件
-
-- gulp-rename
-
-- gulp-imagemin 压缩图片
-
-- del 删除文件 / 目录
-
-## 示例
-
-`gulpfile.js`:
-
-```js
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var cleanHTML = require('gulp-htmlclean')
@@ -154,4 +99,3 @@ exports.watch = watch;
 exports.build = build;
 
 exports.default = build;
-```
