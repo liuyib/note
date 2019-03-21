@@ -1,5 +1,3 @@
-<div style="background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%);background-size: 20px 20px;background-position: center center;">
-
 ## JavaScript 总结
 
 > 这部分的知识总结，大部分来源于对掘金小册 [《前端面试之道》](https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bed40d951882545f73004f6) 的学习。
@@ -440,17 +438,31 @@ data[2](); // => 2
 
 ### 11、节流 和 防抖
 
-> 节流：事件持续触发的时候，每 n 秒执行一次函数
+> 节流（throttle）：事件持续触发的时候，每 n 秒执行一次函数
 > 
-> 防抖：事件持续触发结束后，间隔 n 秒才执行函数
+> 防抖（debounce）：事件持续触发结束后，等待 n 秒才执行函数
 > 
-> 学习资料：[https://github.com/mqyqingfeng/Blog/issues/26](https://github.com/mqyqingfeng/Blog/issues/26)（讶羽）
+> 学习资料：
+> [JavaScript专题之跟着 underscore 学节流](https://github.com/mqyqingfeng/Blog/issues/26)（讶羽）
+> [JavaScript专题之跟着 underscore 学防抖](https://github.com/mqyqingfeng/Blog/issues/22)（讶羽）
+> [underscore 函数节流的实现](https://github.com/hanzichi/underscore-analysis/issues/22)（子迟）
+> [underscore 函数去抖的实现](https://github.com/hanzichi/underscore-analysis/issues/21)（子迟）
+> [JavaScript 函数节流和函数去抖应用场景辨析](https://github.com/hanzichi/underscore-analysis/issues/20)（子迟）
 
-应用场景举例：
+**throttle 应用场景：**
 
-- 用户在输入用户名和密码的时候，在不停的敲字，如果每敲一次字就发 Ajax 请求验证一次，是不可取的
+- DOM元素的拖拽功能实现（mousemove）
+- 射击游戏的 mousedown / keydown 事件（单位时间内只能发射一颗子弹）
+- 计算鼠标移动距离（mousemove）
+- Canvas 模拟画板功能（mousemove）
+- 搜索联想功能（keyup）
+- 监听页面滚动事件，让事件以固定时间间隔执行（scroll）
 
-- 用户在阅读文章的时候，我们需要监听用户滚动到了哪个标题，但是如果每滚动一下就监听一次，就会太过频繁，消耗内存，甚至卡住
+**debounce 应用场景：**
+
+- 每次 resize 触发的事件
+- 文本输入验证（连续输入文字后发送 Ajax 验证请求，验证一次就好了）
+- 监听页面滚动事件，只让事件执行一次（scroll）
 
 // TODO
 
@@ -487,5 +499,3 @@ data[2](); // => 2
 // TODO
 
 ### 20、正则表达式
-
-</div>
