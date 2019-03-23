@@ -48,11 +48,7 @@
   POST 类型的 CSRF 攻击通常是利用一个自动提交的表单，例如：
 
   ```html
-  <form
-    target="csrf"
-    method="post"
-    action="http://a.com/post/article"
-  >
+  <form target="csrf" method="post" action="http://a.com/post/article">
     <input type="hidden" name="id" value="13" />
     <input type="hidden" name="content" value="一个来自 CSRF 攻击的文本" />
   </form>
@@ -87,9 +83,13 @@
   这种类型的 CSRF 攻击就是把 GET 类型的 CSRF 攻击链接嵌入了超链接中，通过诱导用户点击进行发动。
 
   ```html
-  <a href="http://a.com/get/article?id=1000&content=CSRF攻击的内容" taget="_blank">
+  <a
+    href="http://a.com/get/article?id=1000&content=CSRF攻击的内容"
+    taget="_blank"
+  >
     点击领取红包
-  <a/>
+    <a
+  /></a>
   ```
 
   > 这种类型的攻击需要用户主动触发，所以并不常见
@@ -127,7 +127,7 @@ Origin 在下面的两种情况下并不存在：
 
 **使用 Referer 确定来源域名：**
 
-这个字段记录了请求的来源地址。在 script、img、Ajax等 **资源请求** 中，Referer 为发起请求的页面地址。对于 **页面跳转**，Referer 为打开页面历史记录中的前一个页面地址。
+这个字段记录了请求的来源地址。在 script、img、Ajax 等 **资源请求** 中，Referer 为发起请求的页面地址。对于 **页面跳转**，Referer 为打开页面历史记录中的前一个页面地址。
 
 **新版本的 Referrer Policy 如下：**
 
@@ -164,22 +164,22 @@ Origin 在下面的两种情况下并不存在：
 
 这个属性的两种取值的作用分别如下：
 
-  - `Samesite=strict`
-    这种称为严格模式，表明 Cookie 在任何情况下都不能作为第三方 Cookie，绝无例外！
+- `Samesite=strict`
+  这种称为严格模式，表明 Cookie 在任何情况下都不能作为第三方 Cookie，绝无例外！
 
-    ``` http
-    Set-Cookie: bar=xxx; Samesite=Strict;
-    ```
-    
-    例如：
-    淘宝网站用来识别用户登录与否的 Cookie 被设置成了 `Samesite=Strict`，那么用户从其他任意链接进入淘宝网站后，用户都不会是登录状态。
-  
-  - `Samesite=Lax`
-    这种称为宽松模式，比严格模式放宽了一些限制：如果一个请求是 GET 请求，并且这个请求改变了当前页面或者打开了新页面，那么这个 Cookie 可以作为第三方 Cookie。
+  ```http
+  Set-Cookie: bar=xxx; Samesite=Strict;
+  ```
 
-    ``` http
-    Set-Cookie: bar=xxx; Samesite=Lax;
-    ```
+  例如：
+  淘宝网站用来识别用户登录与否的 Cookie 被设置成了 `Samesite=Strict`，那么用户从其他任意链接进入淘宝网站后，用户都不会是登录状态。
+
+- `Samesite=Lax`
+  这种称为宽松模式，比严格模式放宽了一些限制：如果一个请求是 GET 请求，并且这个请求改变了当前页面或者打开了新页面，那么这个 Cookie 可以作为第三方 Cookie。
+
+  ```http
+  Set-Cookie: bar=xxx; Samesite=Lax;
+  ```
 
 这个属性浏览器的支持情况如下（2019-3-16）：
 
@@ -210,20 +210,20 @@ Origin 在下面的两种情况下并不存在：
 使用 Token 进行防护分为三个步骤：
 
 1. 将 Token 保存到页面中
-  用户打开页面时，服务器给用户生成一个 Token（一般来说，Token 会根据：用户ID、时间戳、随机数，然后用一个唯一的 key 进行加密获得）然后将这个 Token 存入服务器的 Session 中。之后每次页面加载时，使用 JS 遍历 DOM 树，在所有 a 和 form 标签后加入 Token（将 Token 保存到前端页面中）。
-  
-    > 这样可以解决大部分的请求，但是对于页面加载之后动态生成的 HTML 代码，这种方法就没有用了，需要程序员在编码时手动添加 Token。
+   用户打开页面时，服务器给用户生成一个 Token（一般来说，Token 会根据：用户 ID、时间戳、随机数，然后用一个唯一的 key 进行加密获得）然后将这个 Token 存入服务器的 Session 中。之后每次页面加载时，使用 JS 遍历 DOM 树，在所有 a 和 form 标签后加入 Token（将 Token 保存到前端页面中）。
+
+   > 这样可以解决大部分的请求，但是对于页面加载之后动态生成的 HTML 代码，这种方法就没有用了，需要程序员在编码时手动添加 Token。
 
 2. 页面提交请求时携带 Token
-  对于 GET 请求，将 Token 作为参数添加到 URL 中。
-  对于 POST 请求，在 Ajax 请求加上 Token 字段、Form 的最后加上：
+   对于 GET 请求，将 Token 作为参数添加到 URL 中。
+   对于 POST 请求，在 Ajax 请求加上 Token 字段、Form 的最后加上：
 
-    ```html
-    <input type="hidden" name="csrfToken" value="tokenValue" />
-    ```
+   ```html
+   <input type="hidden" name="csrfToken" value="tokenValue" />
+   ```
 
 3. 服务器验证 Token 是否正确
-  服务器接收到用户发送过来的 Token 之后，先使用 key 解密 Token，然后对比用户ID和时间戳，如果用户ID一致并且时间未过期，那么这个 Token 就是有效的。
+   服务器接收到用户发送过来的 Token 之后，先使用 key 解密 Token，然后对比用户 ID 和时间戳，如果用户 ID 一致并且时间未过期，那么这个 Token 就是有效的。
 
 > 对于 **验证码** 和 **密码** 其实也可以起到 Token 的作用，而且更安全。
 > 比如：银行账户进行转账前，要求已经登录的用户再次输入密码，现在看是不是有一定道理了？
@@ -272,7 +272,7 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 **缺点：**
 
-- 如果存在 XSS等漏洞，攻击者可以修改 Cookie，这种方法就会失效
+- 如果存在 XSS 等漏洞，攻击者可以修改 Cookie，这种方法就会失效
 - 难以做到子域名隔离（只要有子域名中存在安全漏洞，使得 Cookie 可控，就会威胁整站）
 - 为了确保 Cookie 传输安全，整站要采用 HTTPS
 
@@ -280,7 +280,7 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 ![](./imgs/csrf_double_cookie_test.png)
 
-> 这种方式的缺点是可控的，只要确保整站没有其他漏洞（XSS等）泄漏 Cookie，这种方式就不会有问题。也就是说，这种方法的前提是：保证 Cookie 的安全！
+> 这种方式的缺点是可控的，只要确保整站没有其他漏洞（XSS 等）泄漏 Cookie，这种方式就不会有问题。也就是说，这种方法的前提是：保证 Cookie 的安全！
 
 ## 结语
 
@@ -290,8 +290,8 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 参考文献 / 资料：
 
-- 美团前端. [前端安全系列（二）：如何防止CSRF攻击？](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
+- 美团前端. [前端安全系列（二）：如何防止 CSRF 攻击？](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
 - OWASP. [跨站请求伪造（CSRF）](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29)
 - IBM. [CSRF 攻击的应对之道](https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html)
-- 慕课视频. [Web前后端漏洞分析与防御](https://coding.imooc.com/class/104.html)
-- phithon. [Cookie-Form型CSRF防御机制的不足与反思](https://www.leavesongs.com/PENETRATION/think-about-cookie-form-csrf-protected.html#0x01-sessioncsrf)
+- 慕课视频. [Web 前后端漏洞分析与防御](https://coding.imooc.com/class/104.html)
+- phithon. [Cookie-Form 型 CSRF 防御机制的不足与反思](https://www.leavesongs.com/PENETRATION/think-about-cookie-form-csrf-protected.html#0x01-sessioncsrf)
