@@ -180,10 +180,15 @@
     > 回流一定引起重绘，重绘不一定引起回流
 
     > 通过添加图层（并不是 `z-index` 定位的层），让频繁回流和重绘的元素单独在一个图层，以此来减少回流和重绘对整个页面的影响。但是图层过多又会增加浏览器进行图层合成的时间。所以两者要进行权衡。
-    > 
+    >
     > 改变元素图层的方式：
+    >
     > - `transform: translateZ(0);`
     > - `will-change: transform;`
+
+  **flush 队列：**
+
+  > 其实浏览器自身是有优化策略的。浏览器会维护一个队列，把所有引起回流、重绘的操作放入这个队列，等队列中的操作达到一定数量或到了一定时间间隔，浏览器就会 flush 这个队列，进行一个批处理。这样就让多次回流和重绘变成了一次回流重绘。
 
   **一些 CSS 属性优化点：**
 
@@ -194,9 +199,17 @@
 
     > 先将 DOM 节点设为 `display: none`，然后进行频繁的样式修改，修改完成之后再进行 `display: block`
 
-  - 不要把 CSS 属性值当成循环变量。否则每次都会重新计算 CSS 属性值，这样会强制刷新回流与重绘机制中的缓冲区，降低性能
+  - 对于那些会强制 flush 浏览器队列的 CSS 属性，不要放在循环里。这些 CSS 属性如下：
 
-    > 例如：offsetWidth、offsetHeight
+    ```css
+    offsetTop, offsetLeft, offsetWidth, offsetHeight
+    scrollTop / Left / Width / Height
+    clientTop / Left / Width / Height
+    width, height
+    getComputedStyle(), 或者 IE的 currentStyle
+    ```
+
+    > 使用这些属性时，浏览器会强制刷新队列，使得回流重绘每次都要进行
 
   - 尽量不用 table 布局
 
@@ -221,7 +234,7 @@
     - 可以储存的大小 < 4KB
 
     Cookie 是 **域名** 下的一个概念，所以可能带来 **CDN 的流量损耗**。解决的办法就是 **将 CDN 的域名和主站的域名分开**。
-  <br />
+    <br />
 
   - `LocalStorage`
 
@@ -229,7 +242,7 @@
 
     - 可储存的大小 < 5M
     - 可用于 **实现简单的浏览器缓存机制**
-    
+
     > 如果资源短时间内不会被更新，那么就可以将其缓存在 LocalStorage 中（例如：缓存 JQuery 文件）
 
   - `SessionStorage`
@@ -248,8 +261,9 @@
 - PWA
 
   > PWA（Progressive Web Apps） 是一种 Web App 新模型，并不是具体指某一种具体的技术或知识点。
-  > 
+  >
   > 是否符合 PWA 模型，有几种评判方法：
+  >
   > - 在离线情况下，App 是否能够正常使用
   > - 弱网情况下，App 能否快速加载
   > - 正常网络下，App 又是怎样的表现
@@ -269,60 +283,66 @@
   <br />
 
   **应用：**
+
   - 使用 Service Worker 拦截网络请求，然后从缓存中取数据，来**实现离线应用的能力**
-  - 将比较耗时的 JS 运算放入  Service Worker，来实现 **大规模数据的处理**
+  - 将比较耗时的 JS 运算放入 Service Worker，来实现 **大规模数据的处理**
 
   查看 Chrome 中 Service Worker 的使用情况：
 
   - `chrome://serviceworker-internals` 查看浏览过的网站中 Service Worker 的使用情况
-  - `chrome://inspect/#service-workers` 查看浏览器当前正在使用的  Service Worker
+  - `chrome://inspect/#service-workers` 查看浏览器当前正在使用的 Service Worker
 
 - 缓存机制
 
   - 理解 cache-control 所控制的缓存策略
   - 理解 last-modified 和 etag 以及整个服务端浏览器端的缓存流程
-  - 基于 Node 实现 上面的缓存方式
-  <br />
+    <br />
 
   HTTP Header：
-  
-  - `Cache-Control`
+
+  - Cache-Control
+
+    - Expires
+
+      > 设置资源的过期时间。告诉浏览器：在过期时间前，可以从缓存中直接读取资源。
 
     - max-age
 
-    > 在 max-age 设置的时间内，客户端请求的资源都会从浏览器缓存中读取（`max-age` 的优先级比 `expires` 高。所以即使 `expires` 设置的缓存已过期，如果资源的缓存时间小于 `max-age`，那么资源也会从缓存中读取）
+      > 在 max-age 设置的时间内，客户端请求的资源都会从浏览器缓存中读取。
+      > 优先级大于 `expires`。
 
     - s-maxage
 
-    > 是对公共的缓存设备进行缓存设置。比如：CDN。`s-maxage` 的优先级大于 `max-age`。如果设置了 `s-maxage` 资源就会向公共缓存设备请求
+      > 是对公共缓存设备（如：CDN，代理服务器）进行缓存设置。
+      > 如果设置了 `s-maxage`，并且没有过期，资源就会向公共缓存设备请求。
+      > 优先级大于 `max-age`。
 
     - no-cache
 
-    > 这个属性并不是不进行缓存的意思。而是始终发送请求去判断浏览器里的缓存资源是否过期。如果过期就从服务器获取资源，否则直接使用浏览器中的缓存
-    >
-    > 另外，这个属性需要配合 `max-age=0` 来使用
+      > 这个属性并不是不进行缓存的意思。而是始终发送请求去判断浏览器里的缓存资源是否过期。如果过期就从服务器获取资源，否则直接使用浏览器中的缓存。
+      >
+      > 另外，这个属性需要配合 `max-age=0` 来使用。
 
     - no-store
 
-    > 对指定的文件完全不使用缓存策略
-
-  - Expires
-
-    > 设置资源的过期时间。告诉浏览器：在过期时间前，可以从缓存中直接读取资源
+      > 对指定的文件完全不使用缓存策略。
 
   - Last-Modified / If-Modified-Since
 
-    > 其中 `Last-Modified` 是 HTTP 响应头，`If-Modified-Since` 是 HTTP 请求头
+    > 其中 `Last-Modified` 是 HTTP 响应头，`If-Modified-Since` 是 HTTP 请求头。
     > 需要与 `cache-control` 共同使用。
 
     使用这个 HTTP Header 的缺点：
 
     - 某些服务端不能获取精确的修改时间
     - 文件修改时间变了，文件内容却没有变
-  
+
   - ETag / If-None-Match
 
     > 这个 HTTP Header 用来解决 `Last-Modified / If-Modified-Since` 的缺点。
     > 它们的值是一个标识文件不同的 MD5 戳。如果 `ETag` 和 `If-None-Match` 的值相同，证明文件没有改变。
+    > 优先级大于 `Last-Modified / If-Modified-Since`
 
-- Vue-SSR
+  **浏览器分级缓存策略：**
+
+  ![](./imgs/service_cache.png)
