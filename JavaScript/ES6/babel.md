@@ -1,4 +1,4 @@
-# babel 编译 ES6 简单学习
+# babel 编译 ES6
 
 ## 初始化 package.json 文件
 
