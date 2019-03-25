@@ -91,7 +91,7 @@ npm install babel-preset-latest babel-plugin-external-helpers -D
   ```json
   {
     "presets": [
-      ["env": {
+      ["env", {
         "targets": {
           "node": "8.0"
         }
