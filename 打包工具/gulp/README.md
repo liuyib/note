@@ -132,7 +132,7 @@ exports.default = function () {
 
 [https://gulpjs.com/docs/en/getting-started/explaining-globs](https://gulpjs.com/docs/en/getting-started/explaining-globs)
 
-## 7、多入口多出口
+## 7、多输入多输出
 
 通常使用插件放置在 `src()` 和 `dest()` 方法之间。
 
@@ -147,13 +147,15 @@ const rename = require('gulp-rename');
 exports.default = function() {
   return src('src/*.js')
     .pipe(babel())
-    .pipe(src('vendor/*.js'))
+    .pipe(src(['vendor/*.js', 'content/*.js']))
     .pipe(dest('output/'))
     .pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
     .pipe(dest('output/'));
 }
 ```
+
+> src() 方法可以接收**数组**为参数，dest() 不行
 
 ## 8、改进操作
 
