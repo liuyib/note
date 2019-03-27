@@ -1,3 +1,30 @@
+# Rollup
+
+## 原生支持多入口和多出口
+
+```js
+// rollup.config.js
+export default [{
+  input: './src/main-a.js',
+  output: {
+    format: 'cjs'
+    file: 'release/bundle-a.js',
+  }
+}, {
+  input: './src/main-b.js',
+  output: [
+    {
+      format: 'cjs'
+      file: 'release/bundle-b1.js',
+    },
+    {
+      format: 'esm'
+      file: 'release/bundle-b2.js',
+    }
+  ]
+}];
+```
+
 ## 在 Rollup 中使用 Babel
 
 在 Rollup 中使用 Babel 的最简单的办法就是使用插件 [rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel)
@@ -71,7 +98,7 @@ npm install babel-preset-latest babel-plugin-external-helpers -D
   {
     "presets": [
       ["env", {
-        "target": {
+        "targets": {
           "browsers": [
             "last 1 version",
             "> 1%",

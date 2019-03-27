@@ -132,7 +132,7 @@ exports.default = function () {
 
 [https://gulpjs.com/docs/en/getting-started/explaining-globs](https://gulpjs.com/docs/en/getting-started/explaining-globs)
 
-## 7、使用插件
+## 7、多入口多出口
 
 通常使用插件放置在 `src()` 和 `dest()` 方法之间。
 
@@ -155,7 +155,7 @@ exports.default = function() {
 }
 ```
 
-### 改进操作
+## 8、改进操作
 
 并不一定所有内容都需要插件。可以通过引入其他模块或库来改进操作：
 
@@ -175,7 +175,7 @@ exports.default = async function () {
 };
 ```
 
-### 有条件的使用插件（借助 `gulp-if` 插件）：
+## 9、有条件的使用插件（借助 `gulp-if` 插件）：
 
 ```js
 const { src, dest } = require('gulp');
@@ -193,9 +193,9 @@ exports.default = function () {
 };
 ```
 
-### [内联插件](https://gulpjs.com/docs/en/getting-started/using-plugins#inline-plugins)
+## 10、[内联插件](https://gulpjs.com/docs/en/getting-started/using-plugins#inline-plugins)
 
-## 8、监听文件
+## 11、监听文件
 
 可以监听单个 task，也可以监听多个 task：
 
@@ -221,11 +221,11 @@ watch('src/*.css', css);
 watch('src/*.js', series(clean, js));
 ```
 
-### 避免异步
+## 12、避免异步
 
 > 传给 watch 的 task 不要异步进行。
 
-### 设置 watch 的事件
+## 13、设置 watch 的事件
 
 默认情况下，watch 会在创建、更改或删除文件时，执行 task。如果想要 watch 在其他情况下执行 task，需要配置 events 参数：
 
@@ -240,7 +240,7 @@ watch('src/*.js', { events: 'all' }, function(cb) {
 
 > 可以配置的参数有：`'add'`，`'addDir'`，`'change'`，`'unlink'`，`'unlinkDir'`，`'ready'`，`'error'`，`'all'`
 
-### 初始执行
+## 14、初始执行
 
 默认情况下，调用 `watch()`，任务不会执行，而是等待第一次文件修改。
 
@@ -260,11 +260,11 @@ watch('src/*.js', { ignoreInitial: false }, function (cb) {
 - `queue: false` 禁止排队
 - `delay: 500` 延迟执行 task
 
-## 9、API
+## 15、API
 
 [https://gulpjs.com/docs/en/api/concepts](https://gulpjs.com/docs/en/api/concepts)
 
-## 10、一些常用插件
+## 16、一些常用插件
 
 gulp 插件网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
 
@@ -298,7 +298,7 @@ gulp 插件网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
 
 - del 删除文件 / 目录
 
-## 示例
+## 17、示例
 
 `gulpfile.js`:
 
