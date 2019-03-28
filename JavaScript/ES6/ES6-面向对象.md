@@ -1,16 +1,12 @@
 # ES6 中的面向对象和模块化
 
 > 目录
-> 1. class、extends、constructor、super
-> 2. ES5 中的伪面向对象
-> 3. 模块化
->   3.1、导入
->   3.2、导出
->   3.3、简单的 webpack 配置
-> 4. ES7、8、9 中增加的一些常用的语法
->   4.1、ES7
->   4.2、ES8
->   4.3、ES9
+> - class、extends、constructor、super
+> - ES5 中的伪面向对象
+> - 模块化
+>     - 导入
+>     - 导出
+>     - 简单的 webpack 配置
 
 ## 1、class、extends、constructor、super
 
@@ -150,34 +146,3 @@ module.exports = {
 在项目目录下的命令行中执行：`webpack`
 
 程序会自动寻找 `webpack.config.js` 文件，然后按照文件里的配置，进行打包编译。
-
-## 4、ES7、8、9 中增加的一些常用的语法
-
-### 4.1、ES7
-
-- 幂操作符 `**` -- 计算幂
-
-```javascript
-let power = 2**4;
-
-console.log(power); // 16
-```
-
-- Array.includes -- 判断数组中是否包含指定项
-
-```javascript
-let arr = [1, 2, 3, 4];
-
-console.log(arr.includes(3)); // true
-console.log(arr.includes(8)); // false
-```
-
-### 4.2、ES8
-
-- async / await
-
-### 4.3、ES9
-
-- 异步迭代
-- 正则表达式扩展
-- Promise.finally

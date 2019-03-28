@@ -1,11 +1,11 @@
 # ES6 中的异步操作
 
 > 目录
-> 1. Promise
->   1.1. promise.all
-> 2. async / await
+> - Promise
+>   - promise.all
+> - async / await
 
-## 1、Promise
+## Promise
 
 `Promise` 是异步编程的一种解决方案，简单来说就是对异步操作的封装。其中保存着未来才会结束的事件（通常是一个异步操作）的状态。
 
@@ -47,28 +47,28 @@ $.ajax(// ...).then(res => {
 
 > 注意：`Promise` 内部的报错不会被抛出，需要手动捕获（`try-catch` 包裹异步操作代码）
 
-### 1.1、promise.all
+- `promise.all`
 
-将多个异步操作包成一个 Promise 实例。
+  将多个异步操作包成一个 Promise 实例。
 
-> ```javascript
-> const p = Promise.all([p1, p2, p3])；
-> ```
+  > ```javascript
+  > const p = Promise.all([p1, p2, p3])；
+  > ```
 
-例子:
+  例子:
 
-```javascript
-// p1，p2，p3 是异步操作
-Promise.all([p1, p2, p3]).then(res => {
-  console.log(res);
-}, err => {
-  console.log(err);
-});
+  ```javascript
+  // p1，p2，p3 是异步操作
+  Promise.all([p1, p2, p3]).then(res => {
+    console.log(res);
+  }, err => {
+    console.log(err);
+  });
 
-// 当所有的异步操作都成功时，才会执行 `resolve` 函数；只要有一个异步操作失败，就会执行 `reject` 函数。
-```
+  // 当所有的异步操作都成功时，才会执行 `resolve` 函数；只要有一个异步操作失败，就会执行 `reject` 函数。
+  ```
 
-## 2、async / await
+## async / await
 
 使得异步操作变得更接近同步操作。实际上它们分别就是代替 `Generator` 和 `yield` 的语法糖。`async` 的返回值是 `Promise` 对象，进一步的说，`async` 完全可以看作多个异步操作，包装成的一个 `Promise` 对象。
 
