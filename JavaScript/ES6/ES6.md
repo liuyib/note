@@ -1,4 +1,4 @@
-# ES6
+# <span id="top_top">ES6<span>
 
 目录
 
@@ -122,7 +122,7 @@
     - `of`
   </details>
 
-## <span id="deconstruction">1、解构赋值</span>
+## <span id="deconstruction">解构赋值</span>
 
 - `对象` 解构赋值
 
@@ -174,7 +174,9 @@
   [a, b, c] = [1, 2, 3];
   ```
 
-## <span id="arrow_func">2、箭头函数</span>
+<br>[⬆ back to top](#top_top)
+
+## <span id="arrow_func">箭头函数</span>
 
 ```javascript
 // es5 普通函数
@@ -264,7 +266,9 @@ function () {
   console.log(new Person().attr.showName()); // => name1
   ```
 
-## <span id="expand_sign">3、运算符 `...`</span>
+<br>[⬆ back to top](#top_top)
+
+## <span id="expand_sign">运算符 `...`</span>
 
 - 参数收集
 
@@ -349,7 +353,9 @@ function () {
   console.log(obj2); // => {a: 1, b: 2, c: 3}
   ```
 
-## <span id="default_para">4、默认参数</span>
+<br>[⬆ back to top](#top_top)
+
+## <span id="default_para">默认参数</span>
 
 在函数的参数后面赋值，即可给函数设置一个默认参数
 
@@ -376,6 +382,8 @@ try {
 
 // 当没有传入参数时，会执行 myError 函数，并抛出错误
 ```
+
+<br>[⬆ back to top](#top_top)
 
 ## <span id="expand_array">对 Array 的扩展</span>
 
@@ -428,6 +436,8 @@ try {
   // => 第4个：66
   ```
 
+<br>[⬆ back to top](#top_top)
+
 ## <span id="json_obj">JSON 对象</span>
 
 - `JSON.stringify()`
@@ -436,6 +446,8 @@ try {
 
 - `JSON.parse()`
   > 将 `Json` 字符串转换为 `Json`
+
+<br>[⬆ back to top](#top_top)
 
 ## <span id="obj_proxy">对象代理</span>
 
@@ -514,6 +526,8 @@ person.sex = "formale";
 console.log(person.sex); // => male  // 不可以修改
 ```
 
+<br>[⬆ back to top](#top_top)
+
 ## <span id="iterator">迭代器 @@iterator</span>
 
 下面是几种得到迭代器的方法：
@@ -576,6 +590,8 @@ console.log(person.sex); // => male  // 不可以修改
   console.log(iter.next().value); // => 3
   ```
 
+<br>[⬆ back to top](#top_top)
+
 ## <span id="es7_8_9">ES7、8、9 中新增的常用语法</span>
 
 - ES7
@@ -609,6 +625,8 @@ console.log(person.sex); // => male  // 不可以修改
   - 正则表达式扩展
   - `Promise.finally`
 
+<br>[⬆ back to top](#top_top)
+
 ## <span id="es6_7_array">ES6、7 新增的数组方法</span>
 
 - [@@iterator](#iterator)
@@ -624,3 +642,5 @@ console.log(person.sex); // => male  // 不可以修改
 - `fill`
 - `from`
 - `of`
+
+<br>[⬆ back to top](#top_top)
