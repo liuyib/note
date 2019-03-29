@@ -51,7 +51,4 @@ export default App
 
 运行效果：
 
-<iframe height="452" style="width: 100%;" scrolling="no" title="JSX Live Compiler" src="//codepen.io/liuyib/embed/bJbepZ/?height=452&theme-id=0&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/liuyib/pen/bJbepZ/'>JSX Live Compiler</a> by liuyib
-  (<a href='https://codepen.io/liuyib'>@liuyib</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+[Click to CodePen](https://codepen.io/liuyib/pen/bJbepZ/)
