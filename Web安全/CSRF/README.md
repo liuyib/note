@@ -72,7 +72,7 @@
   ```json
   {
     "id": 10,
-    "content": CSRF攻击的内容
+    "content": "CSRF攻击的内容"
   }
   ```
 
@@ -90,8 +90,7 @@
     taget="_blank"
   >
     点击领取红包
-    <a
-  /></a>
+  </a>
   ```
 
   > 这种类型的攻击需要用户主动触发，所以并不常见
@@ -103,9 +102,9 @@
 主要有以下几点防御措施：
 
 - 同源检测
-- 设置 Samesite
-- 添加 Token（**验证码** 和 **再次输入密码** 也有 Token 的作用）
-- 双重 Cookie 验证
+- 设置 `SameSite`
+- 添加 `Token`（**验证码** 和 **再次输入密码** 也有 `Token` 的作用）
+- 双重 `Cookies` 验证
 
 具体内容如下：
 
@@ -115,37 +114,37 @@ CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信
 
 判断请求是否来自跨域，有两种办法：
 
-- 检测 Origin
-- 检测 Referer
+- 检测 `Origin`
+- 检测 `Referer`
 
 **使用 Origin 确定来源域名：**
 
-在部分与 CSRF 有关的请求中，请求头中会携带 Origin 字段（包含协议和域名，不包含 path 和 query）。
-如果 Origin 存在，直接使用 Origin 中的字段判断来源域名即可。
-Origin 在下面的两种情况下并不存在：
+在部分与 CSRF 有关的请求中，请求头中会携带 `Origin` 字段（包含协议和域名，不包含 `path` 和 `query`）。
+如果 `Origin` 存在，直接使用 `Origin` 中的字段判断来源域名即可。
+`Origin` 在下面的两种情况下并不存在：
 
 - IE11 的同源策略
 - 302 重定向
 
 **使用 Referer 确定来源域名：**
 
-这个字段记录了请求的来源地址。在 script、img、Ajax 等 **资源请求** 中，Referer 为发起请求的页面地址。对于 **页面跳转**，Referer 为打开页面历史记录中的前一个页面地址。
+这个字段记录了请求的来源地址。在 `script、img、Ajax` 等 **资源请求** 中，`Referer` 为发起请求的页面地址。对于 **页面跳转**，`Referer` 为打开页面历史记录中的前一个页面地址。
 
-**新版本的 Referrer Policy 策略如下：**
+**Referrer-Policy 取值如下：**
 
-![](./imgs/new_referer_policy.png)
+![](./imgs/referer_policy.png)
 ![](./imgs/referer_policy_value.png)
 
 关于这个策略的详尽信息，可以查阅：MDN. [Referrer-Policy
 ](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referrer-Policy)
 
-为了防御 CSRF，我们应该将 HTTP 响应头 `Referrer-Policy` 设置为：**same-origin**。这样只要是跨域的请求就不会携带 Referer。
+建议将 HTTP 响应头 `Referrer-Policy` 设置为：**same-origin**。这样只要是跨域的请求就不会携带 Referer。不过具体使用还要结合实际具体分析。
 
 **设置 `Referrer-Policy` 的方法有三种：**
 
 - 在 <ruby>C S P<rp>（</rp><rt>内容安全策略</rt><rp>）</rp></ruby> 设置
-- 使用 meta 标签设置
-- a 标签添加 referrerpolicy 属性
+- 使用 `meta` 标签设置
+- a 标签添加 `referrer` 属性
 
 **下面几种情况下 Referer 没有或者不可信：**
 
@@ -160,27 +159,27 @@ Origin 在下面的两种情况下并不存在：
 
 同源验证是一个相对简单的防御办法，但这种方法只能防御 **跨域** 的 CSRF，对于本域的请求是起不到作用的。所以还需要进一步进行 CSRF 检查。
 
-### 2、设置 Samesite
+### 2、设置 SameSite
 
-为了从源头上解决问题，Google 起草了一份草案来改进 HTTP 协议，那就是为响应头 `Set-Cookie` 增加 `Samesite` 属性（取值：`Strict / Lax`）。通过设置这个响应头，可以限制 / 禁止第三方网站请求携带 Cookies。
+为了从源头上解决问题，Google 起草了一份草案来改进 HTTP 协议，那就是为响应头 `Set-Cookie` 增加 `SameSite` 属性（取值：`Strict / Lax`）。通过设置这个响应头，可以限制 / 禁止第三方网站请求携带 Cookies。
 
 这个属性的两种取值的作用分别如下：
 
-- `Samesite=strict`
+- `SameSite=strict`
   这种称为严格模式，表明 Cookie 在任何情况下都不能作为第三方 Cookie，绝无例外！
 
   ```http
-  Set-Cookie: bar=xxx; Samesite=Strict;
+  Set-Cookie: bar=xxx; SameSite=Strict;
   ```
 
   例如：
-  淘宝网站用来识别用户登录与否的 Cookie 被设置成了 `Samesite=Strict`，那么用户从其他任意链接进入淘宝网站后，用户都不会是登录状态。
+  淘宝网站用来识别用户登录与否的 Cookie 被设置成了 `SameSite=Strict`，那么用户从其他任意链接进入淘宝网站后，用户都不会是登录状态。
 
-- `Samesite=Lax`
+- `SameSite=Lax`
   这种称为宽松模式，比严格模式放宽了一些限制：如果一个请求是 GET 请求，并且这个请求改变了当前页面或者打开了新页面，那么这个 Cookie 可以作为第三方 Cookie。
 
   ```http
-  Set-Cookie: bar=xxx; Samesite=Lax;
+  Set-Cookie: bar=xxx; SameSite=Lax;
   ```
 
 这个属性浏览器的支持情况如下（2019-3-16）：
@@ -192,20 +191,20 @@ Origin 在下面的两种情况下并不存在：
 **Mobile:**
 ![](./imgs/same_site_browser_support_mobile.png)
 
-> 可以看出 Samesite 的兼容性不是很好，所以并不能完全依靠这种办法。
+> 可以看出 SameSite 的兼容性不是很好，所以并不能完全依靠这种办法。
 
-**应该如何使用 Samesite:**
+**应该如何使用 SameSite:**
 
 1. 如果设为严格模式，任何跨域请求都不会携带 Cookie，所 CSRF 基本没机会。
 2. 如果设为严格模式，跳转子域名或在新标签页重新访问刚登陆的网站，之前的 Cookie 都不存在，需要重新登录，用户体验不好。
 3. 如果设为宽松模式，其他网站通过链接跳转过来的时候可以使用 Cookie，但安全性相对较低。
 
-**Samesite 的缺陷:**
+**SameSite 的缺陷:**
 
 1. 兼容性不好
 2. 不支持子域
 
-总之，Samesite 是一种可行的方案，虽然目前不太成熟，但前景可观。
+总之，SameSite 是一种可行的方案，虽然目前不太成熟，但前景可观。
 
 ### 3、添加 Token
 

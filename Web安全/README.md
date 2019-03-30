@@ -19,7 +19,15 @@
   
     - 对数据进行转义和过滤
     - 设置 HTTP 请求头 `Content-Security-Policy` (CSP)
+
+      示例：
+
+      ![](https://raw.githubusercontent.com/liuyib/study-note/master/Web%E5%AE%89%E5%85%A8/XSS/imgs/github_csp_example.png)
+
     - 设置 HTTP 响应头 `X-XSS-Protection`
+
+      ![](https://raw.githubusercontent.com/liuyib/study-note/master/Web%E5%AE%89%E5%85%A8/XSS/imgs/browser_xss_protectino.png)
+
     - 浏览器自带防御功能（用处不大）
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
@@ -51,7 +59,9 @@
         > 设置 `Referrer-Policy` 的方式：
         >
         > - 通过 CSP 设置
+        > `Content-Security-Policy: strict-origin-when-cross-origin`
         > - 使用 meta 标签设置
+        > `<meta name="referrer" content="no-referrer|no-referrer-when-downgrade|origin|origin-when-crossorigin|unsafe-url">`
         > - a 标签添加 referrerpolicy 属性设置
 
     - 设置 HTTP 响应头 `Set-Cookie` 的 `Same-Site` 属性
