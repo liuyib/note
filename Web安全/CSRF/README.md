@@ -1,4 +1,4 @@
-# CSRF 相关知识
+# CSRF 攻击
 
 ## 什么是 CSRF
 
@@ -21,7 +21,7 @@
 
 > 这里 A 网站表示遭受攻击的网站，B 网站表示发动 CSRF 攻击的网站
 
-## CSRF 攻击实例
+## CSRF 攻击示例
 
 > 受害者 Bob 在银行有一笔存款，通过对银行的网站发送请求 `http://bank.example/withdraw?account=bob&amount=1000000&for=bob2` 可以使 Bob 把 1000000 的存款转到 bob2 的账号下。通常情况下，该请求发送到网站后，服务器会先验证该请求是否来自一个合法的 session，并且该 session 的用户 Bob 已经成功登陆。黑客 Mallory 自己在该银行也有账户，他知道上文中的 URL 可以把钱进行转帐操作。Mallory 可以自己发送一个请求给银行：`http://bank.example/withdraw?account=bob&amount=1000000&for=Mallory`。但是这个请求来自 Mallory 而非 Bob，他不能通过安全认证，因此该请求不会起作用。这时，Mallory 想到使用 CSRF 的攻击方式，他先自己做一个网站，在网站中放入如下代码： `src="http://bank.example/withdraw?account=bob&amount=1000000&for=Mallory"`，并且通过广告等诱使 Bob 来访问他的网站。当 Bob 访问该网站时，上述 url 就会从 Bob 的浏览器发向银行，而这个请求会附带 Bob 浏览器中的 cookie 一起发向银行服务器。大多数情况下，该请求会失败，因为他要求 Bob 的认证信息。但是，如果 Bob 当时恰巧刚访问他的银行后不久，他的浏览器与银行网站之间的 session 尚未过期，浏览器的 cookie 之中含有 Bob 的认证信息。这时，悲剧发生了，这个 url 请求就会得到响应，钱将从 Bob 的账号转移到 Mallory 的账号，而 Bob 当时毫不知情。等以后 Bob 发现账户钱少了，即使他去银行查询日志，他也只能发现确实有一个来自于他本人的合法请求转移了资金，没有任何被攻击的痕迹。而 Mallory 则可以拿到钱后逍遥法外。
 >
@@ -39,7 +39,7 @@
 
   当受害者访问这个页面时，浏览器就会立即向 `a.com` 发送一个 HTTP 请求。`a.com`就会收到一个包含受害者登录信息的跨域请求。
 
-  > 防御：GET 方式不要用于更新资源
+  > 防御：GET 方式不要用于更新数据或资源
 
   <br />
 
@@ -77,6 +77,8 @@
   ```
 
   如果提交的这条数据被显示在页面上，并且提交的数据中 content 的内容为：`<a href="http://bbb.com">点击领取红包</a>`，那么页面中就会出现一个名称为：`点击领取红包` 的超链接。当用户点击这个超链接，会进入发动 CSRF 攻击的第三方网站，从而再次对受害网站进行了 CSRF 攻击。这样就产生了网络蠕虫。
+
+  > **这种攻击方式之所以能成功，是因为第三方网站发起请求时，会带上目标网站的 Cookies，如果目标网站没有进行安全防御，那么攻击者就能成功伪装成用户，从而进行攻击。**
 
 - 超链接类型
 
@@ -129,7 +131,7 @@ Origin 在下面的两种情况下并不存在：
 
 这个字段记录了请求的来源地址。在 script、img、Ajax 等 **资源请求** 中，Referer 为发起请求的页面地址。对于 **页面跳转**，Referer 为打开页面历史记录中的前一个页面地址。
 
-**新版本的 Referrer Policy 如下：**
+**新版本的 Referrer Policy 策略如下：**
 
 ![](./imgs/new_referer_policy.png)
 ![](./imgs/referer_policy_value.png)
@@ -137,9 +139,9 @@ Origin 在下面的两种情况下并不存在：
 关于这个策略的详尽信息，可以查阅：MDN. [Referrer-Policy
 ](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referrer-Policy)
 
-为了防御 CSRF，我们应该将 Referrer Policy 的策略设置为：**same-origin**。这样只要是跨域的请求就不会携带 Referer。
+为了防御 CSRF，我们应该将 HTTP 响应头 `Referrer-Policy` 设置为：**same-origin**。这样只要是跨域的请求就不会携带 Referer。
 
-**设置 Referrer Policy 的方法有三种：**
+**设置 `Referrer-Policy` 的方法有三种：**
 
 - 在 <ruby>C S P<rp>（</rp><rt>内容安全策略</rt><rp>）</rp></ruby> 设置
 - 使用 meta 标签设置
