@@ -9,7 +9,7 @@ export class App extends Component {
     super(props)
     
     this.state = {
-      input: '{/* Input your txt! */}',
+      input: 'const App = () => {\n  return (\n    <div>hello world</div>\n  );\n}\nexport default App;\n',
       output: '',
       error: ''
     };
