@@ -1,4 +1,4 @@
-# XSS 相关知识
+# XSS 攻击
 
 ## 什么是 XSS
 
@@ -56,24 +56,11 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
   localhost:3000/?xss=<script>document.body.innerHTML='you are attacked';</script>
   ```
 
-> 这种方法谷歌会检测出来并阻止掉整个页面，火狐可以直接生效
+> 这种方法有些浏览器会检测出来并阻止掉整个页面，也就是浏览器自带的 XSS 防御功能。
 
 ### 存储型
 
 > 这种攻击方式与反射型的差别在于，存储型的攻击代码会储存在服务端（数据库、内存、文件中等），下次请求页面不用再次提交 XSS 代码
-
-例子：
-在 routes/index.js 中添加代码：
-
-```diff
-router.get('/', function(req, res, next) {
-  res.set('X-XSS-Protection', 0);
-  res.render('index', {
-    title: 'Express',
-+   xss: (sql语句等，或其他代码)
-  });
-});
-```
 
 ## XSS 攻击的注入点
 
@@ -112,7 +99,9 @@ router.get('/', function(req, res, next) {
 
   > 由于富文本编辑器是通过添加 HTML 标签和属性来实现的，所以如果用户输入的信息中包含一些恶意脚本代码，那么这些恶意脚本代码也会被执行。
 
-## XSS 攻击的防御措施
+**这些 XSS 代码之所以能被显示在页面上，是因为没有对接收的数据进行过滤。**
+
+## 进行转义、过滤来防御 XSS
 
 > 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（script、style、link、iframe、frame、img）、所有 JS 事件进行过滤。
 
@@ -193,7 +182,7 @@ JSON.stringify(str)
 
 ### 校正
 
-将转义后的数据反转义得到字符串，使用 DOM Parse 转换字符串为 DOM 对象，然后将 DOM 对象中的危险标签、JS 事件等过滤。
+将转义后的数据反转义得到字符串，使用 DOM Parse 转换字符串为 DOM 对象。然后进行过滤操作。
 
 ### 过滤
 
@@ -285,7 +274,7 @@ var xssFilter = function (html) {
 
 > 第三方库过滤 XSS 适用于快速开发。如果业务要求对每一种情况进行精确控制，那么还是需要自己手写过滤代码。
 
-## 设置 CSP 防御 XSS
+## 设置 HTTP 请求头 CSP 防御 XSS
 
 CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻击，例如：XSS 和数据注入等。
 
@@ -314,12 +303,14 @@ Content-Security-Policy: default-src 'self' www.example.com
 
 学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
-## 浏览器自带 XSS 防御
+## 设置 HTTP 响应头 X-XSS-Protection  防御 XSS
 
 通过设置 HTTP 响应头：`X-XSS-Protection: 1; mode=block`
 
 这个请求头的其他值如下：
 
 ![](./imgs/browser_xss_protectino.png)
+
+## 浏览器自带 XSS 防御
 
 > 关于浏览器自带的 XSS 防御，只能防御反射型的 XSS 攻击。并且如果反射型的 XSS 代码被注入到 JS 中，那么浏览器并不会拦截。
