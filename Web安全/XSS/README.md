@@ -287,7 +287,9 @@ CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻
 例如，指定内容能从 `文档源` 和 `www.example.com` 加载：
 
 ```js
-Content-Security-Policy: default-src 'self' www.example.com
+Content-Security-Policy: default-src 'self' www.example.com *.example2.com
+                              ↓        ↓           ↓
+                           策略指令   关键字      源列表 (可有多个值，用空格间隔)
 ```
 
 其中，`default-src` 包括：
@@ -300,6 +302,14 @@ Content-Security-Policy: default-src 'self' www.example.com
 - `object-src`
 - `script-src`
 - `style-src`
+
+使用示例：
+
+GitHub 某页面的 CSP 设置如下：
+
+![](./imgs/github_csp_example.png)
+
+可以看到 GitHub 不仅限制了哪些资源可以执行，而且设置了 `block-all-mixed-content` (只能通过 HTTPS 加载资源)和 `frame-ancestors` (防御点击劫持攻击)
 
 学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
