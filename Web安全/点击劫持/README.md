@@ -1,6 +1,6 @@
 # 点击劫持攻击
 
-用 `iframe` 将一个网站内嵌，然后 `opacity` 设为 `0` 进行隐藏，真实显示的是一些按钮等与用户交互的元素，诱导用户点击，而用户实际点击的是内嵌的网站。从而进行一些非法操作，盗取用户敏感信息。
+点击劫持（ClickJacking）是一种视觉欺骗手段。基本攻击方式是用 `iframe` 将一个网站内嵌，然后 `opacity` 设为 `0` 进行隐藏，真实显示的是一些按钮等与用户交互的元素，诱导用户点击，而用户实际点击的是内嵌的网站。从而进行一些非法操作，盗取用户敏感信息。
 
 例如：
 
@@ -8,33 +8,53 @@
 
 ## 防御点击劫持
 
-  - 使用 JS
+### 使用 JS
 
-    ```js
-    top.location === window.location
-    ```
+当被其他网站使用 `iframe` 引用时，直接跳转回来：
 
-    `top.location` 指向网站主体的 window 对象，而 `window.location` 指向 iframe 的 window 对象
+```js
+if (top !== self) {
+  top.location = self.location;
+}
+```
 
-    通过对比这两个属性的值，就可以判断网站有没有被其他网站使用 iframe 嵌套，当被其他网站使用 iframe 引用时，直接跳转回来：
+> 当 JS 被禁用，这种方法就会失效。并且这种方法有很多避开的方法。
 
-    ```js
-    if (top.location === window.location) {
-      top.location = window.location;
-    }
-    ```
+### 使用 HTTP 响应头 `X-Frame-Options`
 
-    > 当 JS 被禁用，这种方法就会失效
+取值如下：
 
-  - 使用 HTTP 响应头 `x-frame-options` 来禁止被 `iframe` 内
+![](./imgs/x-frame-options.png)
 
-    取值如下：
+> **这是一个非标准的 HTTP 响应头。CSP 标准中的 `frame-ancestors` 属性会代替它，可以和 CSP 结合起来使用。**
 
-    ![](./imgs/x-frame-options.png)
+详尽信息可以查阅：[MDN: X-Frame-Options](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/X-Frame-Options)
 
-    > 兼容性： IE8+
+### CSP 的 `frame-ancestors` 属性
 
-    详尽信息可以查阅：[MDN: x-frame-options](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/X-Frame-Options)
+作用和 HTTP 响应头 `X-Frame-Options` 一样，是它的替代品。
 
+使用示例：
 
-使用时，应该以设置 `x-frame-options` 响应头为主，使用 JS 检测为辅。
+- `Content-Security-Policy: frame-ancestors 'none';`
+
+  不允许网站被嵌入 `iframe`，即使同源也不行。**如果没有特殊要求，建议设置为 `none`**
+
+- `Content-Security-Policy: frame-ancestors 'self';`
+
+  只支持当前站点使用 `iframe` 嵌套页面。
+
+- `Content-Security-Policy: frame-ancestors 'self' '\*.somesite.com' 'https://myfriend.site.com';`
+
+  允许当前站点、子域是 `somesite.com` 的任意站点(任何协议都行)、使用 HTTPS 协议，端口为 443(默认)的 `myfriend.site.com` 站点。
+
+## 其他防御方法
+
+在一些重要的按钮点击前，添加验证，比如：二次输入密码，图形验证码，使用 `window.confirm` 进行询问等。
+
+---
+
+参考资料：
+
+[先知社区：Clickjacking攻防](https://xz.aliyun.com/t/2179)
+[GitHub: OWASP](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Clickjacking_Defense_Cheat_Sheet.md)

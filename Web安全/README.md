@@ -1,40 +1,69 @@
-- 点击劫持
+# Web 安全
 
-用 iframe 将一个网站内嵌，然后 opacity 设为 0 进行隐藏，真实显示的是一些按钮等与用户交互的元素，诱导用户点击，而用户实际点击的是内嵌的网站。从而进行一些非法操作，盗取用户敏感信息。
+## 总结
 
-例如：
+- [XSS](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/XSS)
 
-![](./imgs/click_hijack.png)
+  攻击类型：
 
-- 点击劫持的防御
+    - 反射型
 
-  - 使用 JS
+      **原因：** 通过 URL 参数发送的数据（可能混入 XSS 代码），没有进行处理，直接显示在页面上。
+      
 
-    > top.location === window.location
+    - 存储型
 
-    `top.location` 指向网站主体的 window 对象，而 `window.location` 指向 iframe 的 window 对象
+      **原因：** 接收到的数据（可能混入 XSS 代码）没有进行处理，直接保存在了服务端。
 
-    通过对比这两个属性的值，就可以判断网站有没有被其他网站使用 iframe 嵌套，当被其他网站使用 iframe 引用时，直接跳转回来：
+  **防御：**
+  
+    - 对数据进行转义和过滤
+    - 设置 HTTP 请求头 `Content-Security-Policy` (CSP)
+    - 设置 HTTP 响应头 `X-XSS-Protection`
+    - 浏览器自带防御功能（用处不大）
 
-    ```js
-    if (top.location === window.location) {
-      top.location = window.location;
-    }
-    ```
+- [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
-    > 当 JS 被禁用，这种方法就会失效
+  攻击类型：
 
-  - 使用 HTTP 响应头 x-frame-options 来禁止被 iframe 内嵌
+    - GET
 
-    [https://developer.mozilla.org/zh-CN/docs/Web/HTTP/X-Frame-Options](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/X-Frame-Options)
+      **原因：** 通过 URL 参数直接修改数据或资源，并且没有进行安全验证。
 
-    它的取值如下：
+    - POST
 
-    ![](./imgs/x-frame-options.png)
+      **原因：** 使用 `Cookies` 不合理，并且没有对数据进行安全性处理。
 
-    兼容性： IE8+
+    - 超链接类型
 
-使用：设置 x-frame-options 响应头为主，使用 JS 检测为辅。
+      > 将 GET 类型攻击嵌入超链接中
 
-- HTTP 传输窃听
+      原因同 GET 类型攻击。
 
+  **防御：** 
+
+    - 同源检测
+
+      - 检测 HTTP 请求头 `Origin`
+      - 检测 HTTP 请求头 `Referer`
+      - 设置 HTTP 响应头 `Referrer-Policy`
+        
+        > 设置 `Referrer-Policy` 的方式：
+        >
+        > - 通过 CSP 设置
+        > - 使用 meta 标签设置
+        > - a 标签添加 referrerpolicy 属性设置
+
+    - 设置 HTTP 响应头 `Set-Cookie` 的 `Same-Site` 属性
+    - 使用 `Token`
+    - 双重 `Cookies` 验证
+
+- [点击劫持](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/%E7%82%B9%E5%87%BB%E5%8A%AB%E6%8C%81)
+
+  **原因：** 网站允许被第三方网站通过 `iframe` 内嵌。
+  **防御：** 设置 HTTP 响应头 `x-frame-options`，或使用 JS 判断网站顶层对象是否是 `Window`
+
+## 辅助工具
+
+
+检测网站设置的 HTTP 安全头：[Security Headers](https://securityheaders.com/)
