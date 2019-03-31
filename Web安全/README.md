@@ -17,6 +17,7 @@
 
   **防御：**
   
+    - 浏览器自带一小部分防御功能
     - 对数据进行转义和过滤
     - 设置 HTTP 请求头 `Content-Security-Policy` (CSP)
 
@@ -26,9 +27,7 @@
 
     - 设置 HTTP 响应头 `X-XSS-Protection`
 
-      ![](https://raw.githubusercontent.com/liuyib/study-note/master/Web%E5%AE%89%E5%85%A8/XSS/imgs/browser_xss_protectino.png)
-
-    - 浏览器自带防御功能（用处不大）
+      ![](./imgs/x-xss-protection.png)
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
@@ -54,26 +53,55 @@
 
       - 检测 HTTP 请求头 `Origin`
       - 检测 HTTP 请求头 `Referer`
-      - 设置 HTTP 响应头 `Referrer-Policy`
-        
-        > 设置 `Referrer-Policy` 的方式：
-        >
-        > - 通过 CSP 设置
-        > `Content-Security-Policy: strict-origin-when-cross-origin`
-        > - 使用 meta 标签设置
-        > `<meta name="referrer" content="no-referrer|no-referrer-when-downgrade|origin|origin-when-crossorigin|unsafe-url">`
-        > - a 标签添加 referrerpolicy 属性设置
 
-    - 设置 HTTP 响应头 `Set-Cookie` 的 `Same-Site` 属性
-    - 使用 `Token`
+    - 设置 HTTP 响应头 `Referrer-Policy`
+
+      ![](https://raw.githubusercontent.com/liuyib/study-note/master/Web%E5%AE%89%E5%85%A8/CSRF/imgs/referer_policy.png)
+      
+      > 设置 `Referrer-Policy` 的方式：
+      >
+      > - 通过 CSP 设置
+      > 示例：`Content-Security-Policy: same-origin`
+      >
+      > - 使用 meta 标签设置
+      > 示例：`<meta name="referrer" content="same-origin">`
+      >
+      > - a 标签添加 `referrer` 属性设置
+      > 示例：`<a href="http://example.com" referrer="no-referrer|origin|unsafe-url"></a>`
+      >   > 这种方式只作用于单个链接
+
+    - 设置 HTTP 响应头 `Set-Cookie` 的 `SameSite` 属性
+
+      示例：
+
+      ![](./imgs/github_same_site.png)
+
+    - 使用 `Token` 验证
     - 双重 `Cookies` 验证
 
 - [点击劫持](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/%E7%82%B9%E5%87%BB%E5%8A%AB%E6%8C%81)
 
-  **原因：** 网站允许被第三方网站通过 `iframe` 内嵌。
-  **防御：** 设置 HTTP 响应头 `x-frame-options`，或使用 JS 判断网站顶层对象是否是 `Window`
+  **原因：** 网站允许被第三方网站通过 `iframe (frame)` 内嵌。
+  **防御：**
+  
+    - 设置 HTTP 响应头 `x-frame-options`
+
+      ![](./imgs/x-frame-options.png)
+  
+      > 非标准 HTTP 头
+
+    - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
+
+      ![](./imgs/frame-ancestor.png)
+
+    - 使用 JS 判断网站的顶层对象是否改变
+
+      ``` js
+      if (top !== self) {
+        top.location = self.location;
+      }
+      ```
 
 ## 辅助工具
 
-
-检测网站设置的 HTTP 安全头：[Security Headers](https://securityheaders.com/)
+检测网站 HTTP 安全头的设置情况：[Security Headers](https://securityheaders.com/)
