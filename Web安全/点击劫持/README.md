@@ -12,7 +12,7 @@
 
 当被其他网站使用 `iframe` 引用时，直接跳转回来：
 
-```js
+``` js
 if (top !== self) {
   top.location = self.location;
 }
@@ -20,7 +20,7 @@ if (top !== self) {
 
 > 当 JS 被禁用，这种方法就会失效。并且这种方法有很多避开的方法。
 
-### 使用 HTTP 响应头 `X-Frame-Options`
+### 设置 HTTP 响应头 `X-Frame-Options`
 
 取值如下：
 
@@ -30,7 +30,7 @@ if (top !== self) {
 
 详尽信息可以查阅：[MDN: X-Frame-Options](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/X-Frame-Options)
 
-### CSP 的 `frame-ancestors` 属性
+### 设置 HTTP 响应头 CSP 的 `frame-ancestors` 属性
 
 作用和 HTTP 响应头 `X-Frame-Options` 一样，是它的替代品。
 
