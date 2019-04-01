@@ -2,6 +2,8 @@
 
 ## 总结
 
+- [密码安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/%E5%AF%86%E7%A0%81%E5%AE%89%E5%85%A8)
+- [Cookies安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/Cookies%E5%AE%89%E5%85%A8)
 - [XSS](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/XSS)
 
   攻击类型：
@@ -102,6 +104,18 @@
       }
       ```
 
+- [SQL 注入](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/SQL%E6%B3%A8%E5%85%A5)
+
 ## 辅助工具
 
 检测网站 HTTP 安全头的设置情况：[Security Headers](https://securityheaders.com/)
+
+
+----
+
+var pass = 字符串 + 用户ID + 字符串 + 密码 +字符串 + 盐值 + 字符串;
+然后进行三次（两次）加密，例如：sha256(sha1(md5(pass)))
+
+密码频率设置
+
+前端密码传输加密
