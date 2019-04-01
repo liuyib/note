@@ -15,16 +15,16 @@
 
 例子：
 
-使用 express 脚手架（express-generator）搭建一个服务器
+使用 express 脚手架（`express-generator`）搭建一个服务器
 在 views/index.ejs 页面中添加代码：
 
-```javascript
+``` js
 <%- xss %> // 注意这里的写法，不是 <%= %> ，因为不能让 XSS 代码进行转义，用 = 号就会进行转义
 ``` 
 
-在 routes/index.js 中添加代码：
+在 `routes/index.js` 中添加代码：
 
-```diff
+``` diff
 router.get('/', function(req, res, next) {
   res.set('X-XSS-Protection', 0);
   res.render('index', {
@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
 
 在浏览器地址栏输入：
 
-```javascript
+``` js
 // onerror 会自动触发
 localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 ```
@@ -47,8 +47,9 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 
 - 攻击代码在 URL 中
 - 服务端要解析 URL 中的查询参数，并返回给页面进行渲染
-- 攻击使用的标签不限于 img，也可以是 iframe，script 等
-  ```javascript
+- 攻击使用的标签不限于 `img`，也可以是 `iframe，script` 等
+
+  ``` js
   // 加载一个页面
   localhost:3000/?xss=<iframe src="//baidu.com"></iframe>
 
@@ -66,7 +67,7 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 
 - HTML 节点内容
 
-  ```diff
+  ``` diff
   <div>
     ...
   +   文本中带有JS代码<script>alert(1);</script>
@@ -76,7 +77,7 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 
 - HTML 属性
 
-  ```html
+  ``` html
   <!-- 例一 -->
   <a href="javascript:alert('这是XSS脚本');">XSS</a>
 
@@ -87,7 +88,7 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 
 - JavaScript 代码
 
-  ```js
+  ``` js
   var data = ""; // 变量初始值
         ↓
   var data = "hello";alert('这是XSS脚本');""; // 获取数据后的值
@@ -103,7 +104,7 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 
 ## 进行转义、过滤来防御 XSS
 
-> 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（script、style、link、iframe、frame、img）、所有 JS 事件进行过滤。
+> 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（`script、style、link、iframe、frame、img`）、所有 JS 事件进行过滤。
 
 ### 转义
 
@@ -120,9 +121,9 @@ localhost:3000/?xss=<img src="null" onerror="alert(1)" onclick="alert(2)" />
 `&`|`&#38;`|`&amp;`
 空格|`&#160;`|`&nbsp;`
 
-示例代码：
+示例：
 
-```js
+``` js
 function escapeHtml(str) {
   if (!str) return '';
 
@@ -145,7 +146,7 @@ function escapeHtml(str) {
 
 例如：
 
-```js
+``` js
 // 有一个数据
 var data = "";
 
@@ -160,9 +161,9 @@ hello";alert(1);"
 
 转义的方法：
 
-将 `'`，`"`，`\` 等进行转义
+将 `'` `"` `\` 等进行转义
 
-```js
+``` js
 function escapeJS(str) {
   if (!str) return '';
 
@@ -176,24 +177,24 @@ function escapeJS(str) {
 
 上面的转义方法比较麻烦，而且可能会漏掉某些特殊字符，这里使用 `JSON.stringify` 进行转义最保险：
 
-```js
+``` js
 JSON.stringify(str)
 ```
 
 ### 校正
 
-将转义后的数据反转义得到字符串，使用 DOM Parse 转换字符串为 DOM 对象。然后进行过滤操作。
+将转义后的数据反转义得到字符串，使用 `DOM Parse` 转换字符串为 DOM 对象。然后进行过滤操作。
 
 ### 过滤
 
-- 过滤危险的标签。例如：script、style、iframe、frame、img 等
+- 过滤危险的标签。例如：`script、style、iframe、frame、img` 等
 - 过滤文本中包含的 JS 事件
 - **对富文本过滤**（一般在客户端进行）
 
-  > 过滤富文本相对来说比较复杂。由于富文本的实现原理是通过添加 html 标签和 css 属性，所以并不能直接将所有的标签和属性全过滤掉。有两种可选的方法：
+  > 过滤富文本相对来说比较复杂。由于富文本的实现原理是通过添加 HTML 标签和 CSS 属性，所以并不能直接将所有的标签和属性全过滤掉。有两种可选的方法：
   > 
   > - 黑名单过滤
-  >   过滤危险的标签、属性、方法、以及一些特殊的代码（javascript:alert(1);）等
+  >   过滤危险的标签、属性、方法、以及一些特殊的代码（`javascript:alert(1);`）等
   > 
   > - 白名单过滤
   >   只保留安全的标签和属性
@@ -202,9 +203,9 @@ JSON.stringify(str)
 
   <br />
 
-  借助 cheerio 进行 XSS 过滤的示例代码：
+  借助 cheerio 进行 XSS 过滤的示例：
 
-  ```js
+  ``` js
   // cheerio 解析后返回的对象如下：
   [
     {
@@ -250,9 +251,9 @@ JSON.stringify(str)
 
 XSS 过滤的第三方库推荐：[js-xss](https://github.com/leizongmin/js-xss)
 
-使用 js-xss 库过滤 XSS 脚本示例代码：
+使用 `js-xss` 库过滤 XSS 脚本示例：
 
-```js
+``` js
 var xssFilter = function (html) {
   if (!html) return '';
 
@@ -278,15 +279,15 @@ var xssFilter = function (html) {
 
 CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻击，例如：XSS 和数据注入等。
 
-该安全策略的实现基于一个 http 请求头： `Content-Security-Policy`。通过设置 CSP 的值来指定网页中哪些内容可以执行，哪些内容不可以执行。只有设置的内容才能被执行，没有设置的都会被阻止。
+该安全策略的实现基于一个 HTTP 请求头： `Content-Security-Policy`。通过设置 CSP 的值来**指定网页中哪些内容可以执行，哪些内容不可以执行**。只有设置的内容才能被执行，没有设置的都会被阻止。
 
 可以设置的内容有：
 
 ![](./imgs/browser_csp_value.png)
 
-例如，指定内容能从 `文档源` 和 `www.example.com` 加载：
+例如，指定内容能从 `文档源`、`www.example.com` 和 任何子域为 `example2.com` 的源加载：
 
-```js
+``` js
 Content-Security-Policy: default-src 'self' www.example.com *.example2.com
                               ↓        ↓           ↓
                            策略指令   关键字      源列表 (可有多个值，用空格间隔)
@@ -303,13 +304,11 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 - `script-src`
 - `style-src`
 
-使用示例：
-
-GitHub 某页面的 CSP 设置如下：
+示例：
 
 ![](./imgs/github_csp_example.png)
 
-可以看到 GitHub 不仅限制了哪些资源可以执行，而且设置了 `block-all-mixed-content` (只能通过 HTTPS 加载资源)和 `frame-ancestors` (防御点击劫持攻击)
+如图不仅设置了网站中允许执行的内容，而且设置了 `block-all-mixed-content` (只能通过 HTTPS 加载资源) 和 `frame-ancestors` (防御点击劫持攻击)
 
 学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
