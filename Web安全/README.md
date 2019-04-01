@@ -29,7 +29,7 @@
 
     - 设置 HTTP 响应头 `X-XSS-Protection`
 
-      ![](./imgs/x-xss-protection.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/x-xss-protection.png?token=Akc2p_d7fIopZmL67btuRwc_rjhJU_3tks5cq20KwA%3D%3D)
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
@@ -76,7 +76,7 @@
 
       示例：
 
-      ![](./imgs/github_same_site.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/github_same_site.png?token=Akc2p9wsz5QcNbWyU1cZe5b9rZPyj8cFks5cq20mwA%3D%3D)
 
     - 使用 `Token` 验证
     - 双重 `Cookies` 验证
@@ -88,13 +88,13 @@
   
     - 设置 HTTP 响应头 `x-frame-options`
 
-      ![](./imgs/x-frame-options.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/x-frame-options.png?token=Akc2p6q4pzHU_HvvboGROd3d_0C2OYmYks5cq20_wA%3D%3D)
   
       > 非标准 HTTP 头
 
     - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
 
-      ![](./imgs/frame-ancestor.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/frame-ancestor.png?token=Akc2p42rskT9auT6OLZ2Tbldxxy-WKtmks5cq21CwA%3D%3D)
 
     - 使用 JS 判断网站的顶层对象是否改变
 
