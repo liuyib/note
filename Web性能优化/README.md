@@ -5,7 +5,7 @@
 - 浏览器渲染层面
 - 服务端层面
 
-> **深入理解 http 请求是前端性能优化的核心**
+> **深入理解 HTTP 请求是前端性能优化的核心**
 
 ## 一个网络请求
 
@@ -18,33 +18,33 @@
 - 是否可以通过缓存减少 dns 查询时间？
 - 是否网络请求的过程走最近的网络环境？
 - 相同的静态资源是否可以缓存？
-- 能否减少 http 请求的大小？
-- 减少 http 请求次数
+- 能否减少 HTTP 请求的大小？
+- 减少 HTTP 请求次数
 - 服务端渲染
 
 ## 需要优化的地方
 
 - **资源的合并与压缩**
 
-  > 减少 http 请求数量 和 减少请求资源大小
+  > 减少 HTTP 请求数量 和 减少请求资源大小
 
-  - html 压缩
+  - HTML 压缩
 
     - nodejs 提供的 `html-minifier` 压缩
     - 后端模板引擎渲染压缩
 
-  - css 压缩
+  - CSS 压缩
 
     压缩点：
 
     - 删除无效代码
     - 删除注释
-    - css 语义合并
+    - CSS 语义合并
 
     压缩方法：
 
-    - 使用 `html-minifier` 对 html 中的 css 进行压缩
-    - 使用 `clean-css` 对 css 进行压缩
+    - 使用 `html-minifier` 对 HTML 中的 CSS 进行压缩
+    - 使用 `clean-css` 对 CSS 进行压缩
 
   - JavaScript 压缩与混乱
 
@@ -57,7 +57,7 @@
 
     压缩方法：
 
-    - 使用 `html-minifier` 对 html 中的 js 进行压缩
+    - 使用 `html-minifier` 对 HTML 中的 js 进行压缩
     - 使用 `uglifyjs2` 对 js 进行压缩
 
   **不进行文件合并带来的一些问题：**
@@ -143,7 +143,7 @@
     - 使用 `img` 标签，提前请求好，然后通过控制样式将其隐藏。
     - 使用 JS 中的 `Image` 对象。
 
-    ```js
+    ``` js
     var img = new Image();
     img.src = "https://xxx.png";
     ```
@@ -171,7 +171,7 @@
 
     **会触发回流的属性：**
 
-    ![](./imgs/css_backflow.png)
+    ![](./imgs/CSS_backflow.png)
 
   - 重绘
 
@@ -201,12 +201,12 @@
 
   - 对于那些会强制 flush 浏览器队列的 CSS 属性，不要放在循环里。这些 CSS 属性如下：
 
-    ```css
+    ``` CSS
     offsetTop, offsetLeft, offsetWidth, offsetHeight
     scrollTop / Left / Width / Height
     clientTop / Left / Width / Height
     width, height
-    getComputedStyle(), 或者 IE的 currentStyle
+    getComputedStyle() 或者 IE 的 currentStyle
     ```
 
     > 使用这些属性时，浏览器会强制刷新队列，使得回流重绘每次都要进行
