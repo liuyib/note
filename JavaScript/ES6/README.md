@@ -1,6 +1,4 @@
-[babel 简单配置](https://github.com/liuyib/study-note/blob/master/JavaScript/ES6/babel.md)
-
-[ES6基础部分](https://github.com/liuyib/study-note/blob/master/JavaScript/ES6/ES6-%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86.md)
+[ES6](https://github.com/liuyib/study-note/blob/master/JavaScript/ES6/ES6.md)
 
 > 目录
 > - 解构赋值
