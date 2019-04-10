@@ -272,3 +272,114 @@ list.getHead();      // => 链表的头结点为：
 
 ## 双向链表
 
+> 这里只实现了部分方法
+
+``` js
+class Node {
+  constructor(elem) {
+    this.elem = elem;
+    this.next = null;
+  }
+}
+
+class DoubleNode extends Node {
+  constructor(elem) {
+    super(elem);
+    this.prev = null;
+  }
+}
+
+class DoubleLinkList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+  // 向链表末尾添加元素
+  push(elem) {
+    const node = new DoubleNode(elem);
+
+    if (this.head === null) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      this.tail.next = node;
+      node.prev = this.tail;
+      this.tail = node;
+    }
+
+    this.length++;
+  }
+
+  // 在任意位置插入元素
+  insert(pos, elem) {
+    pos--; // 位置转为索引
+
+    if (pos < 0 || pos > this.length) {
+      return false;
+    } else {
+      const node = new DoubleNode(elem);
+      let index = 0;
+      let curr = this.head;
+
+      if (pos === 0) {
+        if (this.head === null) {
+          this.head = node;
+          this.tail = node;
+        } else {
+          node.next = this.head;
+          this.head.prev = node;
+          this.head = node;
+        }
+      } else if (pos === this.length) {
+        this.tail.next = node;
+        node.prev = this.tail;
+        this.tail = node;
+      } else {
+        while (index < pos) {
+          curr = curr.next;
+          index++;
+        }
+
+        node.next = curr;
+        curr.prev.next = node;
+        curr.prev = node;
+        node.prev = curr.prev;
+      }
+
+      this.length++;
+      return true;
+    }
+  }
+
+  print() {
+    let curr = this.head;
+    let index = 0;
+
+    console.log(`链表元素如下：`);
+    while (curr) {
+      console.log(`${index}: ${curr.elem}`);
+      curr = curr.next;
+      index++;
+    }
+  }
+}
+
+let list = new DoubleLinkList();
+
+list.push(7);
+list.push(1);
+list.push(4);
+list.print(); // 链表元素如下：
+              // 0: 7
+              // 1: 1
+              // 2: 4
+
+list.insert(2, 9);
+list.print(); // 链表元素如下：
+              // 0: 7
+              // 1: 9
+              // 2: 1
+              // 3: 4
+```
