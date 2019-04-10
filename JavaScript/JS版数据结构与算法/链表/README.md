@@ -5,55 +5,55 @@
 > 使用 Proxy 对链表的方法进行了处理，可以省略的，为了练手 Proxy 哈
 
 ``` js
-function LinkList() {
-  this.Node = function(elem) {
+class Node {
+  constructor(elem) {
     this.elem = elem;
     this.next = null;
-  };
-  this.head = null;
-  this.length = 0;
+  }
 }
 
-Object.assign(LinkList.prototype, {
+class LinkList {
+  constructor() {
+    this.head = null;
+    this.length = 0;
+  }
+
   // 向链表末尾添加节点
-  append(elem) {
-    let Node = this.Node;
-    let newNode = new Node(elem);
+  push(elem) {
+    let node = new Node(elem);
     let curr = null;
 
     if (this.head === null) {
-      this.head = newNode;
+      this.head = node;
     } else {
       curr = this.head;
 
-      // 找到链表末尾的元素
       while (curr.next) {
         curr = curr.next;
       }
 
-      curr.next = newNode;
+      curr.next = node;
     }
 
     this.length++;
     return true;
-  },
+  }
+
   // 向指定位置插入元素
   insert(pos, elem) {
     pos--; // 位置转为索引
 
-    // 向末尾位置插入元素时，这个位置的索引值为 this.length
     if (pos < 0 || pos > this.length) {
       return false;
     } else {
-      let Node = this.Node;
-      let newNode = new Node(elem); // 新添加的节点
+      let node = new Node(elem); // 新添加的节点
       let index = 0;
       let prev = null;
       let curr = this.head;
 
       if (pos === 0) {
-        newNode.next = curr;
-        this.head = newNode;
+        node.next = curr;
+        this.head = node;
       } else {
         while (index < pos) {
           prev = curr;
@@ -61,20 +61,22 @@ Object.assign(LinkList.prototype, {
           index++;
         }
 
-        newNode.next = curr;
-        prev.next = newNode;
+        node.next = curr;
+        prev.next = node;
       }
 
       this.length++;
       return true;
     }
-  },
+  }
+
   // 删除指定的元素
   remove(elem) {
     return this.indexOf(elem) !== -1
       ? this.removeAt(this.indexOf(elem) + 1)
       : false;
-  },
+  }
+
   // 删除指定位置的元素
   removeAt(pos) {
     pos--; // 位置转为索引
@@ -102,7 +104,8 @@ Object.assign(LinkList.prototype, {
       curr = null; // 释放内存
       return true;
     }
-  },
+  }
+
   // 查找指定元素的索引
   indexOf(elem) {
     let curr = this.head;
@@ -118,19 +121,23 @@ Object.assign(LinkList.prototype, {
     }
 
     return -1; // 未找到指定元素
-  },
+  }
+
   // 判断链表是否为空
   isEmpty() {
     return this.length === 0;
-  },
+  }
+
   // 获取链表的长度
   size() {
     return this.length;
-  },
+  }
+
   // 获取链表的头结点
   getHead() {
     return this.head;
-  },
+  }
+
   // 打印链表所有的元素
   print() {
     let curr = this.head;
@@ -144,11 +151,11 @@ Object.assign(LinkList.prototype, {
     }
     console.log();
   }
-});
+}
 
 // 链表的方法名
 const listMethod = {
-  append: "append",
+  push: "push",
   insert: "insert",
   remove: "remove",
   removeAt: "removeAt",
@@ -164,7 +171,7 @@ let list = new Proxy(new LinkList(), {
   get(tar, prop) {
     return function(...args) {
       switch (prop) {
-        case listMethod.append:
+        case listMethod.push:
           console.log(`添加元素 ${args[0]} ${
             tar[prop](args[0]) ? '成功' : '失败'
           }`);
@@ -209,10 +216,10 @@ let list = new Proxy(new LinkList(), {
 
 list.isEmpty();      // => 链表为空
 
-list.append(3);      // => 添加元素 3 成功
-list.append(7);      // => 添加元素 7 成功
-list.append(1);      // => 添加元素 1 成功
-list.append(5);      // => 添加元素 5 成功
+list.push(3);        // => 添加元素 3 成功
+list.push(7);        // => 添加元素 7 成功
+list.push(1);        // => 添加元素 1 成功
+list.push(5);        // => 添加元素 5 成功
 
 list.print();        // => 链表元素如下：
                      // => 0: 3
