@@ -15,7 +15,9 @@
 
 - HTML
 
-  - [HTML5](https://github.com/liuyib/study-note/tree/master/HTML/HTML5)
+  - [掘金小册--大厂H5开发实战](https://github.com/liuyib/study-note/tree/master/HTML/HTML5/%E5%A4%A7%E5%8E%82H5%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98)
+    - [基础页面开发](https://github.com/liuyib/study-note/blob/master/HTML/HTML5/%E5%A4%A7%E5%8E%82H5%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/%E5%9F%BA%E7%A1%80%E9%A1%B5%E9%9D%A2%E5%BC%80%E5%8F%91.md)
+  - [HTML5 知识总结](https://github.com/liuyib/study-note/tree/master/HTML/HTML5)
 
 - CSS
 
