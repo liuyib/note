@@ -25,11 +25,11 @@
 
       示例：
 
-      ![](https://raw.githubusercontent.com/liuyib/study-note/master/Web%E5%AE%89%E5%85%A8/XSS/imgs/github_csp_example.png)
+      ![](./XSS/imgs/github_csp_example.png)
 
     - 设置 HTTP 响应头 `X-XSS-Protection`
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/x-xss-protection.png?token=Akc2p_d7fIopZmL67btuRwc_rjhJU_3tks5cq20KwA%3D%3D)
+      ![](./imgs/x-xss-protection.png)
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
@@ -58,7 +58,7 @@
 
     - 设置 HTTP 响应头 `Referrer-Policy`
 
-      ![](https://raw.githubusercontent.com/liuyib/study-note/master/Web%E5%AE%89%E5%85%A8/CSRF/imgs/referer_policy.png)
+      ![](./CSRF/imgs/referer_policy.png)
       
       > 设置 `Referrer-Policy` 的方式：
       >
@@ -76,7 +76,7 @@
 
       示例：
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/github_same_site.png?token=Akc2p9wsz5QcNbWyU1cZe5b9rZPyj8cFks5cq20mwA%3D%3D)
+      ![](./imgs/github_same_site.png)
 
     - 使用 `Token` 验证
     - 双重 `Cookies` 验证
@@ -88,13 +88,13 @@
   
     - 设置 HTTP 响应头 `x-frame-options`
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/x-frame-options.png?token=Akc2p6q4pzHU_HvvboGROd3d_0C2OYmYks5cq20_wA%3D%3D)
+      ![](./imgs/x-frame-options.png)
   
       > 非标准 HTTP 头
 
     - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/Web%E5%AE%89%E5%85%A8/frame-ancestor.png?token=Akc2p42rskT9auT6OLZ2Tbldxxy-WKtmks5cq21CwA%3D%3D)
+      ![](./imgs/frame-ancestors.png)
 
     - 使用 JS 判断网站的顶层对象是否改变
 
@@ -110,8 +110,7 @@
 
 检测网站 HTTP 安全头的设置情况：[Security Headers](https://securityheaders.com/)
 
-
-----
+---
 
 var pass = 字符串 + 用户ID + 字符串 + 密码 +字符串 + 盐值 + 字符串;
 然后进行三次（两次）加密，例如：sha256(sha1(md5(pass)))
