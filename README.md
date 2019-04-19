@@ -6,6 +6,7 @@
 - [为什么会有 OPTIONS 预请求 - CORS 跨域](https://github.com/liuyib/study-note/issues/2)
 - [去除 Chrome 中 input 框自动填充的黄色背景](https://github.com/liuyib/study-note/issues/3)
 - [纯 CSS 导航栏下划线跟随效果](https://github.com/liuyib/study-note/issues/5)
+- [原生JS实现基于用户行为预测的无延迟二级菜单](https://github.com/liuyib/study-note/issues/6)
 
 ## 知识总结
 
