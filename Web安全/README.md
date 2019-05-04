@@ -11,7 +11,6 @@
     - 反射型
 
       **原因：** 通过 URL 参数发送的数据（可能混入 XSS 代码），没有进行处理，直接显示在页面上。
-      
 
     - 存储型
 
@@ -29,7 +28,7 @@
 
     - 设置 HTTP 响应头 `X-XSS-Protection`
 
-      ![](./imgs/x-xss-protection.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-xss-protection.png)
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
@@ -76,7 +75,7 @@
 
       示例：
 
-      ![](./imgs/github_same_site.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/github_same_site.png)
 
     - 使用 `Token` 验证
     - 双重 `Cookies` 验证
@@ -88,13 +87,13 @@
   
     - 设置 HTTP 响应头 `x-frame-options`
 
-      ![](./imgs/x-frame-options.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-frame-options.png)
   
       > 非标准 HTTP 头
 
     - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
 
-      ![](./imgs/frame-ancestors.png)
+      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/frame-ancestors.png)
 
     - 使用 JS 判断网站的顶层对象是否改变
 
@@ -109,12 +108,3 @@
 ## 辅助工具
 
 检测网站 HTTP 安全头的设置情况：[Security Headers](https://securityheaders.com/)
-
----
-
-var pass = 字符串 + 用户ID + 字符串 + 密码 +字符串 + 盐值 + 字符串;
-然后进行三次（两次）加密，例如：sha256(sha1(md5(pass)))
-
-密码频率设置
-
-前端密码传输加密
