@@ -19,7 +19,7 @@
 https://a.com/?xss=<img src="null" onerror="alert(1)" />
 ```
 
-在页面初始加载时，就会弹出数字 1。
+如果上面的查询参数 `xss` 直接显示在页面中，那么当访问这个页面后，就会弹出数字 1。这样就进行了一次简单的 XSS 攻击。
 
 **对于反射型 XSS 攻击，有以下几点需要注意：**
 
@@ -61,11 +61,11 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
 
   ``` html
   <!-- 例一 -->
-  <a href="javascript:alert('这是XSS脚本');">XSS</a>
+  <a href="javascript:alert('这是XSS脚本');"></a>
 
   <!-- 例二 -->
   <img src="null" onerror="alert('XSS脚本');" />
-  这里 src 属性的值是 null" onerror="alert('XSS脚本'); 其中包含的特殊字符改变了双引号的边界，从而被注入了 XSS 脚本
+  <!-- 这里 src 属性的值是 `null" onerror="alert('XSS脚本');` 这个值改变了双引号的边界，从而实现 XSS 攻击。 -->
   ```
 
 - JS 代码
@@ -75,22 +75,22 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
         ↓
   var data = "hello";alert('这是XSS脚本');""; // 获取数据后的值
 
-  // 这里获取到的数据为 hello";alert('这是XSS脚本');" 其中包含的特殊符号改变了字符串的边界，从而被注入了 XSS 脚本
+  // 这里获取到的数据为 hello";alert('这是XSS脚本');" 其中包含的特殊符号改变了字符串的边界，从而实现了 XSS 攻击。
   ```
 
 - 富文本
 
   > 由于富文本编辑器是通过添加 HTML 标签和属性来实现的，所以如果用户输入的信息中包含一些恶意脚本代码，那么这些恶意脚本代码也会被执行。
 
-**这些 XSS 代码之所以能被显示在页面上，是因为没有对接收的数据进行过滤。**
-
 ## 防御 XSS 攻击
+
+### 编写代码防御
 
 > 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（`script、style、link、iframe、frame、img`）、所有 JS 事件进行过滤。
 
-### 1、转义
+**1、转义**
 
-- **对 HTML 代码进行转义**
+（1）对 HTML 代码进行转义
 
 一般会对下面的字符进行转义：
 
@@ -122,7 +122,7 @@ function escapeHtml(str) {
 }
 ```
 
-- **对 JS 代码进行转义**
+（2）对 JS 代码进行转义
 
 如果数据中存在某些特殊符号，就会使得 JS 中的字符边界改变，从而产生新的 JS 语句，这些新的 JS 语句可以是任意的恶意脚本。
 
@@ -163,11 +163,11 @@ function escapeJS(str) {
 JSON.stringify(str)
 ```
 
-### 2、校正
+**2、校正**
 
 将转义后的数据反转义得到字符串，使用 `DOM Parse` 转换字符串为 DOM 对象。然后进行过滤操作。
 
-### 3、过滤
+**3、过滤**
 
 - 过滤危险的标签。例如：`script、style、iframe、frame、img` 等
 - 过滤文本中包含的 JS 事件
@@ -257,7 +257,7 @@ var xssFilter = function (html) {
 
 > 第三方库过滤 XSS 适用于快速开发。如果业务要求对每一种情况进行精确控制，那么还是需要自己手写过滤代码。
 
-## 设置 HTTP 请求头 CSP 防御 XSS
+### 设置 HTTP 请求头 CSP 防御 XSS
 
 CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻击，例如：XSS 和数据注入等。
 
@@ -294,7 +294,7 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 
 学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
-## 设置 HTTP 响应头 X-XSS-Protection  防御 XSS
+### 设置 HTTP 响应头 X-XSS-Protection  防御 XSS
 
 通过设置 HTTP 响应头：`X-XSS-Protection: 1; mode=block`
 
@@ -302,6 +302,10 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 
 ![](./imgs/browser_xss_protectino.png)
 
-## 浏览器自带 XSS 防御
+### 浏览器自带 XSS 防御
 
 > 关于浏览器自带的 XSS 防御，只能防御反射型的 XSS 攻击。并且如果反射型的 XSS 代码被注入到 JS 中，那么浏览器并不会拦截。
+
+### 设置 HttpOnly
+
+通过设置 HttpOnly 使得 Cookies 只能通过 `Set-Cookie` 来设置，这样可以避免 XSS 代码窃取 Cookies。
