@@ -1,120 +1,132 @@
 // 未经过优化的冒泡排序
-function sort(arr) {
-  var time = new Date().getTime();
-
-  for (var i = 0; i < arr.length - 1; i++) {
-    for (var j = 0; j < arr.length - i - 1; j++) {
+Array.prototype.bubble_sort = function () {
+  for (var i = 0; i < this.length - 1; i++) {
+    for (var j = 0; j < this.length - i - 1; j++) {
       var tmp = 0;
 
-      if (arr[j] > arr[j + 1]) {
-        tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
+      if (this[j] > this[j + 1]) {
+        tmp = this[j];
+        this[j] = this[j + 1];
+        this[j + 1] = tmp;
       }
     }
   }
-
-  console.log(new Date().getTime() - time);
 }
 
 // 加标志位优化
-function sort2(arr) {
-  var time = new Date().getTime();
+Array.prototype.bubble_sort2 = function () {
+  for (var i = 0; i < this.length - 1; i++) {
+    // 数组是否已经排好序
+    var isSorted = true;
 
-  for (var i = 0; i < arr.length - 1; i++) {
-    var isSorted = true; // 数组是否已经排好序
-
-    for (var j = 0; j < arr.length - i - 1; j++) {
+    for (var j = 0; j < this.length - i - 1; j++) {
       var tmp = 0;
 
-      if (arr[j] > arr[j + 1]) {
-        tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
-        isSorted = false; // 只要有元素交换，都将标记转为 false
+      if (this[j] > this[j + 1]) {
+        tmp = this[j];
+        this[j] = this[j + 1];
+        this[j + 1] = tmp;
+        // 只要有元素交换，都将标记转为 false
+        isSorted = false;
       }
     }
 
     if (isSorted) break;
   }
-
-  console.log(new Date().getTime() - time);
 }
 
 // 加有序区优化
-function sort3(arr) {
-  var time = new Date().getTime();
+Array.prototype.bubble_sort3 = function () {
+  //记录最后一次交换的位置
+  var lastExchangeIndex = 0;
+  var sortBorder = this.length - 1;
+  var tmp = 0;
 
-  for (var i = 0; i < arr.length - 1; i++) {
-    var isSorted = true; // 数组是否已经排好序
-    var sortBorder = arr.length - 1;
+  for (var i = 0; i < this.length - 1; i++) {
+    // 数组是否已经排好序
+    var isSorted = true;
 
     for (var j = 0; j < sortBorder; j++) {
-      var tmp = 0;
-
-      if (arr[j] > arr[j + 1]) {
-        tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
-        isSorted = false; // 只要有元素交换，都将标记转为 false
-        sortBorder = j;
-      }
-    }
-
-    if (isSorted) break;
-  }
-
-  console.log(new Date().getTime() - time);
-}
-
-// 鸡尾酒排序（冒泡排序优化）
-function sort4(arr) {
-  var time = new Date().getTime();
-
-  for (var i = 0; i < arr.length - 1; i++) {
-    var isSorted = true; // 数组是否已经排好序
-    var tmp = 0;
-    var sortBorder = arr.length - 1;
-
-    for (var j = i; j < sortBorder; j++) {
-      if (arr[j] > arr[j + 1]) {
-        tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
-        isSorted = false; // 只要有元素交换，都将标记转为 false
-        sortBorder = j;
-      }
-    }
-
-    isSorted = true;
-    sortBorder = arr.length - i - 1;
-    for (var j = sortBorder; j > i; j--) {
-      if (arr[j] < arr[j - 1]) {
-        tmp = arr[j];
-        arr[j] = arr[j - 1];
-        arr[j - 1] = tmp;
+      if (this[j] > this[j + 1]) {
+        tmp = this[j];
+        this[j] = this[j + 1];
+        this[j + 1] = tmp;
+        // 只要有元素交换，都将标记转为 false
         isSorted = false;
-        sortBorder = j;
+        lastExchangeIndex = j;
       }
     }
+    sortBorder = lastExchangeIndex;
 
     if (isSorted) break;
   }
-
-  console.log(new Date().getTime() - time);
 }
 
-// var arr = [3, 4, 2, 1, 5, 6, 7, 8];
-var len = 100000;
+// 鸡尾酒排序（冒泡排序的升级版）
+Array.prototype.cocktail_sort = function () {
+	var i, left = 0, right = this.length - 1;
+  var temp;
 
+	while (left < right) {
+    var isSorted = true;
+
+		for (i = left; i < right; i++) {
+      if (this[i] > this[i + 1]) {
+				temp = this[i];
+				this[i] = this[i + 1];
+        this[i + 1] = temp;
+        isSorted = false;
+			}
+    }
+    right--;
+
+		for (i = right; i > left; i--) {
+      if (this[i - 1] > this[i]) {
+				temp = this[i];
+				this[i] = this[i - 1];
+        this[i - 1] = temp;
+        isSorted = false;
+			}
+    }
+    left++;
+
+    if (isSorted) break;
+  }
+};
+
+// ==========================================
+// 测试
+// ==========================================
+
+// 数组是否排好序
+function isSort(arr) {
+  var t = true;
+  for (var i = 0; i < arr.length - 2; i++)
+    if (arr[i] > arr[i + 1])
+      t = false;
+
+  return t;
+}
+
+var len = 10000 * 10;
 var arr = [];
+
+// 随机 0~len 之间的数
 for (var k = 0; k < len; k++) {
-  arr.push(parseInt(Math.random() * len));
+  var num = parseInt(Math.random() * len);
+  arr.push(num);
 }
 
-// sort(arr);  // 平均 14.4 s
-// sort2(arr); // 平均 14.2 s
-// sort3(arr); // 平均 35 ms
-// sort4(arr); // 平均 9.5 s
+var time = new Date().getTime();
 
-// console.log(arr);
+// 排序
+// arr.bubble_sort();
+// arr.bubble_sort2();
+arr.bubble_sort3();
+// arr.cocktail_sort();
+
+// 排序执行时间
+console.log(new Date().getTime() - time);
+
+// 确认是否排好序
+console.log(isSort(arr));
