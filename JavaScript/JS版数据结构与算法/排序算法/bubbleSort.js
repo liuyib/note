@@ -1,31 +1,31 @@
 // 未经过优化的冒泡排序
-Array.prototype.bubble_sort = function () {
-  for (var i = 0; i < this.length - 1; i++) {
-    for (var j = 0; j < this.length - i - 1; j++) {
+function bubble_sort(arr) {
+  for (var i = 0; i < arr.length - 1; i++) {
+    for (var j = 0; j < arr.length - i - 1; j++) {
       var tmp = 0;
 
-      if (this[j] > this[j + 1]) {
-        tmp = this[j];
-        this[j] = this[j + 1];
-        this[j + 1] = tmp;
+      if (arr[j] > arr[j + 1]) {
+        tmp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
       }
     }
   }
 }
 
 // 加标志位优化
-Array.prototype.bubble_sort2 = function () {
-  for (var i = 0; i < this.length - 1; i++) {
+function bubble_sort2(arr) {
+  for (var i = 0; i < arr.length - 1; i++) {
     // 数组是否已经排好序
     var isSorted = true;
 
-    for (var j = 0; j < this.length - i - 1; j++) {
+    for (var j = 0; j < arr.length - i - 1; j++) {
       var tmp = 0;
 
-      if (this[j] > this[j + 1]) {
-        tmp = this[j];
-        this[j] = this[j + 1];
-        this[j + 1] = tmp;
+      if (arr[j] > arr[j + 1]) {
+        tmp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
         // 只要有元素交换，都将标记转为 false
         isSorted = false;
       }
@@ -36,21 +36,21 @@ Array.prototype.bubble_sort2 = function () {
 }
 
 // 加有序区优化
-Array.prototype.bubble_sort3 = function () {
+function bubble_sort3(arr) {
   //记录最后一次交换的位置
   var lastExchangeIndex = 0;
-  var sortBorder = this.length - 1;
+  var sortBorder = arr.length - 1;
   var tmp = 0;
 
-  for (var i = 0; i < this.length - 1; i++) {
+  for (var i = 0; i < arr.length - 1; i++) {
     // 数组是否已经排好序
     var isSorted = true;
 
     for (var j = 0; j < sortBorder; j++) {
-      if (this[j] > this[j + 1]) {
-        tmp = this[j];
-        this[j] = this[j + 1];
-        this[j + 1] = tmp;
+      if (arr[j] > arr[j + 1]) {
+        tmp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
         // 只要有元素交换，都将标记转为 false
         isSorted = false;
         lastExchangeIndex = j;
@@ -63,28 +63,28 @@ Array.prototype.bubble_sort3 = function () {
 }
 
 // 鸡尾酒排序（冒泡排序的升级版）
-Array.prototype.cocktail_sort = function () {
-	var i, left = 0, right = this.length - 1;
+function cocktail_sort(arr) {
+	var i, left = 0, right = arr.length - 1;
   var temp;
 
 	while (left < right) {
     var isSorted = true;
 
 		for (i = left; i < right; i++) {
-      if (this[i] > this[i + 1]) {
-				temp = this[i];
-				this[i] = this[i + 1];
-        this[i + 1] = temp;
+      if (arr[i] > arr[i + 1]) {
+				temp = arr[i];
+				arr[i] = arr[i + 1];
+        arr[i + 1] = temp;
         isSorted = false;
 			}
     }
     right--;
 
 		for (i = right; i > left; i--) {
-      if (this[i - 1] > this[i]) {
-				temp = this[i];
-				this[i] = this[i - 1];
-        this[i - 1] = temp;
+      if (arr[i - 1] > arr[i]) {
+				temp = arr[i];
+				arr[i] = arr[i - 1];
+        arr[i - 1] = temp;
         isSorted = false;
 			}
     }
@@ -120,10 +120,10 @@ for (var k = 0; k < len; k++) {
 var time = new Date().getTime();
 
 // 排序
-// arr.bubble_sort();
-// arr.bubble_sort2();
-arr.bubble_sort3();
-// arr.cocktail_sort();
+// bubble_sort(arr);
+// bubble_sort2(arr);
+bubble_sort3(arr);
+// cocktail_sort(arr);
 
 // 排序执行时间
 console.log(new Date().getTime() - time);
