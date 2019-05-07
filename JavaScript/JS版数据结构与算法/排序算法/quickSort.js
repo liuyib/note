@@ -15,7 +15,8 @@ function quick_sort(arr, startIndex, endIndex) {
 function partition(arr, startIndex, endIndex) {
   // 随机选取基准元素
   var pivot = arr[startIndex];
-  var left = startIndex, right = endIndex;
+  var left = startIndex;
+  var right = endIndex;
 
   while (left != right) {
     while (arr[right] > pivot && left < right) {
