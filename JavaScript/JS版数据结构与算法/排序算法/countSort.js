@@ -1,16 +1,21 @@
 // 计数排序
 function count_sort(arr) {
-  var c = [];
+  // 找到最大值，然后根据最大值初始化数组
+  var max = arr[0];
   for (var i = 0; i < arr.length; i++) {
-    var j = arr[i];
-
-    c[j] >= 1 ? c[j]++ : c[j] = 1;
+    if (arr[i] > max) max = arr[i];
+  }
+  
+  // 计数
+  var c = new Array(max + 1).fill(0);
+  for (var i = 0; i < arr.length; i++) {
+    c[arr[i]]++;
   }
 
   // 存放排序结果
   var t = [];
   for (var i = 0; i < c.length; i++) {
-    while (c[j] && c[i] > 0) {
+    while (c[i] && c[i] > 0) {
       t.push(i);
       c[i]--;
     }
@@ -31,11 +36,9 @@ function count_sort2(arr) {
   var d = max - min;
 
   // 创建统计数组，统计元素个数
-  var c = new Array(d).fill(0);
+  var c = new Array(d + 1).fill(0);
   for (var i = 0; i < arr.length; i++) {
-    // 元素在统计数组中的相对位置
-    var j = arr[i] - min;
-    c[j] >= 1 ? c[j]++ : c[j] = 1;
+    c[arr[i] - min]++;
   }
 
   // 改造数组，使得每个元素都等于它前面元素之和
@@ -44,7 +47,7 @@ function count_sort2(arr) {
   }
 
   // 倒序遍历原始数据，根据统计数组找到正确位置，输出结果到数组
-  var t = new Array(arr.length).fill(0);
+  var t = new Array(d + 1).fill(0);
   for (var i = arr.length - 1; i >= 0; i--) {
     var j = arr[i] - min;
     t[c[j] - 1] = arr[i];
