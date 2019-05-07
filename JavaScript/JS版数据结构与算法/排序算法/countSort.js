@@ -19,6 +19,42 @@ function count_sort(arr) {
   return t;
 }
 
+// 优化后的计数排序
+function count_sort2(arr) {
+  // 计算最小值
+  var min = arr[0];
+  var max = arr[0];
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i] < min) min = arr[i];
+    if (arr[i] > max) max = arr[i];
+  }
+  var d = max - min;
+
+  // 创建统计数组，统计元素个数
+  var c = new Array(d).fill(0);
+  for (var i = 0; i < arr.length; i++) {
+    // 元素在统计数组中的相对位置
+    var j = arr[i] - min;
+    c[j] >= 1 ? c[j]++ : c[j] = 1;
+  }
+
+  // 改造数组，使得每个元素都等于它前面元素之和
+  for (var i = 1; i < d + 1; i++) {
+    c[i] += c[i - 1];
+  }
+
+  // 倒序遍历原始数据，根据统计数组找到正确位置，输出结果到数组
+  var t = new Array(arr.length).fill(0);
+  for (var i = arr.length - 1; i >= 0; i--) {
+    var j = arr[i] - min;
+    t[c[j] - 1] = arr[i];
+    // 计数减一
+    c[j]--;
+  }
+
+  return t;
+}
+
 // ==========================================
 // 测试
 // ==========================================
@@ -47,6 +83,7 @@ var time = new Date().getTime();
 
 // 排序
 var sorted = count_sort(arr);
+// var sorted2 = count_sort2(arr);
 
 // 排序执行时间
 console.log(new Date().getTime() - time);
