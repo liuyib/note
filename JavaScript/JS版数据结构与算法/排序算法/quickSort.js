@@ -11,27 +11,31 @@ function quick_sort(arr, startIndex, endIndex) {
   quick_sort(arr, pivotIndex + 1, endIndex);
 };
 
+function swap(arr, i, j) {
+  var tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
+}
+
 // 分治（双向循环法）
 function partition(arr, startIndex, endIndex) {
   // 随机选取基准元素
   var pivot = arr[startIndex];
   var left = startIndex;
   var right = endIndex;
-
+  
   while (left != right) {
-    while (arr[right] > pivot && left < right) {
-      right--;
-    }
-
     while (arr[left] <= pivot && left < right) {
       left++;
     }
 
+    while (arr[right] > pivot && left < right) {
+      right--;
+    }
+
     // 交换左右指针处的元素
     if (left < right) {
-      var tmp = arr[left];
-      arr[left] = arr[right];
-      arr[right] = tmp;
+      swap(arr, left, right);
     }
   }
 
@@ -89,7 +93,8 @@ function isSort(arr) {
 }
 
 // 千万级测试数据
-var len = 10000 * 1000;
+var len = 10000;
+// var len = 10000 * 1000;
 var arr = [];
 
 // 随机 0~len 之间的数
