@@ -99,7 +99,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 
 ![](./imgs/h5-postMessage-win-open.gif)
 
-> Demo 体验地址：[https://liuyib.github.io/pages/demo/notes/h5-postMessage-win-open/index.html](https://liuyib.github.io/pages/demo/notes/h5-postMessage-win-open/index.html)
+> Demo 体验地址：[https://liuyib.github.io/blog/demo/note/h5-postMessage-win-open/index.html](https://liuyib.github.io/blog/demo/note/h5-postMessage-win-open/index.html)
 
 - 使用 `iframe`
 
@@ -142,7 +142,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 
 ![](./imgs/h5-postMessage-iframe.gif)
 
-> Demo 体验地址：[https://liuyib.github.io/pages/demo/notes/h5-postMessage-iframe/](https://liuyib.github.io/pages/demo/notes/h5-postMessage-iframe/)
+> Demo 体验地址：[https://liuyib.github.io/blog/demo/note/h5-postMessage-iframe/index.html](https://liuyib.github.io/blog/demo/note/h5-postMessage-iframe/index.html)
 
 ### 安全问题
 
@@ -209,6 +209,8 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 ![](./imgs/h5-postMessage-iframe-secure.gif)
 
 这样，当发送者不是来自指定的域时，就不会接收消息，并且通过 source 属性向发送者回应了一条消息用于确认身份。
+
+> Demo 体验地址：[https://liuyib.github.io/blog/demo/note/h5-postMessage-iframe-secure/index.html](https://liuyib.github.io/blog/demo/note/h5-postMessage-iframe-secure/index.html)
 
 ## Web Storage
 
