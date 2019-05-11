@@ -39,6 +39,7 @@ function bubble_sort2(arr) {
 function bubble_sort3(arr) {
   //记录最后一次交换的位置
   var lastExchangeIndex = 0;
+  // 无序区的边界
   var sortBorder = arr.length - 1;
   var tmp = 0;
 
