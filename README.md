@@ -59,3 +59,4 @@
 - 读书笔记
   - [JavaScript 高级程序设计](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1) -- 未完
   - [Node.js 开发实战](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Node.js%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98) -- 未完
+  - [漫画算法 -- 小灰的漫画算法之旅](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95) -- 完
