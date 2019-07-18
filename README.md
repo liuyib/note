@@ -51,6 +51,10 @@
 
   - [Gulp](https://github.com/liuyib/study-note/tree/master/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/gulp)
 
+- 代码规范
+
+  - [Stranard](https://github.com/liuyib/study-note/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/standard.md)
+
 - UI
 
   - [MEB 风格图标设计](https://github.com/liuyib/study-note/tree/master/UI/MBE%E9%A3%8E%E6%A0%BC%E5%9B%BE%E6%A0%87%E8%AE%BE%E8%AE%A1)
