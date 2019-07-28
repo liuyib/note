@@ -169,7 +169,7 @@ audio 的一些常用属性：
 ```html
 autoplay 自动播放
 controls 是否显示控制条
-loop    循环播放
+loop     循环播放
 ```
 
 7.2、视频 `video`
@@ -243,7 +243,7 @@ classList 的一些方法：
 ```javascript
 var oDiv = document.getElementById('oDiv');
 
-console.log(oDiv.classList); // => 类数组
+console.log(oDiv.classList);                             // => 类数组
 console.log(Array.prototype.slice.call(oDiv.classList)); // => 数组
 ```
 
@@ -445,7 +445,7 @@ console.log(oUpload.files); // FileList {length: 0}
 
 - FileReader 对象 - 用于读取本地文件内容
 
-栗子：多文件上传：
+举例，多文件上传：
 
 ```html
 <input id="oUpload" type="file" multiple name="upload" />
@@ -541,4 +541,4 @@ oDrag.ondrop = function(e) {
 
 以上 :rocket:
 
-原文地址：[https://segmentfault.com/a/1190000017097413](https://segmentfault.com/a/1190000017097413)
+> 本文来源于文章：[https://segmentfault.com/a/1190000017097413](https://segmentfault.com/a/1190000017097413)，进行总结和概括后，作为笔记记录下来。
