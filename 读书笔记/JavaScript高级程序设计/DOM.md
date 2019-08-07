@@ -1,19 +1,23 @@
-## 1、DOM 是针对 HTML 和 **XML** 的一套 API。
+# DOM 部分
 
-## 2、文档元素
+## 概念
+
+DOM 是针对 HTML 和 **XML** 的一套 API。
+
+## 文档元素
 
 文档元素是每个文档的根节点，在 `HTML` 中，文档元素始终是 `<html>`；在 `XML` 中，没有预定的元素，因此任何元素都有可能成为文档元素。
 
-## 3、节点类型
+## 节点类型
 
 `DOM1` 中定义了一个 `Node` 接口，`JS` 中作为 `Node` 类型实现了这个接口。`JS` 中总共有 `12 种节点类型`，这些节点类型都继承自 `Node` 类型，并都有一个 `nodeType` 属性。这些节点类型中，常用的是 `元素、文本、注释` 节点，他们的 `nodeType` 分别是 `1、3、8`。
 
-## 4、nodeName 和 nodeValue 属性
+## nodeName 和 nodeValue 属性
 
 > 这两个属性的值取决于节点类型（所以使用之前最好检测一下节点类型）。
 > 例如：元素节点的 nodeName 是元素名，nodeValue 是 null
 
-## 5、访问节点
+## 访问节点
 
 访问子节点：
 
@@ -25,8 +29,8 @@ childNodes 属性中保存着 NodeList 对象。NodeList 对象是一种类数�
 其中
 
 ```javascript
-childNodes[0] == firstChild
-childNodes[childNodes.length - 1] == lastChild
+childNodes[0] == firstChild;
+childNodes[childNodes.length - 1] == lastChild;
 ```
 
 如果没有子节点，则 firstChild, lastChild 均为 null。
@@ -46,7 +50,7 @@ childNodes[childNodes.length - 1] == lastChild
 
 节点之间的访问属性可以用下图表示：
 
-![](./imgs/section10/node_map.png)
+![node_map](./imgs/section10/node_map.png)
 
 访问根节点：
 
@@ -56,7 +60,7 @@ childNodes[childNodes.length - 1] == lastChild
 
 - hasChildNodes() 判断是否有 `子节点`（12 种节点之一）
 
-## 6、操作节点
+## 操作节点
 
 - appendChild()
 
@@ -68,8 +72,9 @@ childNodes[childNodes.length - 1] == lastChild
 // someNode 有多个子节点
 var returnNode = someNode.appendChild(someNode.firstChild);
 console.log(returnNode == someNode.firstChild); // false
-console.log(returnNode == someNode.lastChild);  // true
+console.log(returnNode == someNode.lastChild); // true
 ```
+
 - insertBefore()
 
 该方法接收两个参数：`新增的节点` 和 `参照的节点`。同时会返回 `新增的节点`。
@@ -115,10 +120,10 @@ someNode.replaceChild(newNode, someNode.lastChild);
 ```
 
 ```javascript
-var oDiv = document.getElementById("oDiv");
+var oDiv = document.getElementById('oDiv');
 var aSpans = oDiv.getElementsByTagName('span');
-var oNewNode = document.createElement("span");
-oNewNode.innerHTML = "new node";
+var oNewNode = document.createElement('span');
+oNewNode.innerHTML = 'new node';
 
 var replaceNode = oDiv.replaceChild(oNewNode, aSpans[1]);
 
@@ -139,7 +144,7 @@ someNode.removeChild(someNode.lastChild);
 
 上面这四个方法操作的都是 `某个节点的子节点`。所以，在使用这几个方法之前，需要先获取父节点。但并不是所有的节点都有子节点。如果在不支持子节点的节点上调用了这个方法，会导致错误。
 
-## 7、其他方法
+## 其他方法
 
 - cloneNode()
 
@@ -160,11 +165,11 @@ var deepClone = oUl.cloneNode(true);
 var shallowClone = oUl.cloneNode(false);
 
 console.log(deepClone); // <ul id="oUl">
-                        //   <li>1</li>
-                        //   <li>2</li>
-                        //   <li>3</li>
-                        //   <li>4</li>
-                        // </ul>
+//   <li>1</li>
+//   <li>2</li>
+//   <li>3</li>
+//   <li>4</li>
+// </ul>
 
 console.log(shallowClone); // => <ul id="oUl"></ul>
 ```
@@ -173,11 +178,11 @@ console.log(shallowClone); // => <ul id="oUl"></ul>
 
 该方法用于处理文档树中的文本节点。由于解释器的实现或者 `DOM` 操作的原因，可能会出现文本节点中不包含文本，或连续出现两个文本节点。在某个节点上调用这个方法，就会在该节点的后代节点中查找上面两种情况。找到空白节点删除，则删除；找到连续的两个文本节点，则合并为一个文本节点。
 
-## 8、Document 类型
+## Document 类型
 
 `Document` 表示整个文档。在浏览器中常用的是 `document` 对象，它是 `HTMLDocument` 类型的示例（`HTMLDocument` 继承自 `Document` 类型），同时它也是 `window` 对象的一个属性。
 
-8.1、文档子节点
+1、文档子节点
 
 文档的子节点可能是：`DocumentType`（最多一个）、`Element`（最多一个）、`ProcessingInstruction` 或 `Comment`。
 
@@ -190,7 +195,7 @@ console.log(shallowClone); // => <ul id="oUl"></ul>
 var html = document.documentElement; // 获取对 <html> 的引用
 
 console.log(html === document.childNodes[0]); // true
-console.log(html === document.firstChild);    // true
+console.log(html === document.firstChild); // true
 ```
 
 类似于 `documentElement` 属性，`document` 对象还有一个 `body` 属性，用于获取对 `<body>` 的引用：
@@ -199,7 +204,7 @@ console.log(html === document.firstChild);    // true
 var body = document.body; // 获取对 <body> 的引用
 ```
 
-8.2、文档信息
+2、文档信息
 
 - title 属性
 
@@ -226,8 +231,8 @@ var body = document.body; // 获取对 <body> 的引用
 ```javascript
 // 假设页面来自 p2p.wrox.com
 
-document.domain = wrox.com     // => 成功
-document.domain = nczonline.cn // => 出错
+document.domain = wrox.com; // => 成功
+document.domain = nczonline.cn; // => 出错
 ```
 
 - 在根域范围内，域名不能从 “松散” 设置为 “绷紧”：
@@ -235,15 +240,16 @@ document.domain = nczonline.cn // => 出错
 ```javascript
 // 假设页面来自 p2p.wrox.com
 
-document.domain = wrox.com     // => 松散（成功）
-document.domain = p2p.wrox.com // => 绷紧（出错！）
+document.domain = wrox.com; // => 松散（成功）
+document.domain = p2p.wrox.com; // => 绷紧（出错！）
 ```
 
-8.3、查找元素
+3、查找元素
 
 - document.getElementById()
 
 > IE <= 7 中：
+>
 > - 不区分 ID 的大小写（例如：myDiv 和 mydiv 被视为相同 ID）
 > - 如果有表单元素的 name 和 元素 ID 相同，并且表单元素在前，则该方法会获取到这个表单元素。
 
@@ -254,8 +260,8 @@ document.domain = p2p.wrox.com // => 绷紧（出错！）
 - document.getElementsByName()
 
 > 前两种方法会获取一个 HTMLCollection 对象，这个对象是一个 **动态的集合**，与 NodeList 很相似。
-最后一个方法会获取到一个 NodeList 对象，这是一种类数组对象。
-
+> 最后一个方法会获取到一个 NodeList 对象，这是一种类数组对象。
+>
 > 如果获取到的元素集合里的元素上面有 name 属性，则可以用该对象的 **namedItem() 方法** 或 **使用中括号** 取得这个元素：
 
 ```html
@@ -268,10 +274,10 @@ document.domain = p2p.wrox.com // => 绷紧（出错！）
 var aImgs = document.getElementsByTagName('img');
 
 console.log(aImgs.namedItem('myImg2')); // => <img src="./img2.jpg" name="myImg2" />
-console.log(aImgs['myImg2']);           // => <img src="./img2.jpg" name="myImg2" />
+console.log(aImgs['myImg2']); // => <img src="./img2.jpg" name="myImg2" />
 ```
 
-8.4、特殊集合
+4、特殊集合
 
 - document.anchors - 获取带有 name 属性的 `<a>` 元素
 - document.links - 获取带有 href 属性的 `<a>` 元素
@@ -284,7 +290,7 @@ console.log(aImgs['myImg2']);           // => <img src="./img2.jpg" name="myImg2
 
 > 这些方法都会返回一个 HTMLCollection 对象。
 
-## 9、ELement 类型
+## ELement 类型
 
 - nodeType 为 1
 - nodeName 为 标签名
@@ -292,7 +298,7 @@ console.log(aImgs['myImg2']);           // => <img src="./img2.jpg" name="myImg2
 
 > 要访问标签名，可以使用 `nodeName` 或 `tagName` 属性，后者主要是为了清晰起见。两个属性返回的都是标签名的 `全大写` 形式。例如，对 `<div>` 元素 操作，返回：DIV。所以和字符串进行比较操作时，最好转换一下大小写。
 
-9.1、HTML 元素
+1、HTML 元素
 
 所有的 HTML 元素都存在一下标准特性：
 
@@ -304,23 +310,24 @@ console.log(aImgs['myImg2']);           // => <img src="./img2.jpg" name="myImg2
 
 > 这些属性都是可写的
 
-9.2、操作属性
+2、操作属性
 
 - getAttribute()
 
 > 有两种属性，通过 `getAttribute` 获取到的值和通过 `对象属性` 获取到的值是不同的：
+>
 > 1. style - 行间样式
-> 通过 `getAttribute` 获取到的是 style 里的 文本。
-> 通过 对象属性（elem.style）获取到的是一个对象。
+>    通过 `getAttribute` 获取到的是 style 里的 文本。
+>    通过 对象属性（elem.style）获取到的是一个对象。
 > 2. 事件处理程序（例如：onclick）
-
+>
 > **由于这些差别，所以平时只使用对象属性。只有获取自定义属性时，才使用 `getAttribute`**
 
 - setAttribute()
 - removeAttribute()
 
 > 这些方法可以操作自定义属性（根据 H5 标准规定，自定义属性要加 `data-` 前缀）。
-> 不过 HTML 中元素的自定义特性，在 DOM 中是不能作为属性访问到的（IE除外），例如：
+> 不过 HTML 中元素的自定义特性，在 DOM 中是不能作为属性访问到的（IE 除外），例如：
 
 ```html
 <div data-my-attribute="test"></div>

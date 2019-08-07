@@ -6,7 +6,7 @@
 
 ## CSRF 的攻击原理
 
-![](./imgs/CSRF_attack_yuanli.png)
+![CSRF_attack_yuanli](./imgs/CSRF_attack_yuanli.png)
 
 1. 用户登录 A 网站
 2. A 网站确认身份
@@ -41,8 +41,6 @@
 
   > 防御：GET 方式不要用于更新数据或资源
 
-  <br />
-
 - POST 类型
 
   POST 类型的 CSRF 攻击通常是利用一个自动提交的表单，例如：
@@ -55,9 +53,9 @@
 
   <script>
     // 利用 iframe 进行提交，可以避免提交表单数据之后浏览器刷新
-    var iframe = document.createElement("iframe");
-    iframe.name = "csrf";
-    iframe.style.display = "none";
+    var iframe = document.createElement('iframe');
+    iframe.name = 'csrf';
+    iframe.style.display = 'none';
     document.body.appendChild(iframe);
 
     setTimeout(function() {
@@ -132,8 +130,8 @@ CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信
 
 **Referrer-Policy 取值如下：**
 
-![](./imgs/referer_policy.png)
-![](./imgs/referer_policy_value.png)
+![referer_policy](./imgs/referer_policy.png)
+![referer_policy_value](./imgs/referer_policy_value.png)
 
 关于这个策略的详尽信息，可以查阅：MDN. [Referrer-Policy
 ](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referrer-Policy)
@@ -142,7 +140,7 @@ CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信
 
 **设置 `Referrer-Policy` 的方法有三种：**
 
-- 在 <ruby>C S P<rp>（</rp><rt>内容安全策略</rt><rp>）</rp></ruby> 设置
+- 在 CSP 设置
 - 使用 `meta` 标签设置
 - a 标签添加 `referrer` 属性
 
@@ -186,10 +184,10 @@ CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信
 
 **PC:**
 
-![](./imgs/same_site_browser_support_pc.png)
+![same_site_browser_support_pc](./imgs/same_site_browser_support_pc.png)
 
 **Mobile:**
-![](./imgs/same_site_browser_support_mobile.png)
+![same_site_browser_support_mobile](./imgs/same_site_browser_support_mobile.png)
 
 > 可以看出 SameSite 的兼容性不是很好，所以并不能完全依靠这种办法。
 
@@ -279,7 +277,7 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 由于任何跨域都会导致前端无法获取 Cookie，所以会发生以下情况：
 
-![](./imgs/csrf_double_cookie_test.png)
+![csrf_double_cookie_test](./imgs/csrf_double_cookie_test.png)
 
 > 这种方式的缺点是可控的，只要确保整站没有其他漏洞（XSS 等）泄漏 Cookie，这种方式就不会有问题。也就是说，这种方法的前提是：保证 Cookie 的安全！
 

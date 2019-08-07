@@ -11,7 +11,7 @@
 
 示例：
 
-``` sql
+```sql
 # 原 SQL 指令
 select * from user where username = '${data.username}' and password = '${data.password}';
 
@@ -28,19 +28,19 @@ select * from user where username = 'xxx' and password = '1' or '1'='1';
 
 比如：假设一个网站页面的 URL 如下：
 
-``` http
+```http
 https://www.example.com/item.php?id=2
 ```
 
 可以很容易想到，上面代码中 `id=2` 应该是后台查询数据时的一个参数。下面修改这个 URL：
 
-``` http
+```http
 https://www.example.com/item.php?id=2 and 1=1
 ```
 
 如果此时页面没有变化，并且再次修改 URL：
 
-``` http
+```http
 https://www.example.com/item.php?id=2 and 1=0
 ```
 
@@ -56,7 +56,7 @@ https://www.example.com/item.php?id=2 and 1=0
 
 ### 用于 SQL 注入的一些语句
 
-``` sql
+```sql
 # 由于 1=0 恒不等，所以这条语句会输出数据库找不到数据时的错误信息
 select * from table where id="10" and 1=0
 

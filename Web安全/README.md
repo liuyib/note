@@ -3,105 +3,104 @@
 ## 总结
 
 - [密码安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/%E5%AF%86%E7%A0%81%E5%AE%89%E5%85%A8)
-- [Cookies安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/Cookies%E5%AE%89%E5%85%A8)
+- [Cookies 安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/Cookies%E5%AE%89%E5%85%A8)
 - [XSS](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/XSS)
 
   攻击类型：
 
-    - 反射型
+  - 反射型
 
-      **原因：** 通过 URL 参数发送的数据（可能混入 XSS 代码），没有进行处理，直接显示在页面上。
+    **原因：** 通过 URL 参数发送的数据（可能混入 XSS 代码），没有进行处理，直接显示在页面上。
 
-    - 存储型
+  - 存储型
 
-      **原因：** 接收到的数据（可能混入 XSS 代码）没有进行处理，直接保存在了服务端。
+    **原因：** 接收到的数据（可能混入 XSS 代码）没有进行处理，直接保存在了服务端。
 
   **防御：**
-  
-    - 浏览器自带一小部分防御功能
-    - 对数据进行转义和过滤
-    - 设置 HTTP 请求头 `Content-Security-Policy` (CSP)
 
-      示例：
+  - 浏览器自带一小部分防御功能
+  - 对数据进行转义和过滤
+  - 设置 HTTP 请求头 `Content-Security-Policy` (CSP)
 
-      ![](./XSS/imgs/github_csp_example.png)
+    示例：
 
-    - 设置 HTTP 响应头 `X-XSS-Protection`
+    ![github_csp_example](./XSS/imgs/github_csp_example.png)
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-xss-protection.png)
+  - 设置 HTTP 响应头 `X-XSS-Protection`
+
+    ![x-xss-protection](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-xss-protection.png)
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
   攻击类型：
 
-    - GET
+  - GET
 
-      **原因：** 通过 URL 参数直接修改数据或资源，并且没有进行安全验证。
+    **原因：** 通过 URL 参数直接修改数据或资源，并且没有进行安全验证。
 
-    - POST
+  - POST
 
-      **原因：** 使用 `Cookies` 不合理，并且没有对数据进行安全性处理。
+    **原因：** 使用 `Cookies` 不合理，并且没有对数据进行安全性处理。
 
-    - 超链接类型
+  - 超链接类型
 
-      > 将 GET 类型攻击嵌入超链接中
+    > 将 GET 类型攻击嵌入超链接中
 
-      原因同 GET 类型攻击。
+    原因同 GET 类型攻击。
 
-  **防御：** 
+  **防御：**
 
-    - 同源检测
+  - 同源检测
 
-      - 检测 HTTP 请求头 `Origin`
-      - 检测 HTTP 请求头 `Referer`
+    - 检测 HTTP 请求头 `Origin`
+    - 检测 HTTP 请求头 `Referer`
 
-    - 设置 HTTP 响应头 `Referrer-Policy`
+  - 设置 HTTP 响应头 `Referrer-Policy`
 
-      ![](./CSRF/imgs/referer_policy.png)
-      
-      > 设置 `Referrer-Policy` 的方式：
-      >
-      > - 通过 CSP 设置
-      > 示例：`Content-Security-Policy: same-origin`
-      >
-      > - 使用 meta 标签设置
-      > 示例：`<meta name="referrer" content="same-origin">`
-      >
-      > - a 标签添加 `referrer` 属性设置
-      > 示例：`<a href="http://example.com" referrer="no-referrer|origin|unsafe-url"></a>`
-      >   > 这种方式只作用于单个链接
+    ![referer_policy](./CSRF/imgs/referer_policy.png)
 
-    - 设置 HTTP 响应头 `Set-Cookie` 的 `SameSite` 属性
+    > 设置 `Referrer-Policy` 的方式：
+    >
+    > - 通过 CSP 设置
+    >   示例：`Content-Security-Policy: same-origin`
+    >
+    > - 使用 meta 标签设置
+    >   示例：`<meta name="referrer" content="same-origin">`
+    >
+    > - a 标签添加 `referrer` 属性设置（这种方式只作用于单个链接）
+    >   示例：`<a href="http://example.com" referrer="no-referrer|origin|unsafe-url"></a>`
 
-      示例：
+  - 设置 HTTP 响应头 `Set-Cookie` 的 `SameSite` 属性
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/github_same_site.png)
+    示例：
 
-    - 使用 `Token` 验证
-    - 双重 `Cookies` 验证
+    ![github_same_site](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/github_same_site.png)
+
+  - 使用 `Token` 验证
+  - 双重 `Cookies` 验证
 
 - [点击劫持](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/%E7%82%B9%E5%87%BB%E5%8A%AB%E6%8C%81)
 
   **原因：** 网站允许被第三方网站通过 `iframe (frame)` 内嵌。
   **防御：**
-  
-    - 设置 HTTP 响应头 `x-frame-options`
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-frame-options.png)
-  
-      > 非标准 HTTP 头
+  - 设置 HTTP 响应头 `x-frame-options`
 
-    - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
+    ![x-frame-options](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-frame-options.png)
 
-      ![](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/frame-ancestors.png)
+    > 非标准 HTTP 头
 
-    - 使用 JS 判断网站的顶层对象是否改变
+  - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
 
-      ``` js
-      if (top !== self) {
-        top.location = self.location;
-      }
-      ```
+    ![frame-ancestors](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/frame-ancestors.png)
+
+  - 使用 JS 判断网站的顶层对象是否改变
+
+    ```js
+    if (top !== self) {
+      top.location = self.location;
+    }
+    ```
 
 - [SQL 注入](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/SQL%E6%B3%A8%E5%85%A5)
 

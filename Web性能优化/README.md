@@ -11,7 +11,7 @@
 
 浏览器的一个请求从发送到返回都经历了什么？
 
-![](./imgs/what_happen_when_url_send.png)
+![what_happen_when_url_send](./imgs/what_happen_when_url_send.png)
 
 潜在的性能优化点：
 
@@ -62,7 +62,7 @@
 
   **不进行文件合并带来的一些问题：**
 
-  ![](./imgs/file_compress.png)
+  ![file_compress](./imgs/file_compress.png)
 
   - 文件与文件之间有插入的上行请求，增加了网络请求
   - 丢包问题可能会更严重
@@ -83,7 +83,7 @@
   - jpg 压缩率高
   - png 浏览器兼容性好
 
-    ![](./imgs/png_type.png)
+    ![png_type](./imgs/png_type.png)
 
   - webp 压缩程度更好（在 iOS webview 有兼容问题）
 
@@ -97,7 +97,7 @@
     > 缺点：合成的图片可能会很大，如果合成图片加载失败，造成的应该比较大
     >
     > **实际中应该：在保证合成图片不过大的前提下使用**
-
+    >
     > 在线获取雪碧图坐标数据：[http://www.spritecow.com/](http://www.spritecow.com/)
 
   - 图片转 base64 嵌入 HTML
@@ -106,7 +106,7 @@
 
 - 浏览器渲染机制
 
-  ![](./imgs/html_render_process.png)
+  ![html_render_process](./imgs/html_render_process.png)
 
   - 整个网页从上到下顺序加载解析
   - 网络资源会并发请求（存在并发上限）
@@ -143,9 +143,9 @@
     - 使用 `img` 标签，提前请求好，然后通过控制样式将其隐藏。
     - 使用 JS 中的 `Image` 对象。
 
-    ``` js
+    ```js
     var img = new Image();
-    img.src = "https://xxx.png";
+    img.src = 'https://xxx.png';
     ```
 
     通过这种方式，当请求 JS 脚本时，图片就会被请求。
@@ -161,7 +161,6 @@
 
   当浏览器进行回流与重绘时，会导致 UI 频繁渲染，从而进一步阻塞 JS。
   所以 **注意 CSS 的性能也是提高网页访问速度的重要因素**。编写 CSS 代码时，要尽量减少 UI 的重绘与回流。
-  <br />
 
   **概念介绍：**
 
@@ -171,14 +170,14 @@
 
     **会触发回流的属性：**
 
-    ![](./imgs/CSS_backflow.png)
+    ![CSS_backflow](./imgs/CSS_backflow.png)
 
   - 重绘
 
     当页面中一些元素需要更新属性，这些属性只影响元素的外观和风格，不影响大小、布局。则就是重绘。
 
     > 回流一定引起重绘，重绘不一定引起回流
-
+    >
     > 通过添加图层（并不是 `z-index` 定位的层），让频繁回流和重绘的元素单独在一个图层，以此来减少回流和重绘对整个页面的影响。但是图层过多又会增加浏览器进行图层合成的时间。所以两者要进行权衡。
     >
     > 改变元素图层的方式：
@@ -201,7 +200,7 @@
 
   - 对于那些会强制 flush 浏览器队列的 CSS 属性，不要放在循环里。这些 CSS 属性如下：
 
-    ``` CSS
+    ```CSS
     offsetTop, offsetLeft, offsetWidth, offsetHeight
     scrollTop / Left / Width / Height
     clientTop / Left / Width / Height
@@ -228,13 +227,12 @@
 
     > 前后端都可以进行创建和获取
 
-    ![](./imgs/web_speed_cookie.png)
+    ![web_speed_cookie](./imgs/web_speed_cookie.png)
 
     - Cookie 的设计初衷是用来维护用户的状态
     - 可以储存的大小 < 4KB
 
     Cookie 是**域名**下的概念，所以可能带来**CDN 的流量损耗**。解决的办法就是**将 CDN 的域名和主站的域名分开**。
-    <br />
 
   - `LocalStorage`
 
@@ -271,10 +269,8 @@
 - Service Worker
 
   Service Worker 是一个脚本，浏览器将其放置在独立于当前页面的后台中运行。为实现一些**不依赖于页面或用户交互的特性**奠定了基础。在未来这些特性将包括：推送消息、背景后台同步、地理定位。并且 Service Worker 可以主动与页面进行交互，这样可以实现：**几个 tag 页之间的相互通信**。
-  <br />
 
   它的设计初衷是：**用于拦截和处理网络请求的能力，以及管理被缓存的响应**。
-  <br />
 
   **应用：**
 
@@ -290,7 +286,6 @@
 
   - 理解 cache-control 所控制的缓存策略
   - 理解 last-modified 和 etag 以及整个服务端浏览器端的缓存流程
-    <br />
 
   HTTP Header：
 
@@ -339,4 +334,4 @@
 
   **浏览器分级缓存策略：**
 
-  ![](./imgs/service_cache.png)
+  ![service_cache](./imgs/service_cache.png)

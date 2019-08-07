@@ -15,7 +15,7 @@
 
 例如：
 
-``` js
+```js
 https://a.com/?xss=<img src="null" onerror="alert(1)" />
 ```
 
@@ -27,7 +27,7 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
 - 服务端要解析 URL 中的查询参数，并返回给页面进行渲染
 - 攻击使用的标签不限于 `img`，也可以是 `iframe，script` 等
 
-  ``` js
+  ```js
   // 加载一个页面
   https://a.com/?xss=<iframe src="//baidu.com"></iframe>
 
@@ -51,15 +51,17 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
 
 - HTML 节点内容
 
-  ``` html
+  ```html
   <div>
-    文本中带有JS代码<script>alert(1);</script>
+    文本中带有JS代码<script>
+      alert(1);
+    </script>
   </div>
   ```
 
 - HTML 属性
 
-  ``` html
+  ```html
   <!-- 例一 -->
   <a href="javascript:alert('这是XSS脚本');"></a>
 
@@ -70,7 +72,7 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
 
 - JS 代码
 
-  ``` js
+  ```js
   var data = ""; // 变量初始值
         ↓
   var data = "hello";alert('这是XSS脚本');""; // 获取数据后的值
@@ -88,24 +90,24 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
 
 > 防御大致思路：将用户输入的数据进行编码（转义），然后使用的时候进行解码，解码的同时进行过滤，把危险的几种标签（`script、style、link、iframe、frame、img`）、所有 JS 事件进行过滤。
 
-**1、转义**
+1、转义
 
 （1）对 HTML 代码进行转义
 
 一般会对下面的字符进行转义：
 
-字符|实体编号|实体名称
-:---:|:---:|:---
-`<`|`&#60;`|`&lt;`
-`>`|`&#62;`|`&gt;`
-`'`|`&#39;`|`&apos;`(IE不支持)
-`"`|`&#34;`|`&quot;`
-`&`|`&#38;`|`&amp;`
-空格|`&#160;`|`&nbsp;`
+| 字符 | 实体编号 | 实体名称            |
+| :--: | :------: | :------------------ |
+| `<`  | `&#60;`  | `&lt;`              |
+| `>`  | `&#62;`  | `&gt;`              |
+| `'`  | `&#39;`  | `&apos;`(IE 不支持) |
+| `"`  | `&#34;`  | `&quot;`            |
+| `&`  | `&#38;`  | `&amp;`             |
+| 空格 | `&#160;` | `&nbsp;`            |
 
 示例：
 
-``` js
+```js
 function escapeHtml(str) {
   if (!str) return '';
 
@@ -128,7 +130,7 @@ function escapeHtml(str) {
 
 例如：
 
-``` js
+```js
 // 有一个数据
 var data = "";
 
@@ -145,7 +147,7 @@ hello";alert(1);"
 
 将 `'` `"` `\` 等进行转义
 
-``` js
+```js
 function escapeJS(str) {
   if (!str) return '';
 
@@ -159,35 +161,33 @@ function escapeJS(str) {
 
 上面的转义方法比较麻烦，而且可能会漏掉某些特殊字符，这里使用 `JSON.stringify` 进行转义最保险：
 
-``` js
-JSON.stringify(str)
+```js
+JSON.stringify(str);
 ```
 
-**2、校正**
+2、校正
 
 将转义后的数据反转义得到字符串，使用 `DOM Parse` 转换字符串为 DOM 对象。然后进行过滤操作。
 
-**3、过滤**
+3、过滤
 
 - 过滤危险的标签。例如：`script、style、iframe、frame、img` 等
 - 过滤文本中包含的 JS 事件
 - **对富文本过滤**（一般在客户端进行）
 
   > 过滤富文本相对来说比较复杂。由于富文本的实现原理是通过添加 HTML 标签和 CSS 属性，所以并不能直接将所有的标签和属性全过滤掉。有两种可选的方法：
-  > 
+  >
   > - 黑名单过滤
   >   过滤危险的标签、属性、方法、以及一些特殊的代码（`javascript:alert(1);`）等
-  > 
+  >
   > - 白名单过滤
   >   只保留安全的标签和属性
 
   过滤富文本时，需要解析 HTML，这里推荐使用第三方库 [cheerio](https://github.com/cheeriojs/cheerio) 来解析 HTML。使用 cheerio 解析 HTML 之后，会返回一个类似 DOM 的对象。
 
-  <br />
-
   借助 cheerio 进行 XSS 过滤的示例：
 
-  ``` js
+  ```js
   // cheerio 解析后返回的对象如下：
   [
     {
@@ -196,13 +196,13 @@ JSON.stringify(str)
       attribs: {
         src: 'null',
         onerror: 'alert(1)'
-      },
+      }
       // ...
-    },
+    }
     // ...
-  ]
+  ];
 
-  var xssFilter = function (html) {
+  var xssFilter = function(html) {
     if (!html) return '';
 
     var cheerio = require(cheerio);
@@ -214,8 +214,9 @@ JSON.stringify(str)
       font: ['size', 'color']
     };
 
-    $('*').forEach(function (index, elem) {
-      if (!whiteList[elem.name]) { // 元素名称不在白名单中
+    $('*').forEach(function(index, elem) {
+      if (!whiteList[elem.name]) {
+        // 元素名称不在白名单中
         $(elem).remove();
         return;
       }
@@ -235,8 +236,8 @@ XSS 过滤的第三方库推荐：[js-xss](https://github.com/leizongmin/js-xss)
 
 使用 `js-xss` 库过滤 XSS 脚本示例：
 
-``` js
-var xssFilter = function (html) {
+```js
+var xssFilter = function(html) {
   if (!html) return '';
 
   var xss = require('xss');
@@ -244,12 +245,12 @@ var xssFilter = function (html) {
   return xss(html, {
     whiteList: {
       img: ['src'],
-      font: ['size', 'color'],
+      font: ['size', 'color']
       // ...
     },
-    onIgnoreTag: function () {
+    onIgnoreTag: function() {
       // ...
-    },
+    }
     // ...
   });
 };
@@ -265,11 +266,11 @@ CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻
 
 可以设置的内容有：
 
-![](./imgs/browser_csp_value.png)
+![browser_csp_value](./imgs/browser_csp_value.png)
 
 例如，指定内容能从 `文档源`、`www.example.com` 和 任何子域为 `example2.com` 的源加载：
 
-``` js
+```js
 Content-Security-Policy: default-src 'self' www.example.com *.example2.com
                               ↓        ↓           ↓
                            策略指令   关键字      源列表 (可有多个值，用空格间隔)
@@ -288,19 +289,19 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 
 示例：
 
-![](./imgs/github_csp_example.png)
+![github_csp_example](./imgs/github_csp_example.png)
 
 如图不仅设置了网站中允许执行的内容，而且设置了 `block-all-mixed-content` (只能通过 HTTPS 加载资源) 和 `frame-ancestors` (防御点击劫持攻击)
 
 学习资料：[MDN：CSP (内容安全策略)](https://developer.mozilla.org/zh-CN/docs/Web/Security/CSP)
 
-### 设置 HTTP 响应头 X-XSS-Protection  防御 XSS
+### 设置 HTTP 响应头 X-XSS-Protection 防御 XSS
 
 通过设置 HTTP 响应头：`X-XSS-Protection: 1; mode=block`
 
 这个请求头的其他值如下：
 
-![](./imgs/browser_xss_protectino.png)
+![browser_xss_protectino](./imgs/browser_xss_protectino.png)
 
 ### 浏览器自带 XSS 防御
 

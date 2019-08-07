@@ -1,6 +1,7 @@
 # ES6 中的异步操作
 
 > 目录
+>
 > - Promise
 >   - promise.all
 > - async / await
@@ -12,6 +13,7 @@
 > ```javascript
 > new Promise((resolve, reject) => { // ... });
 > ```
+>
 > 异步操作执行成功会调用 resolve，并将 promise 的状态改为 fulfilled（完成）
 > 异步操作执行失败会调用 reject，并将 promise 的状态改为 rejected（失败）
 
@@ -26,11 +28,14 @@ const promise = new Promise((resolve, reject) => {
 });
 
 // then 中接收的两个函数分别就是 resolve 和 reject
-promise.then(res => {
-  console.log(res); // => foo
-}, err => {
-  console.log(err);
-});
+promise.then(
+  res => {
+    console.log(res); // => foo
+  },
+  err => {
+    console.log(err);
+  }
+);
 ```
 
 其实 `Jquery` 库中的 `Ajax` 本身就是一个 `Promise`：
@@ -59,11 +64,14 @@ $.ajax(// ...).then(res => {
 
   ```javascript
   // p1，p2，p3 是异步操作
-  Promise.all([p1, p2, p3]).then(res => {
-    console.log(res);
-  }, err => {
-    console.log(err);
-  });
+  Promise.all([p1, p2, p3]).then(
+    res => {
+      console.log(res);
+    },
+    err => {
+      console.log(err);
+    }
+  );
 
   // 当所有的异步操作都成功时，才会执行 `resolve` 函数；只要有一个异步操作失败，就会执行 `reject` 函数。
   ```
@@ -80,7 +88,7 @@ $.ajax(// ...).then(res => {
 ```javascript
 // 间隔指定时间，且异步操作成功后，输出 value
 let timeout = (value, time) => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve(value);
     }, time);

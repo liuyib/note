@@ -1,3 +1,5 @@
+# React.children 和 React.cloneElement
+
 官网文档：
 [React.children](https://reactjs.org/docs/react-api.html#reactchildren)
 [React.cloneElement](https://reactjs.org/docs/react-api.html#cloneelement)
@@ -15,24 +17,24 @@ class App extends Component {
         <button>B</button>
         <button>C</button>
       </Button>
-    )
+    );
   }
 }
 
 class Button extends Component {
   constructor(props) {
     super(props);
-    
-    this.state = {selected: 'None'};
+
+    this.state = { selected: 'None' };
   }
-  
-  clickButton = (selected) => {
-    this.setState({selected})
+
+  clickButton = selected => {
+    this.setState({ selected });
   };
-  
-  render () {
+
+  render() {
     const { children } = this.props;
-    const items = React.Children.map(children, (child) => {
+    const items = React.Children.map(children, child => {
       return React.cloneElement(child, {
         onClick: this.clickButton.bind(this, child.props.children)
       });
@@ -47,9 +49,9 @@ class Button extends Component {
   }
 }
 
-export default App
+export default App;
 ```
 
 效果如下：
 
-![](./imgs/React.children_React.cloneElement.gif)
+![React.children_React.cloneElement](./imgs/React.children_React.cloneElement.gif)

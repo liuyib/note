@@ -6,7 +6,7 @@
 - [为什么会有 OPTIONS 预请求 - CORS 跨域](https://github.com/liuyib/study-note/issues/2)
 - [去除 Chrome 中 input 框自动填充的黄色背景](https://github.com/liuyib/study-note/issues/3)
 - [纯 CSS 导航栏下划线跟随效果](https://github.com/liuyib/study-note/issues/5)
-- [原生JS实现基于用户行为预测的无延迟二级菜单](https://github.com/liuyib/study-note/issues/6)
+- [原生 JS 实现基于用户行为预测的无延迟二级菜单](https://github.com/liuyib/study-note/issues/6)
 
 ## 知识总结
 
@@ -16,7 +16,7 @@
 
 - HTML
 
-  - [掘金小册--大厂H5开发实战](https://github.com/liuyib/study-note/tree/master/HTML/HTML5/%E5%A4%A7%E5%8E%82H5%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98)
+  - [掘金小册--大厂 H5 开发实战](https://github.com/liuyib/study-note/tree/master/HTML/HTML5/%E5%A4%A7%E5%8E%82H5%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98)
     - [基础页面开发](https://github.com/liuyib/study-note/blob/master/HTML/HTML5/%E5%A4%A7%E5%8E%82H5%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/%E5%9F%BA%E7%A1%80%E9%A1%B5%E9%9D%A2%E5%BC%80%E5%8F%91.md)
   - [HTML5 知识总结](https://github.com/liuyib/study-note/tree/master/HTML/HTML5)
 
@@ -53,7 +53,7 @@
 
 - 代码规范
 
-  - [Stranard](https://github.com/liuyib/study-note/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/standard.md)
+  - [Stranard 规范](https://github.com/liuyib/study-note/blob/master/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/standard.md)
 
 - UI
 
@@ -61,6 +61,10 @@
   - [PS](https://github.com/liuyib/study-note/tree/master/UI/PS)
 
 - 读书笔记
+
   - [JavaScript 高级程序设计](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1) -- 未完
   - [Node.js 开发实战](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Node.js%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98) -- 未完
-  - [漫画算法 -- 小灰的漫画算法之旅](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95) -- 完
+  - [漫画算法 -- 小灰的漫画算法之旅](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95) -- 完 `2019.5.11`
+  - 白帽子讲 Web 安全 -- 完 `2019.5.9`
+
+    > 笔记见 [Web 安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8)

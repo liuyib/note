@@ -13,7 +13,7 @@ npm i @babel/core @babel/cli @babel/preset-env
 ```
 
 > - @babel/core babel 的核心库
-> - @babel/cli  babel 的指令集
+> - @babel/cli babel 的指令集
 > - @babel/preset-env babel 的兼容库
 >
 > 如果需要兼容低版本的 IE 需要引入：@babel/polyfill
@@ -27,11 +27,10 @@ npm i @babel/core @babel/cli @babel/preset-env
 ## 添加配置
 
 `.babelrc` 文件：
+
 ```json
 {
-  "presets": [
-    "@babel/preset-env"
-  ]
+  "presets": ["@babel/preset-env"]
 }
 ```
 

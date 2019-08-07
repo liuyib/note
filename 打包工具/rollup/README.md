@@ -37,21 +37,21 @@ npm install rollup-plugin-babel -D
 
 ```js
 // rollup.config.js
-import resolve from "rollup-plugin-node-resolve";
-import babel from "rollup-plugin-babel";
+import resolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
 
 export default {
-  entry: "src/main.js",
+  entry: 'src/main.js',
   output: {
-    format: "iife",
-    name: "packname",
-    file: "release/bundle.js",
+    format: 'iife',
+    name: 'packname',
+    file: 'release/bundle.js',
     sourceMap: true
   },
   plugins: [
     resolve(),
     babel({
-      exclude: "node_modules/**" // 忽略 node_modules
+      exclude: 'node_modules/**' // 忽略 node_modules
     })
   ]
 };
@@ -62,11 +62,14 @@ export default {
 ```json
 {
   "presets": [
-    ["latest", {
-      "es2015": {
-        "modules": false
+    [
+      "latest",
+      {
+        "es2015": {
+          "modules": false
+        }
       }
-    }]
+    ]
   ],
   "plugins": ["external-helpers"]
 }
@@ -88,7 +91,6 @@ npm install babel-preset-latest babel-plugin-external-helpers -D
 
 `babel-preset-env` 的出现，是为了优化 `babel-preset-latest` ，它能够根据你的配置，自动决定适合你的 Babel 插件的 `preset`。
 
-
 配置示例：
 
 - 开发目标是浏览器
@@ -97,16 +99,14 @@ npm install babel-preset-latest babel-plugin-external-helpers -D
   // babel-preset-env
   {
     "presets": [
-      ["env", {
-        "targets": {
-          "browsers": [
-            "last 1 version",
-            "> 1%",
-            "not dead",
-            "ie >= 10"
-          ]
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": ["last 1 version", "> 1%", "not dead", "ie >= 10"]
+          }
         }
-      }]
+      ]
     ]
   }
   ```
@@ -118,11 +118,14 @@ npm install babel-preset-latest babel-plugin-external-helpers -D
   ```json
   {
     "presets": [
-      ["env", {
-        "targets": {
-          "node": "8.0"
+      [
+        "env",
+        {
+          "targets": {
+            "node": "8.0"
+          }
         }
-      }]
+      ]
     ]
   }
   ```

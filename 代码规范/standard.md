@@ -6,7 +6,7 @@
 
 - 函数声明时括号与函数名间加空格。
 
-``` js
+```js
 function name (arg) { ... }  // ✓ ok
 function name(arg) { ... }   // ✗ avoid
 
@@ -18,244 +18,252 @@ run(function() { ... })      // ✗ avoid
 
 - 使用浏览器全局变量时加上 `window.` 前缀。`document`、`console` 和 `navigator` 除外。
 
-``` js
-window.alert('hi')  // ✓ ok
+```js
+window.alert('hi'); // ✓ ok
 ```
 
 - 对于三元运算符 `?` 和 `:` 与他们所负责的代码处于同一行。
 
-``` js
+```js
 // ✓ ok
-var location = env.development ? 'localhost' : 'www.api.com'
+var location = env.development ? 'localhost' : 'www.api.com';
 
 // ✓ ok
-var location = env.development
-  ? 'localhost'
-  : 'www.api.com'
+var location = env.development ? 'localhost' : 'www.api.com';
 
 // ✗ avoid
-var location = env.development ?
-  'localhost' :
-  'www.api.com'
+var location = env.development ? 'localhost' : 'www.api.com';
 ```
 
 - 条件语句中赋值语句使用括号包起来。
 
-``` js
+```js
 // ✓ ok
 while ((m = text.match(expr))) {
   // ...
 }
 
 // ✗ avoid
-while (m = text.match(expr)) {
+while ((m = text.match(expr))) {
   // ...
 }
 ```
 
 - 单行代码块两边加空格。
 
-``` js
-function foo () {return true}    // ✗ avoid
-function foo () { return true }  // ✓ ok
+```js
+function foo() {
+  return true;
+} // ✗ avoid
+function foo() {
+  return true;
+} // ✓ ok
 ```
 
 - 模板字符串中变量前后不加空格。
 
-``` js
-const message = `Hello, ${ name }`  // ✗ avoid
-const message = `Hello, ${name}`    // ✓ ok
+```js
+const message = `Hello, ${name}`; // ✗ avoid
+const message = `Hello, ${name}`; // ✓ ok
 ```
 
 - 不允许有多余的行末逗号。
 
-``` js
+```js
 var obj = {
-  message: 'hello',  // ✗ avoid
-}
+  message: 'hello' // ✗ avoid
+};
 ```
 
 - 不要使用 `undefined` 来初始化变量。
 
-``` js
-let name = undefined  // ✗ avoid
+```js
+let name = undefined; // ✗ avoid
 
-let name
-name = 'value'        // ✓ ok
+let name;
+name = 'value'; // ✓ ok
 ```
 
 - `return` 语句中的赋值必需有括号包裹。
 
-``` js
-function sum (a, b) {
-  return result = a + b    // ✗ avoid
+```js
+function sum(a, b) {
+  return (result = a + b); // ✗ avoid
 }
 
-function sum (a, b) {
-  return (result = a + b)  // ✓ ok
+function sum(a, b) {
+  return (result = a + b); // ✓ ok
 }
 ```
 
 - 检查 `NaN` 的正确姿势是使用 `isNaN`。
 
-``` js
-if (price === NaN) { }  // ✗ avoid
-if (isNaN(price)) { }   // ✓ ok
+```js
+if (price === NaN) {
+} // ✗ avoid
+if (isNaN(price)) {
+} // ✓ ok
 ```
 
 - 关系运算符的左值不要做取反操作。
 
-``` js
-if (!key in obj) {}  // ✗ avoid
+```js
+if (!key in obj) {
+} // ✗ avoid
 ```
 
 - 对象中定义了存值器，一定要对应的定义取值器。
 
-``` js
+```js
 var person = {
-  set name (value) {  // ✗ avoid
-    this._name = value
+  set name(value) {
+    // ✗ avoid
+    this._name = value;
   }
-}
+};
 
 var person = {
-  set name (value) {
-    this._name = value
+  set name(value) {
+    this._name = value;
   },
-  get name () {       // ✓ ok
-    return this._name
+  get name() {
+    // ✓ ok
+    return this._name;
   }
-}
+};
 ```
 
 - 子类的构造器中一定要调用 `super`
 
-``` js
+```js
 class Dog {
-  constructor () {
-    super()   // ✗ avoid
+  constructor() {
+    super(); // ✗ avoid
   }
 }
 
 class Dog extends Mammal {
-  constructor () {
-    super()   // ✓ ok
+  constructor() {
+    super(); // ✓ ok
   }
 }
 ```
 
 - 使用 `this` 前请确保 `super` 已调用。
 
-``` js
+```js
 class Dog extends Animal {
-  constructor () {
-    this.legs = 4  // ✗ avoid
-    super()
+  constructor() {
+    this.legs = 4; // ✗ avoid
+    super();
   }
 }
 ```
 
 - 同一模块有多个导入时一次性写完。
 
-``` js
-import { myFunc1 } from 'module'
-import { myFunc2 } from 'module'           // ✗ avoid
+```js
+import { myFunc1 } from 'module';
+import { myFunc2 } from 'module'; // ✗ avoid
 
-import { myFunc1, myFunc2 } from 'module'  // ✓ ok
+import { myFunc1, myFunc2 } from 'module'; // ✓ ok
 ```
 
 - `import`, `export` 和解构操作中，禁止赋值到同名变量。
 
-``` js
-import { config as config } from './config'  // ✗ avoid
-import { config } from './config'            // ✓ ok
+```js
+import { config } from './config'; // ✗ avoid
+import { config } from './config'; // ✓ ok
 ```
 
 - `yield *` 中的 `*` 前后都要有空格。
 
-``` js
-yield* increment()   // ✗ avoid
-yield * increment()  // ✓ ok
+```js
+yield * increment(); // ✗ avoid
+yield * increment(); // ✓ ok
 ```
 
 - 不要扩展原生对象。
 
-``` js
-Object.prototype.age = 21  // ✗ avoid
+```js
+Object.prototype.age = 21; // ✗ avoid
 ```
 
 - 注意隐式的 `eval`。
 
-``` js
-setTimeout("alert('Hello world')")                // ✗ avoid
-setTimeout(function () { alert('Hello world') })  // ✓ ok
+```js
+setTimeout("alert('Hello world')"); // ✗ avoid
+setTimeout(function() {
+  alert('Hello world');
+}); // ✓ ok
 ```
 
 - 嵌套的代码块中禁止再定义函数。
 
-``` js
+```js
 if (authenticated) {
-  function setAuthUser () {}  // ✗ avoid
+  function setAuthUser() {} // ✗ avoid
 }
 ```
 
 - 外部变量不要与对象属性重名。
 
-``` js
-var score = 100
-function game () {
-  score: while (true) {  // ✗ avoid
-    score -= 10
-    if (score > 0) continue score
-    break
+```js
+var score = 100;
+function game() {
+  score: while (true) {
+    // ✗ avoid
+    score -= 10;
+    if (score > 0) continue score;
+    break;
   }
 }
 ```
 
 - 不要使用标签语句。
 
-``` js
-label:
-  while (true) {
-    break label  // ✗ avoid
-  }
+```js
+label: while (true) {
+  break label; // ✗ avoid
+}
 ```
 
 - 使用 `__dirname` 和 `__filename` 时尽量避免使用字符串拼接。
 
-``` js
-const pathToFile = __dirname + '/app.js'           // ✗ avoid
-const pathToFile = path.join(__dirname, 'app.js')  // ✓ ok
+```js
+const pathToFile = __dirname + '/app.js'; // ✗ avoid
+const pathToFile = path.join(__dirname, 'app.js'); // ✓ ok
 ```
 
 - 使用 `getPrototypeOf` 来替代 `__proto__`。
 
-``` js
-const foo = obj.__proto__               // ✗ avoid
-const foo = Object.getPrototypeOf(obj)  // ✓ ok
+```js
+const foo = obj.__proto__; // ✗ avoid
+const foo = Object.getPrototypeOf(obj); // ✓ ok
 ```
 
 - 避免使用逗号操作符。
 
-``` js
-if (doSomething(), !!test) {}  // ✗ avoid
+```js
+if ((doSomething(), !!test)) {
+} // ✗ avoid
 ```
 
 - 禁止使用稀疏数组（Sparse arrays）。
 
-``` js
-let fruits = ['apple',, 'orange']  // ✗ avoid
+```js
+let fruits = ['apple', , 'orange']; // ✗ avoid
 ```
 
 - `finally` 代码块中不要再改变程序执行流程。
 
-``` js
+```js
 try {
   // ...
 } catch (e) {
   // ...
 } finally {
-  return 42  // ✗ avoid
+  return 42; // ✗ avoid
 }
 ```
 

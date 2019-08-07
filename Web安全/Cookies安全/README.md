@@ -41,13 +41,13 @@
 
     > 限制 Web 只能使用 HTTPS 请求。可以包含最大过期时间，子域和预加载。
 
-    ``` http
+    ```http
     Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
     ```
 
   示例：
 
-  ![](./imgs/github_cookies_secure.png)
+  ![github_cookies_secure](./imgs/github_cookies_secure.png)
 
 许多 Web 攻击方式都与 `Cookies` 有关，例如：`XSS` `CSRF`等，因此，保证 `Cookies` 的安全，是保证网站安全最基本的要求之一。
 

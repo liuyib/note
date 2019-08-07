@@ -1,12 +1,13 @@
 # ES6 中的面向对象和模块化
 
 > 目录
+>
 > - class、extends、constructor、super
 > - ES5 中的伪面向对象
 > - 模块化
->     - 导入
->     - 导出
->     - 简单的 webpack 配置
+>   - 导入
+>   - 导出
+>   - 简单的 webpack 配置
 
 ## 1、class、extends、constructor、super
 
@@ -43,8 +44,8 @@ class Worker extends Person {
 let coder = new Worker('liuyibo', 20, 'coding');
 
 coder.showName(); // => liuyibo
-coder.showAge();  // => 20
-coder.showJob();  // => coding
+coder.showAge(); // => 20
+coder.showJob(); // => coding
 ```
 
 ## 2、ES5 中的伪面向对象
@@ -53,15 +54,16 @@ ES5 中没有专门声明类的方法，所以使用构造函数来充当（伪�
 
 ```javascript
 // 父类 Person
-function Person(name, age) { // 既是构造函数又充当类
+function Person(name, age) {
+  // 既是构造函数又充当类
   this.name = name;
   this.age = age;
 }
 
-Person.prototype.showName = function () {
+Person.prototype.showName = function() {
   console.log(this.name);
 };
-Person.prototype.showAge = function () {
+Person.prototype.showAge = function() {
   console.log(this.age);
 };
 
@@ -76,15 +78,15 @@ Worker.prototype = new Person(); // 将子类的原型指向父类的实例，�
 Worker.constructor = Worker; // 修正子类的 constructor
 
 // 添加子类自己的方法
-Worker.prototype.showJob = function () {
+Worker.prototype.showJob = function() {
   console.log(this.job);
 };
 
 let coder = new Worker('liuyibo', 20, 'coding');
 
 coder.showName(); // => liuyibo
-coder.showAge();  // => 20
-coder.showJob();  // => coding
+coder.showAge(); // => 20
+coder.showJob(); // => coding
 ```
 
 ## 3、模块化
@@ -92,11 +94,11 @@ coder.showJob();  // => coding
 ### 3.1、导入
 
 ```javascript
-import 'xxx';                              // 只导入不引用
-import mod from 'xxx';                     // 只导入 default 成员，并起一个别名 mod
-import * as mod from 'xxx';                // 导入所有成员，并起一个总的别名 mod
+import 'xxx'; // 只导入不引用
+import mod from 'xxx'; // 只导入 default 成员，并起一个别名 mod
+import * as mod from 'xxx'; // 导入所有成员，并起一个总的别名 mod
 import { mod1, mod2 as name2 } from 'xxx'; // 导入名称为 mod1，mod2 的成员，并给 mod2 起一个别名 name2
-let promise = import('xxx');               // 异步导入，返回一个 Promise 对象（导入之后不会立即使用，而是按需使用）
+let promise = import('xxx'); // 异步导入，返回一个 Promise 对象（导入之后不会立即使用，而是按需使用）
 ```
 
 ### 3.2、导出

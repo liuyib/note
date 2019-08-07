@@ -5,121 +5,121 @@
 - [解构赋值](#deconstruction)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - `对象` 解构赋值
-    - `数组` 解构赋值
-    - 一些限制
+  - `对象` 解构赋值
+  - `数组` 解构赋值
+  - 一些限制
   </details>
 
 - [箭头函数](#arrow_func)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - 有些情况可以省略 `()` 或 `{}`
-    - 固定 `this`
+  - 有些情况可以省略 `()` 或 `{}`
+  - 固定 `this`
   </details>
 
 - [运算符 `...`](#expand_sign)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - 参数收集
-    - 展开数组
-    - 合并数组
-    - 展开 / 合并对象
+  - 参数收集
+  - 展开数组
+  - 合并数组
+  - 展开 / 合并对象
   </details>
 
 - [默认参数](#default_para)
 - [对 Array 的扩展](#expand_array)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - `map()`
-    - `reduce()`
-    - `filter()`
-    - `forEach()`
+  - `map()`
+  - `reduce()`
+  - `filter()`
+  - `forEach()`
   </details>
 
 - [JSON 对象](#json_obj)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - `JSON.stringify()`
-    - `JSON.parse()`
+  - `JSON.stringify()`
+  - `JSON.parse()`
   </details>
 
 - [对象代理](#obj_proxy)
 - [迭代器 @@iterator](#iterator)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - 通过 `Symbol.iterator` 获取数组的迭代器
-    - `entries()`
-    - `keys()`
-    - `values()`
+  - 通过 `Symbol.iterator` 获取数组的迭代器
+  - `entries()`
+  - `keys()`
+  - `values()`
   </details>
 
 - [ES7、8、9 中新增的常用语法](#es7_8_9)
 
   <details>
-    <summary>
-      ......
-    </summary>
+  <summary>
+    ......
+  </summary>
 
-    - ES7
+  - ES7
 
-      - 幂操作符 `**`
-      - `Array.includes`
+    - 幂操作符 `**`
+    - `Array.includes`
 
-    - ES8
+  - ES8
 
-      - `async / await`
+    - `async / await`
 
-    - ES9
+  - ES9
 
-      - 异步迭代
-      - 正则表达式扩展
-      - `Promise.finally`
+    - 异步迭代
+    - 正则表达式扩展
+    - `Promise.finally`
   </details>
 
 - [ES6、7 新增的数组方法](#es6_7_array)
 
   <details>
-    <summary>
-      ......
-    </summary>
-    
-    - [@@iterator](#iterator)
+  <summary>
+    ......
+  </summary>
 
-      - `entries`
-      - `keys`
-      - `values`
+  - [@@iterator](#iterator)
 
-    - `copyWithin`
-    - `includes`
-    - `find`
-    - `findIndex`
-    - `fill`
-    - `from`
-    - `of`
+    - `entries`
+    - `keys`
+    - `values`
+
+  - `copyWithin`
+  - `includes`
+  - `find`
+  - `findIndex`
+  - `fill`
+  - `from`
+  - `of`
   </details>
 
 ## <span id="deconstruction">解构赋值</span>
@@ -127,7 +127,7 @@
 - `对象` 解构赋值
 
   ```javascript
-  let { name, age } = { name: "zhangsan", age: 20 };
+  let { name, age } = { name: 'zhangsan', age: 20 };
 
   // 另一种写法：
   // let obj = { name: 'zhangsan', age: 20 };
@@ -217,7 +217,7 @@ function () {
   ```javascript
   // 不固定 this
   let person1 = {
-    name: "name1",
+    name: 'name1',
     showName: function() {
       return this.name;
     }
@@ -226,7 +226,7 @@ function () {
 
   // 固定 this
   let person2 = {
-    name: "name1",
+    name: 'name1',
     showName: () => {
       return this.name;
     }
@@ -241,9 +241,9 @@ function () {
   ```javascript
   // 不固定 this
   let Person = function() {
-    this.name = "name1";
+    this.name = 'name1';
     this.attr = {
-      name: "name2",
+      name: 'name2',
       showName: function() {
         return this.name;
       }
@@ -254,9 +254,9 @@ function () {
 
   // 固定 this
   let Person = function() {
-    this.name = "name1";
+    this.name = 'name1';
     this.attr = {
-      name: "name2",
+      name: 'name2',
       showName: () => {
         return this.name;
       }
@@ -360,14 +360,14 @@ function () {
 在函数的参数后面赋值，即可给函数设置一个默认参数
 
 ```javascript
-let fn = (a = "hello world") => {};
+let fn = (a = 'hello world') => {};
 ```
 
 可以将默认参数设置为一个函数：
 
 ```javascript
 const myError = () => {
-  throw new Error("请传入参数");
+  throw new Error('请传入参数');
 };
 
 let fn = (a = myError()) => {
@@ -393,7 +393,7 @@ try {
   let arr = [68, 55, 98, 32, 66];
 
   // 将数组中的分数转换为 “及格” 或 “不及格”
-  let arr2 = arr1.map(item => (item >= 60 ? "及格" : "不及格"));
+  let arr2 = arr1.map(item => (item >= 60 ? '及格' : '不及格'));
 
   console.log(arr2); // => ["及格", "不及格", "及格", "不及格", "及格"]
   ```
@@ -459,8 +459,8 @@ try {
 // ES5 保护数据 例一
 var Person = function() {
   var data = {
-    name: "name1",
-    sex: "male",
+    name: 'name1',
+    sex: 'male',
     age: 20
   };
 
@@ -469,7 +469,7 @@ var Person = function() {
   };
 
   this.set = function(key, value) {
-    if (key !== "sex") {
+    if (key !== 'sex') {
       data[key] = value;
     }
   };
@@ -477,32 +477,32 @@ var Person = function() {
 var person = new Person();
 
 console.log(person.data); // => undefined // 不能直接访问私有数据
-console.log(person.get("name")); // => name1     // 通过 API 才能获取私有数据
+console.log(person.get('name')); // => name1     // 通过 API 才能获取私有数据
 
-person.set("name", "name2");
-console.log(person.get("name")); // => name2     // 通过 API 更改私有数据
+person.set('name', 'name2');
+console.log(person.get('name')); // => name2     // 通过 API 更改私有数据
 
-person.set("sex", "formale");
-console.log(person.get("sex")); // => male      // 不允许更改 sex 数据
+person.set('sex', 'formale');
+console.log(person.get('sex')); // => male      // 不允许更改 sex 数据
 
 // ES5 保护数据 例二
 var person = {
-  name: "name1",
+  name: 'name1',
   age: 20
 };
 
-Object.defineProperty(person, "sex", {
-  value: "male",
+Object.defineProperty(person, 'sex', {
+  value: 'male',
   writable: false
 });
 
-person.sex = "formale";
+person.sex = 'formale';
 console.log(person.sex); // => male
 
 // ES6 // 使用 Proxy 进行代理
 let Person = {
-  name: "name1",
-  sex: "male",
+  name: 'name1',
+  sex: 'male',
   age: 20
 };
 
@@ -511,7 +511,7 @@ let person = new Proxy(Person, {
     return target[key];
   },
   set(target, key, value) {
-    if (key !== "sex") {
+    if (key !== 'sex') {
       target[key] = value;
     }
   }
@@ -522,7 +522,7 @@ console.log(person.name); // => name1 // 读取数据时，默认会调用 get A
 person.age = 21;
 console.log(person.age); // => 21    // 可以修改
 
-person.sex = "formale";
+person.sex = 'formale';
 console.log(person.sex); // => male  // 不可以修改
 ```
 
@@ -552,7 +552,7 @@ console.log(person.sex); // => male  // 不可以修改
   var arr = [1, 2, 3];
   let iter = arr.entries();
 
-  console.log(iter.next());       // {value: Array, done: false}
+  console.log(iter.next()); // {value: Array, done: false}
   console.log(iter.next().value); // => [0, 1] // 0 是索引，1 是元素值
   console.log(iter.next().value); // => [1, 2]
   console.log(iter.next().value); // => [2, 3]
@@ -566,11 +566,11 @@ console.log(person.sex); // => male  // 不可以修改
   var arr = [1, 2, 3];
   let iter = arr.keys();
 
-  console.log(iter.next());       // => {value: 0, done: false}
+  console.log(iter.next()); // => {value: 0, done: false}
   console.log(iter.next().value); // => 0
-  console.log(iter.next());       // => {value: 1, done: false}
+  console.log(iter.next()); // => {value: 1, done: false}
   console.log(iter.next().value); // => 1
-  console.log(iter.next());       // => {value: 2, done: false}
+  console.log(iter.next()); // => {value: 2, done: false}
   console.log(iter.next().value); // => 2
   ```
 
@@ -582,11 +582,11 @@ console.log(person.sex); // => male  // 不可以修改
   var arr = [1, 2, 3];
   let iter = arr.values();
 
-  console.log(iter.next());       // => {value: 1, done: false}
+  console.log(iter.next()); // => {value: 1, done: false}
   console.log(iter.next().value); // => 1
-  console.log(iter.next());       // => {value: 2, done: false}
+  console.log(iter.next()); // => {value: 2, done: false}
   console.log(iter.next().value); // => 2
-  console.log(iter.next());       // => {value: 3, done: false}
+  console.log(iter.next()); // => {value: 3, done: false}
   console.log(iter.next().value); // => 3
   ```
 

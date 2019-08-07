@@ -24,7 +24,7 @@ task 可以是公开的和私有的。
 - 私有的 task 只能在内部使用，通常用于 `series()` 和 `parallel()` 指令。
 
 ```js
-const { series } = require("gulp");
+const { series } = require('gulp');
 
 function clean(cb) {
   // ...
@@ -51,7 +51,7 @@ exports.default = series(clean, build);
 - 使用 `parallel()` 使 task 并发执行
 
 ```js
-const { series, parallel } = require("gulp");
+const { series, parallel } = require('gulp');
 
 function clean(cb) {
   // ...
@@ -72,7 +72,7 @@ exports.parallel = parallel(clean, build);
 如果既要同步执行，又要异步执行 task，可以这样使用：
 
 ```js
-const { series, parallel } = require("gulp");
+const { series, parallel } = require('gulp');
 
 function clean(cb) {
   // ...
@@ -113,12 +113,12 @@ exports.default = series(clean, parallel(css, javascript));
 读入文件使用 `src()` 方法，写入文件使用 `dest()` 方法：
 
 ```js
-const { src, dest } = require("gulp");
+const { src, dest } = require('gulp');
 
 exports.default = function() {
-  return src("src/*.js")
+  return src('src/*.js')
     .pipe() // 一些操作
-    .pipe(dest("release/bundle.js"));
+    .pipe(dest('release/bundle.js'));
 };
 ```
 
@@ -142,19 +142,19 @@ exports.default = function() {
 `src()` 和 `dest()` 方法都可以放在流中，实现**文件分阶段编译输出**：
 
 ```js
-const { src, dest } = require("gulp");
-const babel = require("gulp-babel");
-const uglify = require("gulp-uglify");
-const rename = require("gulp-rename");
+const { src, dest } = require('gulp');
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
 
 exports.default = function() {
-  return src("src/*.js")
+  return src('src/*.js')
     .pipe(babel())
-    .pipe(src(["vendor/*.js", "content/*.js"]))
-    .pipe(dest("output/"))
+    .pipe(src(['vendor/*.js', 'content/*.js']))
+    .pipe(dest('output/'))
     .pipe(uglify())
-    .pipe(rename({ extname: ".min.js" }))
-    .pipe(dest("output/"));
+    .pipe(rename({ extname: '.min.js' }))
+    .pipe(dest('output/'));
 };
 ```
 
@@ -181,18 +181,18 @@ exports.default = async function () {
 ## 9、有条件的使用插件（借助 `gulp-if` 插件）
 
 ```js
-const { src, dest } = require("gulp");
-const gulpif = require("gulp-if");
-const uglify = require("gulp-uglify");
+const { src, dest } = require('gulp');
+const gulpif = require('gulp-if');
+const uglify = require('gulp-uglify');
 
 function jsJS(file) {
-  return file.extname == "*.js";
+  return file.extname == '*.js';
 }
 
 exports.default = function() {
-  return src(["src/*.js", "src/*.css"])
+  return src(['src/*.js', 'src/*.css'])
     .pipe(gulpif(isJS, uglify())) // 如果 isJS 返回 true，则使用 uglify 插件
-    .pipe(dest("release/bundle.js"));
+    .pipe(dest('release/bundle.js'));
 };
 ```
 
@@ -205,7 +205,7 @@ exports.default = function() {
 可以监听单个 task，也可以监听多个 task：
 
 ```js
-const { watch, series } = require("gulp");
+const { watch, series } = require('gulp');
 
 function clean(cb) {
   // ...
@@ -222,8 +222,8 @@ function js(cb) {
   cb();
 }
 
-watch("src/*.css", css);
-watch("src/*.js", series(clean, js));
+watch('src/*.css', css);
+watch('src/*.js', series(clean, js));
 ```
 
 ## 12、避免异步
@@ -235,9 +235,9 @@ watch("src/*.js", series(clean, js));
 默认情况下，watch 会在创建、更改或删除文件时，执行 task。如果想要 watch 在其他情况下执行 task，需要配置 events 参数：
 
 ```js
-const { watch } = require("gulp");
+const { watch } = require('gulp');
 
-watch("src/*.js", { events: "all" }, function(cb) {
+watch('src/*.js', { events: 'all' }, function(cb) {
   // ...
   cb();
 });
@@ -252,9 +252,9 @@ watch("src/*.js", { events: "all" }, function(cb) {
 如果想要在第一次文件修改之前执行任务，需要将 `ignoreInitial` 设置为 `false`：
 
 ```js
-const { watch } = require("watch");
+const { watch } = require('watch');
 
-watch("src/*.js", { ignoreInitial: false }, function(cb) {
+watch('src/*.js', { ignoreInitial: false }, function(cb) {
   // ...
   cb();
 });
@@ -312,34 +312,43 @@ gulp 插件网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
 `gulpfile.js`:
 
 ```js
-var gulp = require("gulp");
-var cssclean = require("gulp-clean-css");
-var concat = require("gulp-concat");
-var rename = require("gulp-rename");
+var gulp = require('gulp');
+var cssclean = require('gulp-clean-css');
+var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var cssgrace = require('cssgrace');
 
-var datas = [{
-  src: ['./css/head.css', './css/main.css', './css/foot.css'],
-  name: 'index.css'
-}, {
-  src: ['./css/head.css', './css/nav.css', './css/foot.css'],
-  name: 'list.css'
-}];
+var datas = [
+  {
+    src: ['./css/head.css', './css/main.css', './css/foot.css'],
+    name: 'index.css'
+  },
+  {
+    src: ['./css/head.css', './css/nav.css', './css/foot.css'],
+    name: 'list.css'
+  }
+];
 
 // 处理 CSS 文件
 function style_item(data, i) {
-  return gulp.src(data[i].src)
-    .pipe(concat(data[i].name)) // 合并后的文件名
-    .pipe(postcss([             // 对 CSS 进行后处理
-      autoprefixer,
-      cssgrace
-    ]))
-    // .pipe(gulp.dest('./build/css/'))    // 产出未压缩的 CSS 文件 // 如果需要未压缩的 CSS 文件，请取消注释这一行代码
-    .pipe(cssclean())
-    .pipe(rename({ extname: '.min.css' })) // 重命名
-    .pipe(gulp.dest('./build/css/'))       // 产出压缩的 CSS 文件
+  return (
+    gulp
+      .src(data[i].src)
+      .pipe(concat(data[i].name)) // 合并后的文件名
+      .pipe(
+        postcss([
+          // 对 CSS 进行后处理
+          autoprefixer,
+          cssgrace
+        ])
+      )
+      // .pipe(gulp.dest('./build/css/'))    // 产出未压缩的 CSS 文件 // 如果需要未压缩的 CSS 文件，请取消注释这一行代码
+      .pipe(cssclean())
+      .pipe(rename({ extname: '.min.css' })) // 重命名
+      .pipe(gulp.dest('./build/css/'))
+  ); // 产出压缩的 CSS 文件
 }
 
 // 执行 CSS 文件处理
@@ -353,4 +362,3 @@ function styles(cb) {
 exports.styles = styles;
 exports.default = styles;
 ```
-

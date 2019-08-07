@@ -5,7 +5,7 @@
 
 涉及的知识点参考了下图中的 JS 部分：
 
-![](https://raw.githubusercontent.com/liuyib/picBed/master/collection/20190727161531.png)
+![interview_map](https://raw.githubusercontent.com/liuyib/picBed/master/collection/20190727161531.png)
 
 ## 1、基本数据类型 6 种（原始数据类型）
 
@@ -17,6 +17,7 @@
 - `symbol` - ES6 新引入的基本类型
 
 需要注意的地方：
+
 - 基本类型中存储的都是值，没有任何方法和属性（虽然 `'1'.toString()` 可以使用，是因为这里 '1' 已经被后台转换为了基本包装类型）。
 - `null` 不是对象类型的（虽然 `typeof null` 得到的结果是 `object`，但是这是一个[历史遗留的 Bug](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/typeof#null) 造成的）。
 - `number` 类型是浮点类型的（`0.1 + 0.2 != 0.3`）。
@@ -69,7 +70,6 @@ console.log('hello world' instanceof PrimitiveString); // true
 - `undefined`：用 `-2^30`（整数范围之外的数字）来表示。
 - `null`：代表空指针，所有机器码均为 0。
 
-
 因此 `typeof null` 错误的返回 `object`。
 
 ### 手动实现一个 instanceof
@@ -86,8 +86,8 @@ function my_instanceof(a, b) {
   var right = b.prototype;
 
   while (true) {
-    if(left === null) return false;
-    if(left === right) return true;
+    if (left === null) return false;
+    if (left === right) return true;
 
     left = left.__proto__;
   }
@@ -103,7 +103,7 @@ function my_instanceof(a, b) {
 
 具体转换规则如图：
 
-![](./imgs/JS_type_change.png)
+![JS_type_change](./imgs/JS_type_change.png)
 
 总的来说，JS 中类型转换只有三种情况，分别是：
 
@@ -167,7 +167,7 @@ console.log([1, 2, 3] + 4); // 1,2,34
 下面来看这个表达式：
 
 ```javascript
-console.log('a' + + 'b'); // => aNaN
+console.log('a' + +'b'); // => aNaN
 ```
 
 由于 `+ 'b'` 会转换为 `NaN`，所以结果为 `aNaN`。
@@ -175,8 +175,8 @@ console.log('a' + + 'b'); // => aNaN
 四则运算中，除了加法运算以外，对于其他三种运算来说，只要一方有数字，另一方就会被尝试转换为数字：
 
 ```javascript
-console.log(2 - '3');    // -1
-console.log(2 * []);     // 0
+console.log(2 - '3'); // -1
+console.log(2 * []); // 0
 console.log(2 / [1, 2]); // NaN
 ```
 
@@ -221,7 +221,7 @@ console.log(2 / [1, 2]); // NaN
 点击查看思考题答案
 </summary>
 
-```
+```text
 首先，![] 会被转换为 false // [] 是对象，对象转为布尔值时始终为 true，然后取反得 false
 式子变为 [] == false
 由于出现布尔值，根据第五点可知
@@ -229,6 +229,7 @@ console.log(2 / [1, 2]); // NaN
 由于式子又符合了第六点，所以被转换为 0 == 0
 所以结果为 true
 ```
+
 </details>
 
 关于 `===` 就很简单了，由于不会发生类型转换，所以只有类型和值都相同时，结果才相同。
@@ -241,15 +242,16 @@ console.log(2 / [1, 2]); // NaN
 ```javascript
 let a = {
   valueOf() {
-    return 0
+    return 0;
   },
   toString() {
-    return '2'
+    return '2';
   }
-}
+};
 
 console.log(a > 1); // => false
 ```
+
 因为 `a` 是对象，所以会通过 `valueOf` 转换为原始类型再比较。
 
 ## 4、new
@@ -295,8 +297,8 @@ function foo() {
   return () => {
     return () => {
       console.log(this);
-    }
-  }
+    };
+  };
 }
 
 foo()(); // => window
@@ -312,7 +314,7 @@ foo()(); // => window
 
 ```javascript
 var a = {};
-var fn = function () {
+var fn = function() {
   console.log(this);
 };
 
@@ -323,7 +325,7 @@ fn.bind().bind(a)(); // => window
 
 ```javascript
 var fn2 = function fn1() {
-  return function () {
+  return function() {
     return fn.apply();
   }.apply(a);
 };
@@ -334,7 +336,7 @@ fn2();
 
 ```javascript
 var a = {};
-var fn = function () {
+var fn = function() {
   console.log(this);
 };
 
@@ -349,7 +351,7 @@ fn.bind(a).bind()(); // => {}
 
 用流程图来表示如下：
 
-![](./imgs/this_priority.png)
+![this_priority](./imgs/this_priority.png)
 
 ## 6、call、apply 和 bind 的区别
 
@@ -385,7 +387,9 @@ fn.bind(a).bind()(); // => {}
 function f1() {
   var n = 999;
 
-  add = function () { n += 1 }
+  add = function() {
+    n += 1;
+  };
 
   function f2() {
     console.log(n);
@@ -414,10 +418,10 @@ result(); // => 1000
 > 如果能理解这两个思考题，应该就算理解闭包的运行机制了
 
 ```javascript
-var name = "The Window";
+var name = 'The Window';
 
 var object = {
-  name: "My Object",
+  name: 'My Object',
 
   showName: function() {
     return function() {
@@ -430,10 +434,10 @@ console.log(object.showName()());
 ```
 
 ```javascript
-var name = "The Window";
+var name = 'The Window';
 
 var object = {
-  name: "My Object",
+  name: 'My Object',
 
   showName: function() {
     var _this = this;
@@ -451,10 +455,11 @@ console.log(object.showName()());
 点击查看思考题答案
 </summary>
 
-```
+```text
 1. The Window
 2. My Object
 ```
+
 </details>
 
 ### 关于闭包，面试中必问的问题
@@ -476,9 +481,15 @@ data[2]();
 对于上面的输出结果，很显然都是 `3`。至于为什么都是 3，可以这样来理解：循环结束后，上面的代码等价于：
 
 ```javascript
-data[0] = function(){ console.log(i) };
-data[1] = function(){ console.log(i) };
-data[2] = function(){ console.log(i) };
+data[0] = function() {
+  console.log(i);
+};
+data[1] = function() {
+  console.log(i);
+};
+data[2] = function() {
+  console.log(i);
+};
 ```
 
 此时 `i` 的值已经为 3 ，所以当 `data[0]、data[1]、data[2]` 中任意一个执行时输出结果都为 `3`。
@@ -489,10 +500,10 @@ data[2] = function(){ console.log(i) };
 var data = [];
 
 for (var i = 0; i < 3; i++) {
-  (function (i) {
-    data[i] = function () {
+  (function(i) {
+    data[i] = function() {
       console.log(i);
-    }
+    };
   })(i);
 
   // 或者写成下面这种形式
@@ -514,12 +525,8 @@ data[2](); // => 2
 
 > 防抖（debounce）：事件持续触发结束后，等待 n 秒才执行函数
 > 节流（throttle）：事件持续触发的时候，每 n 秒执行一次函数
-> 
-> [JavaScript专题之跟着 underscore 学节流](https://github.com/mqyqingfeng/Blog/issues/26)
-> [JavaScript专题之跟着 underscore 学防抖](https://github.com/mqyqingfeng/Blog/issues/22)
-> [underscore 函数节流的实现](https://github.com/hanzichi/underscore-analysis/issues/22)
-> [underscore 函数去抖的实现](https://github.com/hanzichi/underscore-analysis/issues/21)
-> [JavaScript 函数节流和函数去抖应用场景辨析](https://github.com/hanzichi/underscore-analysis/issues/20)
+>
+> [JavaScript 专题之跟着 underscore 学节流](https://github.com/mqyqingfeng/Blog/issues/26) > [JavaScript 专题之跟着 underscore 学防抖](https://github.com/mqyqingfeng/Blog/issues/22) > [underscore 函数节流的实现](https://github.com/hanzichi/underscore-analysis/issues/22) > [underscore 函数去抖的实现](https://github.com/hanzichi/underscore-analysis/issues/21) > [JavaScript 函数节流和函数去抖应用场景辨析](https://github.com/hanzichi/underscore-analysis/issues/20)
 
 ### 防抖的应用场景
 
@@ -529,7 +536,7 @@ data[2](); // => 2
 
 ### 节流的应用场景
 
-- DOM元素的拖拽功能实现（`mousemove`）
+- DOM 元素的拖拽功能实现（`mousemove`）
 - 射击游戏的 `mousedown / keydown` 事件（单位时间内只能发射一颗子弹）
 - 计算鼠标移动距离（`mousemove`）
 - Canvas 模拟画板功能（`mousemove`）
@@ -542,86 +549,131 @@ data[2](); // => 2
 
 ### 浅拷贝
 
-- `...` 运算符
+1、`for...in` 遍历
 
-``` js
-let a = {
-  age: 1
-};
-let b = { ...a };
-a.age = 2;
+```js
+let obj = { a: 1, b: { c: 1 } };
 
-console.log(b.age); // => 1
-```
+function shallowCopy(obj) {
+  let newObj = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
 
-- `Object.assign`
-
-``` js
-let a = {
-  age: 1,
-  hobby: {
-    best: 'writing'
+      newObj[key] = value;
+    }
   }
-};
-let b = Object.assign({}, a);
-a.age = 2;
-a.hobby.best = 'coding';
+  return newObj;
+}
 
-console.log(b.age);        // => 1      // 不变
-console.log(b.hobby.best); // => coding // 改变
+let newObj = shallowCopy(obj);
+obj.a = 2;
+obj.b.c = 2;
+
+console.log(newObj.a); // => 1 // 不变
+console.log(newObj.b.c); // => 2 // 改变
 ```
 
-可以看出，属性值是对象时，拷贝的仍然是引用地址。为了解决这个问题，就需要用到深拷贝。
+2、`...` 运算符
+
+```js
+let obj = { a: 1, b: { c: 1 } };
+
+let newObj = { ...obj };
+obj.a = 2;
+obj.b.c = 2;
+
+console.log(newObj.a); // => 1 // 不变
+console.log(newObj.b.c); // => 2 // 改变
+```
+
+3、`Object.assign`
+
+```js
+let obj = { a: 1, b: { c: 1 } };
+
+let newObj = Object.assign({}, obj);
+obj.a = 2;
+obj.b.c = 2;
+
+console.log(newObj.a); // => 1 // 不变
+console.log(newObj.b.c); // => 2 // 改变
+```
+
+可以看出，进行浅拷贝时，如果属性值是对象，则拷贝的是引用地址。为了解决这个问题，就需要用到深拷贝。
 
 ### 深拷贝
 
-- `JSON.parse(JSON.stringify(object))`
+1、`JSON.parse(JSON.stringify(object))`
 
 一般情况下，使用这个方法就能解决问题：
 
-``` js
-let a = {
-  age: 1,
-  hobby: {
-    best: 'writing'
-  }
+```js
+let obj = { a: 1, b: { c: 1 } };
+
+let newObj = JSON.parse(JSON.stringify(obj));
+obj.a = 2;
+obj.b.c = 2;
+
+console.log(newObj.a); // => 1 // 不变
+console.log(newObj.b.c); // => 1 // 不变
+```
+
+这个方法局限性如下：
+
+- 会忽略函数、`undefined`、`Symbol`
+- 不能正确拷贝正则表达式
+- 循环引用报错
+- 相同的引用会被重复拷贝
+
+```js
+let obj = {
+  a: 'hello world',
+  b: undefined,
+  c: Symbol('male'),
+  d: function() {},
+  e: /^coding$/
 };
-let b = Object.assign({}, a);
-a.age = 2;
-a.hobby.best = 'coding';
+let newObj = JSON.parse(JSON.stringify(obj));
 
-console.log(b.age);        // => 1       // 不变
-console.log(b.hobby.best); // => writing // 不变
+console.log(newObj); // => { a: "hello world", e: {} }
 ```
 
-但是这个方法是有前提的：
+可以看到，拷贝时忽略了函数、`undefined`、`symbol`，正则表达式被拷贝为一个空对象。
 
-- 会忽略 `undefined`
-- 会忽略 `symbol`
-- 不能序列化函数
-- 不能解决循环引用的问题
+2、`MessageChannel`
 
-遇到 `函数`、`undefined`、`symbol` 的时候，无法正常序列化：
+如果你要拷贝的对象含有内置类型，并且**不包含函数**，那么可以使用 `MessageChannel`：
 
-``` js
-let a = {
-  age: undefined,
-  sex: Symbol('male'),
-  job: function () {},
-  name: 'liuyib'
+```js
+function structuralClone(obj) {
+  return new Promise(resolve => {
+    const { port1, port2 } = new MessageChannel();
+    port2.onmessage = ev => resolve(ev.data);
+    port1.postMessage(obj);
+  });
+}
+
+const obj = {
+  a: undefined,
+  b: { c: 1 }
 };
-let b = JSON.parse(JSON.stringify(a));
 
-console.log(b); // => { name: "liuyib" }
+// 循环引用
+obj.b.d = obj.b;
+
+let test = async () => {
+  const newObj = await structuralClone(obj);
+  obj.b.c = 2;
+  console.log(newObj); // 输出结果如图
+};
+
+test();
 ```
 
-- `MessageChannel`
+![circle_refer](./imgs/circle_refer.png)
 
-如果你要拷贝的对象含有内置类型，并且不包含函数，那么可以使用 `MessageChannel`：
-
-``` js
-// TODO
-```
+可以看到，这种方法可以拷贝 `undefined` 并且能处理循环引用，但是这种方法仍不能拷贝函数，如果对象有属性是函数，使用这个方法深拷贝会报错。
 
 ## 13、模块化
 

@@ -2,7 +2,7 @@
 
 ## 知识图谱
 
-![](./imgs/regexp_knowledge_map.png)
+![regexp_knowledge_map](./imgs/regexp_knowledge_map.png)
 
 ## 书写风格
 
@@ -12,16 +12,18 @@
 ## 可以使用正则的方法
 
 - String 上的方法：
-  + search `str.search(re)` -- 返回位置索引（失败返回 `-1`）
-  + match `str.match(re)` -- 返回数组（失败返回 `null`）
-  + replace `str.replace(re)`
-  + split `str.split(re)`
+
+  - search `str.search(re)` -- 返回位置索引（失败返回 `-1`）
+  - match `str.match(re)` -- 返回数组（失败返回 `null`）
+  - replace `str.replace(re)`
+  - split `str.split(re)`
 
 - RegExp 上的方法：
-  + test `re.test(str)` -- 返回 `true / false`
-  + exec `re.exec(str)` -- 返回数组（失败返回 `null`）
+  - test `re.test(str)` -- 返回 `true / false`
+  - exec `re.exec(str)` -- 返回数组（失败返回 `null`）
 
 > 注意几点：
+>
 > 1. `match` 不加参数 `g` 只会匹配一个值
 > 2. `exec` 一次匹配只会匹配到一个值，如果想要匹配多个值，需要循环多次匹配
 > 3. 如果只判断是否匹配，用 `test、search` 更方便
@@ -34,6 +36,7 @@
 - `y` -- 执行“粘性”搜索（从 `lastIndex` 处开始匹配）
 
 关于参数 `y` 的用法，举个例子：
+
 ```javascript
 var str = '##foo##';
 var regex = /foo/y;
@@ -51,9 +54,9 @@ console.log(regex.lastIndex); // 0 （匹配失败后重置）
 - `*` -- 至少 0 个，等价于 `{0,}`
 - `?` -- 0 或 1 个，等价于 `{0,1}`
 - `{}`
-  + `{n}` -- 匹配 `n` 个
-  + `{n,m}` -- 匹配 `n` 到 `m` 个
-  + `{n,}` -- 匹配大于等于 `n` 个
+  - `{n}` -- 匹配 `n` 个
+  - `{n,m}` -- 匹配 `n` 到 `m` 个
+  - `{n,}` -- 匹配大于等于 `n` 个
 
 > 注意：
 > `?` 跟在任何量词后面，都会使量词变得 **非贪婪**
@@ -66,6 +69,7 @@ console.log(regex.lastIndex); // 0 （匹配失败后重置）
 - `\B` -- 匹配一个非 **单词边界**
 
 > 注：
+>
 > - 不加参数 m（单行模式）：`^$` 表示 **整体** 字符串的开头结尾
 > - 加上参数 m（多行模式）：`^$` 表示 **每行** 字符串的开头结尾
 
@@ -100,14 +104,15 @@ console.log(regex.lastIndex); // 0 （匹配失败后重置）
 - `\数字` -- 表示匹配阶段的捕获
 - `$数字` -- 表示替换阶段的捕获
 - `[]`
-  + 或 -- `[abc]` 匹配 `a` 或 `b` 或 `c`
-  + 范围 -- `[a-z]` 匹配 `a` 到 `z`
-  + 排除 -- `[^0-9]` 匹配非数字
+  - 或 -- `[abc]` 匹配 `a` 或 `b` 或 `c`
+  - 范围 -- `[a-z]` 匹配 `a` 到 `z`
+  - 排除 -- `[^0-9]` 匹配非数字
 - `()` -- 捕获括号，匹配结果会储存在 **捕获** 里。
-匹配阶段，**捕获** 用 `\1、\2 ...` 表示；替换阶段，**捕获** 用 `$1、$2 ...` 表示。
-也用于 **设置匹配优先级**
+  匹配阶段，**捕获** 用 `\1、\2 ...` 表示；替换阶段，**捕获** 用 `$1、$2 ...` 表示。
+  也用于 **设置匹配优先级**
 
 对于 **捕获**，举个例子：
+
 ```javascript
 console.log('abcd'.replace(/(b)(c)/, '$2$1')); // => acbd
 // 捕获2（$2）会匹配 c，捕获1（$1）会匹配 b
