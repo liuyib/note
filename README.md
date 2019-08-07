@@ -62,9 +62,9 @@
 
 - 读书笔记
 
-  - [JavaScript 高级程序设计](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1) -- 未完
-  - [Node.js 开发实战](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Node.js%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98) -- 未完
-  - [漫画算法 -- 小灰的漫画算法之旅](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95) -- 完 `2019.5.11`
-  - 白帽子讲 Web 安全 -- 完 `2019.5.9`
-
-    > 笔记见 [Web 安全](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8)
+|📔| 📕  | 📗  | 📘  | 📙  |
+| :-: | :-: | :-: | :-: | :-: |
+|![JS 高程](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124201.png)|![Node.js 开发实战](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124158.jpg)|![小灰的漫画算法之旅](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124159.png)|![白帽子讲 Web 安全](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124200.jpg)|![ES6 标准入门](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807125419.jpg)|
+|[JavaScript 高级程序设计（第三版）](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1) -- 未完 `第 11 章`|[Node.js 开发实战](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Node.js%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98) -- 未完 `第 2.3 节`|[漫画算法 -- 小灰的漫画算法之旅](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95) -- 完 `2019.5.11`|[白帽子讲 Web 安全（纪念版）](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8) -- 完 `2019.5.9`|ES6 标准入门（第六版） -- 未完 `第 1.14 节`|
+|![JS DOM 编程艺术](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124157.jpg)|||
+|JavaScript DOM 编程艺术（第二版） -- 未完 `第 7 章`|||
