@@ -77,16 +77,16 @@ Strict，但允许添加模型（例如提供对东亚语系的ruby支持）。
 新增类型：网址 邮箱 日期 时间 星期 数量 范围 电话 颜色 搜索:
 
 ```html
-<label>网址:</label><input type="url" name="" /> <label>邮箱:</label
-><input type="email" name="" /> <label>日期:</label
-><input type="date" name="" /> <label>时间:</label
-><input type="time" name="" /> <label>星期:</label
-><input type="week" name="" /> <label>数量:</label
-><input type="number" name="" /> <label>范围:</label
-><input type="range" name="" /> <label>电话:</label
-><input type="tel" name="" /> <label>颜色:</label
-><input type="color" name="" /> <label>搜索:</label
-><input type="search" name="" />
+<label>网址:</label><input type="url" name="">
+<label>邮箱:</label><input type="email" name="">
+<label>日期:</label><input type="date" name="">
+<label>时间:</label><input type="time" name="">
+<label>星期:</label><input type="week" name="">
+<label>数量:</label><input type="number" name="">
+<label>范围:</label><input type="range" name="">
+<label>电话:</label><input type="tel" name="">
+<label>颜色:</label><input type="color" name="">
+<label>搜索:</label><input type="search" name="">
 ```
 
 H5 新增的一些表单属性:
