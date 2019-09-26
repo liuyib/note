@@ -221,3 +221,7 @@ BEM 命名中，不能使用**标签选择器**和 **ID 选择器**。所有的�
 
 - 根据 BEM 的准则创建新的组件，并根据需要修改旧的组件。
 - 在 CSS 类名前加私有前缀（例如：`bem-`），以便于和旧代码区分。
+
+---
+
+本文来源于：[BEM Methodology](https://en.bem.info/methodology/quick-start/)，进行总结和概括后，作为笔记记录下来。
