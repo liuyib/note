@@ -1,27 +1,27 @@
 # Gulp 学习笔记
 
-## 1、安装
+## 安装
 
-gulp 既要全局安装，又要本地安装才可以使用：
+Gulp 既要全局安装，又要本地安装才可以使用：
 
 ```shell
 npm install gulp -g
 npm install gulp -D
 ```
 
-官网：[https://gulpjs.com/](https://gulpjs.com/)
+文档
 
-中文官网: [https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
+- 英文：[https://gulpjs.com/](https://gulpjs.com/)
+- 中文: [https://www.gulpjs.com.cn/](https://www.gulpjs.com.cn/)
+- GitHub：[https://github.com/gulpjs/gulp](https://github.com/gulpjs/gulp)
 
-GitHub：[https://github.com/gulpjs/gulp](https://github.com/gulpjs/gulp)
+## 导出
 
-## 2、导出
+Gulp 的打包脚本由一个个函数组成，这些函数被称为 task（任务），task 有公开和私有两种。
 
-task 可以是公开的和私有的。
-
-- 使用 exports 可以使 task 成为公开的。
-- 公开的 task 可以直接被 gulp 指令单独调用。
-- 私有的 task 只能在内部使用，通常用于 `series()` 和 `parallel()` 指令。
+- 使用 `exports` 可以使 task 成为公开的。
+- 公开的 task 可以直接被 Gulp 指令单独调用。
+- 私有的 task 只能在内部使用，通常用于 `series` 和 `parallel` 方法。
 
 ```js
 const { series } = require('gulp');
@@ -40,15 +40,14 @@ exports.build = build;
 exports.default = series(clean, build);
 ```
 
-上面的代码中 `clean 任务` 没有被 exports 是私有的 task。而 build 是公开的。
+上面的代码中 `clean` 没有被 `exports` 是私有的 task，而 `build` 是公开的。
 
-## 3、组合任务
+## 组合任务
 
-> - series()
-> - parallel()
+- `series()`
+- `parallel()`
 
-- 使用 `series()` 使 task 顺序执行
-- 使用 `parallel()` 使 task 并发执行
+使用 `series` 方法使 task 顺序执行，使用 `parallel` 方法使 task 并发执行
 
 ```js
 const { series, parallel } = require('gulp');
@@ -93,24 +92,24 @@ function javascript(cb) {
 exports.default = series(clean, parallel(css, javascript));
 ```
 
-## 4、异步完成
+## 异步完成
 
 - 返回一个 stream
 - 返回一个 promise
 - 返回一个 event emitter
 - 返回一个 child process
 - 返回一个 observable
-- 错误优先回调 cb() -- 没有返回值的 task，一定要执行 cb 方法
+- 错误优先回调 `cb()`（没有返回值的 task，一定要执行 `cb` 方法）
 - 使用 async / await
 
 [https://gulpjs.com/docs/en/getting-started/async-completion](https://gulpjs.com/docs/en/getting-started/async-completion)
 
-## 5、读写文件
+## 读写文件
 
-> - src()
-> - dest()
+- `src()`
+- `dest()`
 
-读入文件使用 `src()` 方法，写入文件使用 `dest()` 方法：
+读入文件使用 `src` 方法，写入文件使用 `dest` 方法：
 
 ```js
 const { src, dest } = require('gulp');
@@ -122,11 +121,11 @@ exports.default = function() {
 };
 ```
 
-> **src() 方法的参数可以是一个数组，dest() 的不行**
+> `src` 方法的参数可以是一个数组，`dest` 的不可以。
 
 [读取文件的模式（流、缓冲、空）](https://gulpjs.com/docs/en/getting-started/working-with-files#modes-streaming-buffered-and-empty)
 
-## 6、特殊字符
+## 特殊字符
 
 - `\`
 - `*`
@@ -135,11 +134,9 @@ exports.default = function() {
 
 [https://gulpjs.com/docs/en/getting-started/explaining-globs](https://gulpjs.com/docs/en/getting-started/explaining-globs)
 
-## 7、多输入多输出
+## 多输入多输出
 
-通常使用插件放置在 `src()` 和 `dest()` 方法之间。
-
-`src()` 和 `dest()` 方法都可以放在流中，实现**文件分阶段编译输出**：
+通常使用插件放置在 `src` 和 `dest` 方法之间。`src` 和 `dest` 方法都可以放在流中，实现**文件分阶段编译输出**：
 
 ```js
 const { src, dest } = require('gulp');
@@ -158,7 +155,7 @@ exports.default = function() {
 };
 ```
 
-## 8、引入其它库 / 模块
+## 引入其它库 / 模块
 
 并不一定所有内容都需要插件。可以通过引入其他模块或库来改进操作：
 
@@ -178,7 +175,9 @@ exports.default = async function () {
 };
 ```
 
-## 9、有条件的使用插件（借助 `gulp-if` 插件）
+## 有条件的使用插件
+
+借助 `gulp-if` 插件，实现有条件的使用插件：
 
 ```js
 const { src, dest } = require('gulp');
@@ -196,11 +195,11 @@ exports.default = function() {
 };
 ```
 
-## 10、内联插件
+## 内联插件
 
 [https://gulpjs.com/docs/en/getting-started/using-plugins#inline-plugins](https://gulpjs.com/docs/en/getting-started/using-plugins#inline-plugins)
 
-## 11、监听文件
+## 监听文件
 
 可以监听单个 task，也可以监听多个 task：
 
@@ -226,13 +225,13 @@ watch('src/*.css', css);
 watch('src/*.js', series(clean, js));
 ```
 
-## 12、避免异步
+## 避免异步
 
-> 传给 watch 的 task 不要异步进行。
+传给 `watch` 的 task 不要异步进行。
 
-## 13、配置 watch 的参数
+## 配置 watch 的参数
 
-默认情况下，watch 会在创建、更改或删除文件时，执行 task。如果想要 watch 在其他情况下执行 task，需要配置 events 参数：
+默认情况下，`watch` 会在创建、更改或删除文件时，执行 task。如果想要 `watch` 在其他情况下执行 task，需要配置 `events` 参数：
 
 ```js
 const { watch } = require('gulp');
@@ -245,11 +244,9 @@ watch('src/*.js', { events: 'all' }, function(cb) {
 
 > 可以配置的参数有：`'add'`，`'addDir'`，`'change'`，`'unlink'`，`'unlinkDir'`，`'ready'`，`'error'`，`'all'`
 
-## 14、初始执行
+## 初始执行
 
-默认情况下，调用 `watch()`，任务不会执行，而是等待第一次文件修改。
-
-如果想要在第一次文件修改之前执行任务，需要将 `ignoreInitial` 设置为 `false`：
+默认情况下，调用 `watch` 方法，任务不会执行，而是等待第一次文件修改。如果想要在第一次文件修改之前执行任务，需要将 `ignoreInitial` 设置为 `false`：
 
 ```js
 const { watch } = require('watch');
@@ -260,30 +257,26 @@ watch('src/*.js', { ignoreInitial: false }, function(cb) {
 });
 ```
 
-其他的设置：
+其他设置：
 
 - `queue: false` 禁止排队
 - `delay: 500` 延迟执行 task
 
-## 15、API
+## 一些常用插件
 
-[https://gulpjs.com/docs/en/api/concepts](https://gulpjs.com/docs/en/api/concepts)
-
-## 16、一些常用插件
-
-gulp 插件网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
+Gulp 插件网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
 
 > 安装方法均为：npm install 包名 -D
 
-- gulp-htmlclean 压缩 HTML
+- `gulp-htmlclean` 压缩 HTML
 
-- gulp-clean-css 压缩 CSS
+- `gulp-clean-css` 压缩 CSS
 
-- gulp-uglify 压缩 JS
+- `gulp-uglify` 压缩 JS
 
-- gulp-less
+- `gulp-less`
 
-- gulp-babel
+- `gulp-babel`
 
   ```shell
   # Babel 7
@@ -293,17 +286,17 @@ gulp 插件网址：[https://gulpjs.com/plugins/](https://gulpjs.com/plugins/)
   $ npm install gulp-babel@7 babel-core babel-preset-env -D
   ```
 
-- gulp-jshint
+- `gulp-jshint`
 
-- gulp-concat 连接文件
+- `gulp-concat` 连接文件
 
-- gulp-rename
+- `gulp-rename`
 
-- gulp-imagemin 压缩图片
+- `gulp-imagemin` 压缩图片
 
-- del 删除文件 / 目录
+- `del` 删除文件 / 目录
 
-## 17、示例
+## 示例
 
 官网示例代码：[https://github.com/gulpjs/gulp#sample-gulpfilejs](https://github.com/gulpjs/gulp#sample-gulpfilejs)
 
@@ -362,3 +355,7 @@ function styles(cb) {
 exports.styles = styles;
 exports.default = styles;
 ```
+
+## API
+
+[https://gulpjs.com/docs/en/api/concepts](https://gulpjs.com/docs/en/api/concepts)

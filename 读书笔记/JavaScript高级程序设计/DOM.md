@@ -1,64 +1,94 @@
 # DOM 部分
 
+> 包括：第十章 DOM、第十一章 DOM 扩展。
+
 ## 概念
 
-DOM 是针对 HTML 和 **XML** 的一套 API。
+DOM 是针对 HTML 和 XML 的一套 API。
 
 ## 文档元素
 
-文档元素是每个文档的根节点，在 HTML 中，文档元素始终是 `<html>`；在 XML 中，没有预定的元素，因此任何元素都有可能成为文档元素。
+文档元素是每个文档的根节点，在 HTML 中，文档元素始终是 `<html>`。在 XML 中，没有预定的元素，因此任何元素都有可能成为文档元素。
 
-## 节点类型
+## Node 类型
 
-DOM1 中定义了一个 Node 接口，JS 中作为 Node 类型实现了这个接口。JS 中总共有 12 种节点类型，这些节点类型都继承自 Node 类型，并都有一个 `nodeType` 属性。这些节点类型中，常用的是**元素、文本、注释**节点，他们的 `nodeType` 分别是 1、3、8。
+DOM1 中定义了一个 Node 接口，JS 中作为 Node 类型实现了这个接口。JS 中总共有 12 种节点类型，这些节点类型都继承自 Node 类型，并都有一个 `nodeType` 属性。这些节点类型中，常用的是**元素、文本、注释**节点，他们的 `nodeType` 分别是 1（`Node.ELEMENT_NODE`）、3（`Node.TEXT_NODE`）、8（`Node.COMMENT_NODE`）。
 
-## nodeName 和 nodeValue 属性
+- `nodeName` 和 `nodeValue` 属性
 
-> 这两个属性的值取决于节点类型（所以使用之前最好检测一下节点类型）。
-> 例如：元素节点的 `nodeName` 是元素名，`nodeValue` 是 `null`。
+  这两个属性的值取决于节点类型，所以使用之前最好检测一下节点类型。例如：
 
-## 访问节点
+  ``` js
+  // 一个 div 元素节点
+  if (someNode.nodeType == 1) {
+    name = someNode.nodeName;   // DIV（标签名）
+    value = someNode.nodeValue; // null
+  }
 
-访问子节点：
+  // 一个文本节点
+  if (someNode.nodeType == 3) {
+    name = someNode.nodeName;   // #text
+    value = someNode.nodeValue; //（文本的具体内容）
+  }
 
-- `childNodes` 属性
-- `firstChild`
-- `lastChild`
+  // 一个注释节点
+  if (someNode.nodeType == 8) {
+    name = someNode.nodeName;   // #comment
+    value = someNode.nodeValue; //（注释的具体内容）
+  }
+  ```
 
-`childNodes` 属性中保存着 `NodeList` 对象。`NodeList` 对象是一种类数组对象。
-其中
+- 访问节点
 
-```javascript
-childNodes[0] == firstChild;
-childNodes[childNodes.length - 1] == lastChild;
-```
+  - 访问子节点
 
-如果没有子节点，则 `firstChild`, `lastChild` 均为 `null`。
+    - `childNodes` 属性
+    - `firstChild` 属性
+    - `lastChild` 属性
 
-> 注意：上面这三个属性，会获取 `所有类型的节点`。由于代码缩进的原因，我们平时写代码使用：`someNode.firstChild, someNode.childNodes[0]` 等，获取到的一般是一个文本节点。并不能直接按照索引获取我们想要的元素节点！
+    `childNodes` 属性中保存着 `NodeList` 对象。`NodeList` 对象是一个类数组对象，它是基于 DOM 结构动态查询的结果，DOM 结构的修改能够自动反映到 `NodeList` 中。其中：
 
-访问父节点：
+    ``` js
+    firstChild == childNodes[0];
+    lastChild  == childNodes[childNodes.length - 1];
+    ```
 
-- `parentNode` 属性
+    可以通过 `Array.prototype.slice` 方法将类数组对象转换为数组：
 
-访问兄弟节点：
+    ``` js
+    var nodes = Array.prototype.slice.call(someNode.childNodes);
+    ```
 
-- `previousSibling`
-- `nextSibling`
+    如果没有子节点，则 `firstChild`、`lastChild` 均为 `null`。
 
-> 如果一个节点没有上一个 / 下一个节点，那么他的 `previousSibling / nextSibling` 属性为 `null`。
+    > 注意：上面这三个属性，会获取所有类型的节点。由于代码缩进时的空格或换行也是文本节点，所以 `someNode.firstChild`、`someNode.childNodes[0]` 获取到的一般是一个文本节点，并不能得到我们想要的元素节点！
 
-节点之间的访问属性可以用下图表示：
+  - 访问父节点
 
-![node_map](./imgs/section10/node_map.png)
+    - `parentNode` 属性
 
-访问根节点：
+  - 访问兄弟节点
 
-- `ownerDocument`
+    - `previousSibling` 属性
+    - `nextSibling` 属性
 
-这是所有节点都有的一个属性，该属性表示整个文档节点。通过这个属性，我们可以不必在节点层次中层层回溯到达顶端，而是可以直接访问根节点。
+    如果一个节点没有上一个 / 下一个节点，那么他的 `previousSibling / nextSibling` 属性为 `null`。
 
-- `hasChildNodes()` 判断是否有子节点（12 种节点之一）
+    节点之间的访问属性可以用下图表示：
+
+    ![node_map](./imgs/section10/node_map.png)
+
+  - 访问根节点
+
+    - `ownerDocument` 属性
+
+    这是所有节点都有的一个属性，表示整个文档节点（是 document 对象，而不是 `<html>`）。
+
+  - 其他
+
+    - `hasChildNodes()` 方法
+
+      判断是否有子节点（12 种节点之一）
 
 ## 操作节点
 
@@ -68,11 +98,11 @@ childNodes[childNodes.length - 1] == lastChild;
 
 如果传入的节点已经是文档的一部分，那么该节点会从原来的位置移动到节点末尾。即起到了移动节点的作用。例如：
 
-```javascript
+``` js
 // someNode 有多个子节点
 var returnNode = someNode.appendChild(someNode.firstChild);
 console.log(returnNode == someNode.firstChild); // false
-console.log(returnNode == someNode.lastChild); // true
+console.log(returnNode == someNode.lastChild);  // true
 ```
 
 - `insertBefore()`

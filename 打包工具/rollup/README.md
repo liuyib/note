@@ -1,4 +1,4 @@
-# Rollup
+# Rollup 学习笔记
 
 ## 原生支持多入口和多出口
 
@@ -77,7 +77,7 @@ export default {
 
 这里设置 `modules: false`，防止 Babel 在 Rollup 之前，将我们的依赖模块转成 CommonJS，导致 Rollup 的一些失败处理。
 
-使用 `external-helpers` 插件，它允许 Rollup 在文件束前仅引用一次任何的 'helpers' 函数，而不是在每个使用这些 'helpers' 的模块里都引入一遍（一般是默认行为）。
+使用 `external-helpers` 插件，它允许 Rollup 在文件束前仅引用一次任何的 helpers 函数，而不是在每个使用这些 helpers 函数的模块里都引入一遍。
 
 那么在编译之前，还需要安装一下插件 `babel-preset-latest` 和 `babel-plugin-external-helpers`：
 
