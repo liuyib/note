@@ -16,11 +16,12 @@
 
 - HTML
 
-  - 掘金小册--大厂 H5 开发实战
+  - 掘金小册《大厂 H5 开发实战》
 
     - [基础页面开发](https://github.com/liuyib/study-note/blob/master/HTML/HTML5/%E5%A4%A7%E5%8E%82H5%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/%E5%9F%BA%E7%A1%80%E9%A1%B5%E9%9D%A2%E5%BC%80%E5%8F%91.md)
 
-  - [HTML5 知识总结](https://github.com/liuyib/study-note/tree/master/HTML/HTML5)
+  - [H5 知识总结](https://github.com/liuyib/study-note/tree/master/HTML/HTML5)
+  - [H5 - WebSocket](https://github.com/liuyib/study-note/blob/master/HTML/HTML5/WebSocket.md)
 
 - CSS
 
@@ -30,8 +31,9 @@
 - JavaScript
 
   - [ES6](https://github.com/liuyib/study-note/tree/master/JavaScript/ES6)
-  - [掘金小册 -- 前端面试之道](https://github.com/liuyib/study-note/tree/master/JavaScript/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E9%81%93)
+  - [掘金小册《前端面试之道》](https://github.com/liuyib/study-note/tree/master/JavaScript/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E9%81%93)
   - [正则表达式](https://github.com/liuyib/study-note/tree/master/JavaScript/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)
+  - [JS 版数据结构与算法](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
 
 - Node
 
@@ -50,9 +52,15 @@
 
 - [Web 性能优化](https://github.com/liuyib/study-note/tree/master/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96)
 
-- 打包工具
+- [打包工具](https://github.com/liuyib/study-note/tree/master/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7)
 
   - [Gulp](https://github.com/liuyib/study-note/tree/master/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/gulp)
+  - [Rollup](https://github.com/liuyib/study-note/tree/master/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/rollup)
+  - [Webpack](https://github.com/liuyib/study-note/tree/master/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/webpack)
+  - Grunt
+  - Fis3
+
+  > 熟练 Webpack，能用 Gulp 和 Rollup，后面两个仅做了解。
 
 - 代码规范
 
@@ -67,7 +75,7 @@
 
 |📔| 📕  | 📗  | 📘  | 📙  |
 | :-: | :-: | :-: | :-: | :-: |
-|![JS 高程](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124201.png)|![Node.js 开发实战](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124158.jpg)|![小灰的漫画算法之旅](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124159.png)|![白帽子讲 Web 安全](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124200.jpg)|![ES6 标准入门](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807125419.jpg)|
+|![JS 高程](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105815.jpg)|![Node.js 开发实战](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105813.jpg)|![小灰的漫画算法之旅](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105811.jpg)|![白帽子讲 Web 安全](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105812.jpg)|![ES6 标准入门](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105810.jpg)|
 |[JavaScript 高级程序设计（第三版）](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1) -- 未完 `第 11 章`|[Node.js 开发实战](https://github.com/liuyib/study-note/tree/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Node.js%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98) -- 未完 `第 2.3 节`|[漫画算法 -- 小灰的漫画算法之旅](https://github.com/liuyib/study-note/tree/master/JavaScript/JS%E7%89%88%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95) -- 完 `2019.5.11`|[白帽子讲 Web 安全（纪念版）](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8) -- 完 `2019.5.9`|ES6 标准入门（第六版） -- 未完 `第 1.14 节`|
-|![JS DOM 编程艺术](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190807124157.jpg)|![你不知道的 JS 上卷](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190817115039.jpg)|img|img|img|
-|JavaScript DOM 编程艺术（第二版） -- 未完 `第 7 章`|[你不知道的 JS 上卷]() -- 未完 `第二部分 2.4`|text|text|text|
+|![JS DOM 编程艺术](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105814.jpg)|![你不知道的 JS 上卷](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190817115039.jpg)|![深入浅出 Webpack](https://raw.githubusercontent.com/liuyib/picBed/master/study-note/20190928105458.jpg)|img|img|
+|JavaScript DOM 编程艺术（第二版） -- 未完 `第 7 章`|[你不知道的 JS 上卷]() -- 未完 `第二部分 2.4`|[深入浅出 Webpack](https://github.com/liuyib/study-note/tree/master/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/webpack) -- 未完 `第 1 章`|text|text|

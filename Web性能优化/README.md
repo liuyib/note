@@ -170,7 +170,7 @@
 
     **会触发回流的属性：**
 
-    ![CSS_backflow](./imgs/CSS_backflow.png)
+    ![css_backflow](./imgs/css_backflow.png)
 
   - 重绘
 
