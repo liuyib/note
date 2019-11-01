@@ -53,7 +53,7 @@ HTML5 中为 `<a>` `<area>` 新增了 noreferrer 属性。当为这两个标签�
 
 当客户端发起请求时，需要带上 HTTP 头 Origin，而服务端需要设置字段 `Access-Control-Allow-Origin`：
 
-![simple_req](./imgs/simple_req.png)
+![simple-req](./imgs/simple-req.png)
 
 ## postMessage
 

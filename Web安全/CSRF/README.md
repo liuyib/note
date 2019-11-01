@@ -6,7 +6,7 @@
 
 ## CSRF 的攻击原理
 
-![CSRF_attack_yuanli](./imgs/CSRF_attack_yuanli.png)
+![csrf-attack-yuanli](./imgs/csrf-attack-yuanli.png)
 
 1. 用户登录 A 网站
 2. A 网站确认身份
@@ -130,8 +130,8 @@ CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信
 
 **Referrer-Policy 取值如下：**
 
-![referer_policy](./imgs/referer_policy.png)
-![referer_policy_value](./imgs/referer_policy_value.png)
+![referer-policy](./imgs/referer-policy.png)
+![referer-policy-value](./imgs/referer-policy-value.png)
 
 关于这个策略的详尽信息，可以查阅：MDN. [Referrer-Policy
 ](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referrer-Policy)
@@ -184,10 +184,10 @@ CSRF 攻击大多数来自第三方网站，所以可以禁止跨域（不受信
 
 **PC:**
 
-![same_site_browser_support_pc](./imgs/same_site_browser_support_pc.png)
+![same-site-browser-support-pc](./imgs/same-site-browser-support-pc.png)
 
 **Mobile:**
-![same_site_browser_support_mobile](./imgs/same_site_browser_support_mobile.png)
+![same-site-browser-support-mobile](./imgs/same-site-browser-support-mobile.png)
 
 > 可以看出 SameSite 的兼容性不是很好，所以并不能完全依靠这种办法。
 
@@ -277,7 +277,7 @@ Token 是一种有效的 CSRF 防御方法，只要页面没有 XSS 漏洞泄漏
 
 由于任何跨域都会导致前端无法获取 Cookie，所以会发生以下情况：
 
-![csrf_double_cookie_test](./imgs/csrf_double_cookie_test.png)
+![csrf-double-cookie-test](./imgs/csrf-double-cookie-test.png)
 
 > 这种方式的缺点是可控的，只要确保整站没有其他漏洞（XSS 等）泄漏 Cookie，这种方式就不会有问题。也就是说，这种方法的前提是：保证 Cookie 的安全！
 

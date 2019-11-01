@@ -24,11 +24,11 @@
 
     示例：
 
-    ![github_csp_example](./XSS/imgs/github_csp_example.png)
+    ![github-csp-example](./XSS/imgs/github-csp-example.png)
 
   - 设置 HTTP 响应头 `X-XSS-Protection`
 
-    ![x-xss-protection](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-xss-protection.png)
+    ![x-xss-protection](./XSS/imgs/browser-xss-protectino.png)
 
 - [CSRF](https://github.com/liuyib/study-note/tree/master/Web%E5%AE%89%E5%85%A8/CSRF)
 
@@ -57,7 +57,7 @@
 
   - 设置 HTTP 响应头 `Referrer-Policy`
 
-    ![referer_policy](./CSRF/imgs/referer_policy.png)
+    ![referer-policy](./CSRF/imgs/referer-policy.png)
 
     > 设置 `Referrer-Policy` 的方式：
     >
@@ -74,7 +74,7 @@
 
     示例：
 
-    ![github_same_site](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/github_same_site.png)
+    ![github-same-site](./CSRF/imgs/github-same-site.png)
 
   - 使用 `Token` 验证
   - 双重 `Cookies` 验证
@@ -86,13 +86,13 @@
 
   - 设置 HTTP 响应头 `x-frame-options`
 
-    ![x-frame-options](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/x-frame-options.png)
+    ![x-frame-options](./点击劫持/imgs/x-frame-options.png)
 
     > 非标准 HTTP 头
 
   - 设置 HTTP 响应头 CSP 的属性 `frame-ancestors`
 
-    ![frame-ancestors](https://raw.githubusercontent.com/liuyib/picBed/master/Web%E5%AE%89%E5%85%A8/frame-ancestors.png)
+    ![frame-ancestors](./点击劫持/imgs/frame-ancestors.png)
 
   - 使用 JS 判断网站的顶层对象是否改变
 

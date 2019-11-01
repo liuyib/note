@@ -47,7 +47,7 @@
 
   示例：
 
-  ![github_cookies_secure](./imgs/github_cookies_secure.png)
+  ![github-cookies-secure](./imgs/github-cookies-secure.png)
 
 许多 Web 攻击方式都与 `Cookies` 有关，例如：`XSS` `CSRF`等，因此，保证 `Cookies` 的安全，是保证网站安全最基本的要求之一。
 

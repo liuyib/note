@@ -266,7 +266,7 @@ CSP（内容安全策略）用于检测和减轻 Web 站点的特定类型的攻
 
 可以设置的内容有：
 
-![browser_csp_value](./imgs/browser_csp_value.png)
+![browser-csp-value](./imgs/browser-csp-value.png)
 
 例如，指定内容能从 `文档源`、`www.example.com` 和 任何子域为 `example2.com` 的源加载：
 
@@ -289,7 +289,7 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 
 示例：
 
-![github_csp_example](./imgs/github_csp_example.png)
+![github-csp-example](./imgs/github-csp-example.png)
 
 如图不仅设置了网站中允许执行的内容，而且设置了 `block-all-mixed-content` (只能通过 HTTPS 加载资源) 和 `frame-ancestors` (防御点击劫持攻击)
 
@@ -301,7 +301,7 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 
 这个请求头的其他值如下：
 
-![browser_xss_protectino](./imgs/browser_xss_protectino.png)
+![browser-xss-protectino](./imgs/browser-xss-protectino.png)
 
 ### 浏览器自带 XSS 防御
 

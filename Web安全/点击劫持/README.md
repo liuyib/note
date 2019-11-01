@@ -2,7 +2,7 @@
 
 点击劫持（ClickJacking）是一种视觉欺骗手段。基本攻击方式是用 iframe 将一个网站内嵌，然后 opacity 设为 0 进行隐藏，真实显示的是一些按钮等与用户交互的元素，诱导用户点击，而用户实际点击的是通过 iframe 内嵌的网站。从而进行一些非法操作，盗取用户敏感信息。例如：
 
-![click_hijack](./imgs/click_hijack.png)
+![click-hijack](./imgs/click-hijack.png)
 
 除了上图中示例的劫持方式，还有点击劫持攻击还有以下几种：
 
