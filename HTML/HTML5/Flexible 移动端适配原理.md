@@ -94,4 +94,4 @@ div {
 @include font-dpr(16px);
 ```
 
-在线体验 [Demo](./Demo/h5-adapt-flexible/index.html)
+在线体验 [Demo](https://liuyib.github.io/demo/note/h5-adapt-flexible/)
