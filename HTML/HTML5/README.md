@@ -5,47 +5,47 @@
 ## 1、常用的 DOCTYPE 声明
 
 ```html
-// 1、HTML5
+<!-- 1、HTML5 -->
 <!DOCTYPE html>
 
-// 2、HTML 4.01 Strict //
-4.01的严格版本，该DTD包含所有HTML元素和属性，但不包括展示性的和弃用的元素（比如font）。
-// 不允许框架集（Framesets）。
+<!-- 2、HTML 4.01 Strict -->
+<!-- 4.01的严格版本，该DTD包含所有HTML元素和属性，但不包括展示性的和弃用的元素（比如font）。 -->
+<!-- 不允许框架集（Framesets）。 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-// 3、HTML 4.01 Transitional //
-该DTD包含所有HTML元素和属性，包括展示性的和弃用的元素（比如font）。 //
-不允许框架集（Framesets）。
+<!-- 3、HTML 4.01 Transitional -->
+<!-- 该DTD包含所有HTML元素和属性，包括展示性的和弃用的元素（比如font） -->
+<!-- 不允许框架集（Framesets） -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-// 4、HTML 4.01 Frameset // 该DTD等同于HTML 4.01
-Transitional，但允许框架集内容。
+<!-- 4、HTML 4.01 Frameset -->
+<!-- 该DTD等同于HTML 4.01 -->
+<!-- Transitional，但允许框架集内容。 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 
-// 5、XHTML 1.0 Strict //
-该DTD包含所有HTML元素和属性，但不包括展示性的和弃用的元素（比如font）。 //
-不允许框架集（Framesets）。必须以格式正确的XML来编写标记。
+<!-- 5、XHTML 1.0 Strict -->
+<!-- 该DTD包含所有HTML元素和属性，但不包括展示性的和弃用的元素（比如font） -->
+<!-- 不允许框架集（Framesets）。必须以格式正确的XML来编写标记。 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-// 6、XHTML 1.0 Transitional //
-该DTD包含所有HTML元素和属性，包括展示性的和弃用的元素（比如font）。 //
-不允许框架集（Framesets）。必须以格式正确的XML来编写标记。
+<!-- 6、XHTML 1.0 Transitional -->
+<!-- 该DTD包含所有HTML元素和属性，包括展示性的和弃用的元素（比如font） -->
+<!-- 不允许框架集（Framesets）。必须以格式正确的XML来编写标记。 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-// 7、XHTML 1.0 Frameset // 该DTD等同于XHTML 1.0
-Transitional，但允许框架集内容。
+<!-- 7、XHTML 1.0 Frameset -->
+<!-- 该DTD等同于XHTML 1.0 -->
+<!-- Transitional，但允许框架集内容。 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 
-// 8、XHTML 1.1 // 该DTD等同于XHTML 1.0
-Strict，但允许添加模型（例如提供对东亚语系的ruby支持）。
+<!-- 8、XHTML 1.1 // 该DTD等同于XHTML 1.0 -->
+<!-- Strict，但允许添加模型（例如提供对东亚语系的ruby支持）。 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 ```
 
 ## 2、语义化标签
 
 ![h5_yuyihua](./imgs/h5_yuyihua.png)
-
-尽量避免 `全局使用` 这些语义化标签。
 
 ## 3、浏览器对 H5 的支持
 
@@ -62,8 +62,7 @@ Strict，但允许添加模型（例如提供对东亚语系的ruby支持）。
 > 实际开发中更多采用的是：通过检测 IE 的版本，来加载第三方库来解决兼容问题。这里有一个库 html5shiv 是一个比较好的 IE678 兼容 H5 的第三方库。这个库会自动使用 document.createElement 创建所有 H5 标签来进行兼容。
 
 ```html
-// 这些代码必须放在<head>
-  元素里
+<head>
   <!--[if lte IE 8]>
     <script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
   <![endif]-->
@@ -77,25 +76,28 @@ Strict，但允许添加模型（例如提供对东亚语系的ruby支持）。
 新增类型：网址 邮箱 日期 时间 星期 数量 范围 电话 颜色 搜索:
 
 ```html
-<label>网址:</label><input type="url" name="">
-<label>邮箱:</label><input type="email" name="">
-<label>日期:</label><input type="date" name="">
-<label>时间:</label><input type="time" name="">
-<label>星期:</label><input type="week" name="">
-<label>数量:</label><input type="number" name="">
-<label>范围:</label><input type="range" name="">
-<label>电话:</label><input type="tel" name="">
-<label>颜色:</label><input type="color" name="">
-<label>搜索:</label><input type="search" name="">
+网址: <input type="url" >
+邮箱: <input type="email" >
+日期: <input type="date" >
+时间: <input type="time" >
+星期: <input type="week" >
+数量: <input type="number" >
+范围: <input type="range" >
+电话: <input type="tel" >
+颜色: <input type="color" >
+搜索: <input type="search" >
 ```
 
 H5 新增的一些表单属性:
 
 ```html
-placeholder required autofocus 自动获得焦点（autofocus="autofocus"）
-autocomplete 自动完成功能（autocomplete="on/off"） novalidate
-不使用表单元素的规则进行验证（novalidate="novalidate"） multiple
-多文件上传（multiple="multiple"） form 绑定输入域（form="form元素的id值"）
+placeholder
+required
+autofocus 自动获得焦点（autofocus="autofocus"）
+autocomplete 自动完成功能（autocomplete="on/off"） 
+novalidate 不使用表单元素的规则进行验（novalidate="novalidate"）
+multiple 多文件上传（multiple="multiple"）
+form 绑定输入域（form="form元素的id值"）
 pattern 自定义验证（pattern="正则表达式"）
 ```
 
@@ -152,7 +154,7 @@ pattern 自定义验证（pattern="正则表达式"）
 
 ```javascript
 pwd.oninvalid = function() {
-  this.setCustomValidity('密码格式错误');
+  this.setCustomValidity("密码格式错误");
 };
 ```
 
@@ -201,8 +203,8 @@ autoplay 自动播放 controls 是否显示控制条 loop 循环播放
 例如：获取视频第一段缓冲范围：
 
 ```javascript
-var video = document.getElementById('video1');
-alert('Start: ' + video.buffered.start(0) + ' End: ' + video.buffered.end(0));
+var video = document.getElementById("video1");
+alert("Start: " + video.buffered.start(0) + " End: " + video.buffered.end(0));
 ```
 
 8.2、所有媒体属性
@@ -245,7 +247,7 @@ classList 的一些方法：
 ```
 
 ```javascript
-var oDiv = document.getElementById('oDiv');
+var oDiv = document.getElementById("oDiv");
 
 console.log(oDiv.classList); // => 类数组
 console.log(Array.prototype.slice.call(oDiv.classList)); // => 数组
@@ -274,14 +276,14 @@ console.log(Array.prototype.slice.call(oDiv.classList)); // => 数组
 ```
 
 ```javascript
-var aNames = document.getElementsByTagName('div');
+var aNames = document.getElementsByTagName("div");
 
 for (var i = 0; i < aNames.length; i++) {
   var _data = aNames[i].dataset;
-  console.log(_data['name']); // zhangsan
+  console.log(_data["name"]); // zhangsan
 
-  _data['name'] = 'lisi';
-  console.log(_data['name']); // lisi
+  _data["name"] = "lisi";
+  console.log(_data["name"]); // lisi
 }
 ```
 
@@ -290,17 +292,13 @@ for (var i = 0; i < aNames.length; i++) {
 当用户通网时，触发 `online 事件`：
 
 ```javascript
-window.addEventListener('online', function() {
-  console.log('通网了');
-});
+window.addEventListener("online", function() {});
 ```
 
 当用户断网时，触发 `offline 事件`：
 
 ```javascript
-window.addEventListener('offline', function() {
-  console.log('断网了');
-});
+window.addEventListener("offline", function() {});
 ```
 
 ## 11、地理定位
@@ -351,17 +349,15 @@ window.navigator.geolocation.getCurrentPosition(
   function(pos) {
     var lati = pos.coords.latitude; // 经度
     var long = pos.coords.longitude; // 经度
-
-    console.log('你当前的纬度为：' + lati + '经度为：' + long);
   },
   function(err) {
     // 错误时回调信息
     if (err.code == 1) {
-      alert('没有权限');
+      alert("没有权限");
     } else if (err.code == 2) {
-      alert('内部错误');
+      alert("内部错误");
     } else {
-      alert('超时');
+      alert("超时");
     }
   },
   {
@@ -389,27 +385,27 @@ window.navigator.geolocation.getCurrentPosition(
 - length - 存储的数据的个数
 
 ```javascript
-window.localStorage.setItem('username1', "Ryan's");
-window.localStorage.setItem('username2', "Levi's");
+window.localStorage.setItem("username1", "Ryan's");
+window.localStorage.setItem("username2", "Levi's");
 
-window.sessionStorage.setItem('username1', "Ryan's");
-window.sessionStorage.setItem('username2', "Levi's");
+window.sessionStorage.setItem("username1", "Ryan's");
+window.sessionStorage.setItem("username2", "Levi's");
 
 // 索引键的名字
 console.log(window.localStorage.key(0));
 console.log(window.sessionStorage.key(0));
 
 // 取数据
-console.log(window.localStorage.getItem('username1'));
-console.log(window.sessionStorage.getItem('username1'));
+console.log(window.localStorage.getItem("username1"));
+console.log(window.sessionStorage.getItem("username1"));
 
 // 获取本地数据的长度
 console.log(window.localStorage.length);
 console.log(window.sessionStorage.length);
 
 // 删除数据
-window.localStorage.removeItem('username1');
-window.sessionStorage.removeItem('username1');
+window.localStorage.removeItem("username1");
+window.sessionStorage.removeItem("username1");
 
 // 清空所有的数据
 window.localStorage.clear();
@@ -449,7 +445,7 @@ window.sessionStorage.clear();
 ```
 
 ```javascript
-var oUpload = document.getElementById('oUpload');
+var oUpload = document.getElementById("oUpload");
 
 console.log(oUpload.files); // FileList {length: 0}
 ```
@@ -464,8 +460,8 @@ console.log(oUpload.files); // FileList {length: 0}
 ```
 
 ```javascript
-var oBtn = document.getElementById('oBtn');
-var oUpload = document.getElementById('oUpload');
+var oBtn = document.getElementById("oBtn");
+var oUpload = document.getElementById("oUpload");
 var aFiles = [];
 
 oBtn.onclick = function() {
@@ -475,13 +471,13 @@ oBtn.onclick = function() {
   }
 
   for (var i = 0; i < aFiles.length; i++) {
-    aFiles[i].addEventListener('load', function() {
+    aFiles[i].addEventListener("load", function() {
       var result = this.result; // 文件的base64编码
 
-      var oImg = document.createElement('img');
+      var oImg = document.createElement("img");
       oImg.src = result;
-      oImg.style.width = '100px';
-      oImg.style.height = '100px';
+      oImg.style.width = "100px";
+      oImg.style.height = "100px";
       document.body.appendChild(oImg);
     });
   }
@@ -518,7 +514,7 @@ oBtn.onclick = function() {
 ```
 
 ```javascript
-var oDrag = document.getElementById('oDrag');
+var oDrag = document.getElementById("oDrag");
 var oHtml = document.documentElement;
 
 // 在 html 对象上松开鼠标
@@ -535,12 +531,12 @@ oDrag.ondrop = function(e) {
   var data = e.dataTransfer.files[0];
   var fr = new FileReader();
   fr.readAsDataURL(data);
-  fr.addEventListener('load', function() {
+  fr.addEventListener("load", function() {
     var result = fr.result;
-    var img = document.createElement('img');
+    var img = document.createElement("img");
 
     img.src = result;
-    oDrag.innerHTML = '';
+    oDrag.innerHTML = "";
     oDrag.appendChild(img);
   });
 };
