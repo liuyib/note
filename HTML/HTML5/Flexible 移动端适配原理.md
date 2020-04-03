@@ -94,4 +94,4 @@ div {
 @include font-dpr(16px);
 ```
 
-在线体验 [Demo](http://huodong.m.taobao.com/act/yibo.html)
+在线体验 [Demo](./Demo/h5-adapt-flexible/index.html)
