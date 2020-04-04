@@ -4,7 +4,7 @@
 
 相关文章：[https://github.com/amfe/article/issues/17](https://github.com/amfe/article/issues/17)
 
-这算是一个过渡方案，可以应对绝大对数场景，但是存在一定问题，如今推荐使用 Viewport 方案。
+这算是一个过渡方案，可以应对绝大对数场景，但是存在一定问题，如今推荐使用 Viewport 方案（其兼容性已经够好）。
 
 ### px 转换为 rem
 
@@ -95,3 +95,7 @@ div {
 ```
 
 在线体验 [Demo](https://liuyib.github.io/demo/note/h5-adapt-flexible/)
+
+缺点：Flexible 目前只处理了 iOS 中 dpr 为 2 的情况，Android 中 dpr 为 1 的情况，其他的都没处理。
+
+Flexible 放弃治疗 Android 的主要原因是，在 Android 机中，有很多奇葩的 dpr，例如 `dpr=1.5` ，这样使得处理后的效果惨不忍睹，
