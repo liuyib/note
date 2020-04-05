@@ -3,7 +3,7 @@
 先回顾一下 Flexible 的思想：
 
 - 根据 dpr 的值来修改 `viewport` 实现 `1px` 的线
-- 根据 dpr 的值来修改 `<html>` 的 `font-size`，从而使用 `rem` 实现等比缩放
+- 根据 dpr 的值来修改 `html` 的 `font-size`，从而使用 `rem` 实现等比缩放
 - 使用 Hack 手段用 `rem` 模拟 `vw` 特性
 
 如今，`vw` 已得到众多浏览器的支持，因此 Viewport 方案的已经可以正式投入使用。
@@ -19,25 +19,48 @@
 - `vmin`：`vmin` 的值是当前 `vw` 和 `vh` 中较小的值
 - `vmax`：`vmax` 的值是当前 `vw` 和 `vh` 中较大的值
 
-加入我们的设计稿宽度为 750px，因此 `100vw = 750px`，即 `1vw = 7.5px`。之后需要将代码中的 `px` 转换为 对应的 `vw` 值，手动转换是不现实的，因此可以借助 PostCSS 的插件 [postcss-px-to-viewport](https://github.com/evrone/postcss-px-to-viewport)。
+加入我们的设计稿宽度为 750px，因此 `100vw = 750px`，即 `1vw = 7.5px`。之后需要将代码中的 `px` 转换为 对应的 `vw` 值，手动转换是不现实的，因此需要**使用预处理语言**或者**借助插件**。举例如下：
 
-例如，编写如下代码：
+- 使用预处理语言
 
-```css
-div {
-  width: 75px;
-}
-```
+  以 Scss 为例：
 
-PostCSS 进行编译后，就会将 `px` 转换为 `vw`：
+  ```scss
+  /* 设计稿的宽度 */
+  $vw_base: 750;
 
-```css
-div {
-  width: 10vw;
-}
-```
+  @function vw($px) {
+    @return ($px / $vm_base) * 100vw;
+  }
 
-实际使用的时候，需要根据设计稿的大小，配置该插件。
+  /* 使用如下 */
+  div {
+    margin: vw(20);
+    padding: vw(10) vw(5);
+    width: vw(40);
+    height: vw(40);
+  }
+  ```
+
+- 使用 PostCSS 插件 [postcss-px-to-viewport](https://github.com/evrone/postcss-px-to-viewport)
+
+  编写如下代码：
+
+  ```css
+  div {
+    width: 75px;
+  }
+  ```
+
+  PostCSS 进行编译后，将 `px` 转换为 `vw`：
+
+  ```css
+  div {
+    width: 10vw;
+  }
+  ```
+
+  实际使用的时候，需要根据设计稿的大小，配置该插件。
 
 ### vw 的适用场景
 
@@ -50,15 +73,9 @@ div {
 
 对于使用 `1px` 的地方，不建议转换为 `vw` 单位，`1px` 的问题需要另做解决，这就延伸出了另一个话题：[Retina 屏幕下 1px 的解决方案](./1px%20的解决方案.md)
 
-缺点：
+缺点：当容器使用 `vw` 单位，`margin` 采用 `px` 单位时，很容易造成整体宽度超过 `100vw`，从而影响布局效果。
 
-- 依赖于插件进行单位转换，否则人工计算很麻烦。
-- 当容器使用 `vw` 单位，`margin` 采用 `px` 单位时，很容易造成整体宽度超过 `100vw`，从而影响布局效果。
-
-解决办法：
-
-- 使用 PostCSS 插件进行处理
-- 在 `px` 和 `vw` 混用的地方，使用 `calc` 进行计算
+解决办法： 在 `px` 和 `vw` 混用的地方，使用 `calc` 进行计算
 
 ## 总结
 

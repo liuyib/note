@@ -65,7 +65,7 @@
 
 > 关于 `border-image` 相关知识，**强烈**推荐阅读：[凹凸实验室：border-image 的正确用法](https://aotu.io/notes/2016/11/02/border-image/index.html)。如果没有理解 `border-image`，接下来的代码将很难看懂。
 
-该方案需要配合特定的图片，举例如下：
+该方案需要配合特定的图片。举例如下：
 
 - 实现一条线框（顶部）
 
@@ -132,7 +132,7 @@
 
 ### background-image 方案
 
-该方案和 border-image 方案类似，需要配合特定的图片，缺点同 border-image 方案，举例如下：
+该方案和 border-image 方案类似，需要配合特定的图片，缺点同 border-image 方案。举例如下：
 
 准备如下图片（图中黑色部分大小 `1px * 1px`，整个图片 `1px * 2px`）
 
@@ -179,7 +179,7 @@
 
 ### box-shadow 方案
 
-该方案的原理是：利用阴影的扩散，再配合负的偏移值，从而实现 `0.5px` 的效果，举例如下：
+该方案的原理是：利用阴影的扩散，再配合负的偏移值，从而实现 `0.5px` 的效果。举例如下：
 
 - 实现一条线框
 
@@ -209,20 +209,9 @@
 
 ### transform 方案
 
-使用如下：
+该方案一般要利用 CSS 伪元素，直接在元素上实现适用场景较少。原理是：画出 `1px` 的线，利用 `transform` 的 `scale` 旋转 50%，这样就实现了 `0.5px` 的效果。举例如下：
 
-- 用在元素上
-
-  ```css
-  .border {
-    height: 1px;
-    background: red;
-    transform: scaleY(0.5);
-    transform-origin: center;
-  }
-  ```
-
-- 用在伪元素上
+- 实现一条线框
 
   ```css
   .border::after {
@@ -236,9 +225,33 @@
   }
   ```
 
-缺点：实现多条线框麻烦（需要用多个元素或伪元素）。
+- 实现四条线框
 
-优点：实现一条线框方便，效果也比 box-shadow 方案好。
+  ```css
+  .border {
+    position: relative;
+    border:none;
+  }
+
+  .border::after {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    box-sizing: border-box;
+    border: 1px solid #000;
+    width: 200%;
+    height: 200%;
+
+    transform: scale(0.5);
+    transform-origin: left top;
+  }
+  ```
+
+优点：即插即用，适合在老项目中使用。
 
 ### postcss-write-svg 插件方案
 
