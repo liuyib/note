@@ -153,4 +153,75 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
 ### 讲一下 CSS 层叠上下文？
 
+> 参考资料：
+>
+> - [MDN: The stacking context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context)
+> - [深入理解 CSS 中的层叠上下文和层叠顺序](https://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
 
+- 层叠与浮动
+
+  **1、浮动元素的层叠顺序，会处于非定位元素和定位元素中间**。
+
+  例如，有五个 `div` 元素，他们按编号在 DOM 中依次排列，最终效果如下：
+
+  ![](./imgs/stacking-and-float-1.png)
+
+  可以看到，浮动元素和定位元素都会覆盖在普通元素（没有浮动、定位）上，并且浮动元素处于它们两种元素之间。
+
+  但是有一个很奇怪的效果：如果设置 `DIV #4` 的 `opacity`，那么该元素的背景和边框会显示在浮动元素和定位元素之上（**2、设置透明度会隐式的创建一个层叠上下文**）。效果如下：
+
+  ![](./imgs/stacking-and-float-2.png)
+
+- 层次结构
+
+  1、所有元素的层叠上下文都属于根元素（`<html>`）的层叠上下文。
+  2、当元素没有层叠上下文时，其层叠上下文同父元素。
+  3、如果元素有层叠上下文，其效果不会大于父元素的。
+
+  举例如下：
+
+  - 根元素上下文
+    - `DIV #2` (`z-index: 2`)
+    - `DIV #3` (`z-index: 1`)
+      - `DIV #4` (`z-index: 10`)
+
+  虽然 `DIV #4` 的层叠上下文（`z-index: 10`）大于 `DIV #2` 的层叠上下文（`z-index: 2`），但是 `DIV #4` 在 `DIV #2` 下面，原因是 `DIV #4` 处于 `DIV #3` 所创建的层叠上下文中，而整个 `DIV #3`（包含其后代元素）是在 `DIV #2` 下面的。
+
+- 合成层
+
+  使用属性 `will-change` 和 `transform: translateZ(0)`，建议只将它们用于 `transform` 或 `opacity`。
+
+### 什么是 BFC？规则是什么？如何创建？
+
+参考资料：[MDN: Block formatting context](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context)
+
+- 什么是 BFC
+
+  BFC（Block Formatting Context，块格式化上下文）是 Web 页面中可视的 CSS 渲染的一部分，它是块盒子布局时所在的区域，该区域中的浮动元素与其他元素相互作用（即清除浮动的作用）。
+
+  > 我的理解：就是页面中的一个渲染区域，该区域是块级的，并且该区域中的浮动元素不影响其它 BFC 中元素的布局（所以该特性经常被用来清除浮动）。
+
+- BFC 规则
+
+  1、如果一个元素创建了 BFC，那么 BFC 会包含该元素的**所有东西**。
+  2、**浮动定位**和**清除浮动**的规则，是针对同一个 BFC 来说的。
+  3、`margin` 合并也只发生在同一个 BFC 中（阻止 `margin` 合并）。
+
+- BFC 创建
+
+  以下方式会创建**块格式化上下文**：
+
+  - `<html>`
+  - `position: absolute/fixed`
+  - `float` 不为 `none`
+  - `overflow` 不为 `visible`
+  - `display: flow-root`
+  - `display: inline-block`
+  - `display: table-cell`（HTML 表格单元格默认为该值）
+  - `display: table-caption`（HTML 表格标题默认为该值）
+  - `display` 为 `table`、`table-row`、`table-row-group`、`table-header-group`、`table-footer-group`（它们分别是 HTML 中 `<table>`、`<row>`、`<tbody>`、`<thead>`、`<tfoot>` 的默认属性）
+  - `contain` 为 `layout`、`content`、`paint`
+  - `display` 为 `flex`、`inline-flex` 的**直接子元素**
+  - `display` 为 `grid`、`inline-grid` 的**直接子元素**
+  - `column-count`、`column-width` 不为 `auto`
+  - `column-span` 为 `all` 的元素始终会创建一个新的 BFC
