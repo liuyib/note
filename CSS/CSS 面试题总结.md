@@ -17,9 +17,10 @@
 - Blink（Chrome 28+，新版 Opera，新版 Edge）
 
 EdgeHTML 渲染引擎是 Trident 内核的一个分支，用于老版 Edge。
+
 Blink 渲染引擎是 Chromium 内核的一个分支，Chrome 28+，新版 Opera，新版 Edge。
 
-**浏览器内核主要指的是浏览器的渲染引擎。** 例如，Webkit 内核，其渲染引擎是 WebCore，JavaScript 引擎是 JSCore。因此我们通常用 Webkit 代指 WebCore 渲染引擎。
+**浏览器内核主要指的是浏览器的渲染引擎。** 例如，Webkit 内核，其渲染引擎是 WebCore，JavaScript 引擎是 JSCore。因此我们通常用 Webkit 代指渲染引擎（WebCore）。
 
 Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作为 JS 引擎。但是后来在 Webkit 的基础上，独立研发了 Blink 渲染引擎，并且独立研发了 V8 引擎代替 JSCore。因此关于 Chromium 内核如下：
 
@@ -135,19 +136,37 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
    - `relative`
 
-     1、**定位基点是默认位置**。2、在没有设置 `left`、`top`、`right`、`bottom` 的时候，元素位置和正常文档流中的位置一样。3、如果设置了 `left`、`top`、`right`、`bottom`，会在不改变页面布局的前提下调整元素位置（在元素原来的位置留下空白）。
+     1、**定位基点是默认位置**。
+
+     2、在没有设置 `left`、`top`、`right`、`bottom` 的时候，元素位置和正常文档流中的位置一样。
+
+     3、如果设置了 `left`、`top`、`right`、`bottom`，会在不改变页面布局的前提下调整元素位置（在元素原来的位置留下空白）。
 
    - `absolute`
 
-     1、**定为基点是上级元素（一般是父元素）**。前提是父元素不能是 `static`，否则定位基点会变成 `html` 元素。2、元素会被移出正常文档流，也就是元素原来的位置会被其他元素占据。3、可以设置 外边距（`margin`），但是不会和其他元素的外边距合并（因此元素单独处在一个图层）。
+     1、**定为基点是上级元素（一般是父元素）**。前提是父元素不能是 `static`，否则定位基点会变成 `html` 元素。
+
+     2、元素会被移出正常文档流，也就是元素原来的位置会被其他元素占据。
+
+     3、可以设置 外边距（`margin`），但是不会和其他元素的外边距合并（因此元素单独处在一个图层）。
 
    - `fixed`
 
-     1、**定位基点是屏幕视口（viewport，浏览器窗口）**。2、元素会被移出正常文档流，也就是元素原来的位置会被其他元素占据。3、**会创建新的层叠上下文**。4、当元素的某个祖先的 `transform`、`perspective` 或 `filter` 属性非 `none` 时，定位基点由视口改为该祖先。
+     1、**定位基点是屏幕视口（viewport，浏览器窗口）**。
+
+     2、元素会被移出正常文档流，也就是元素原来的位置会被其他元素占据。
+
+     3、**会创建新的层叠上下文**。
+
+     4、当元素的某个祖先的 `transform`、`perspective` 或 `filter` 属性非 `none` 时，定位基点由视口改为该祖先。
 
 3. `sticky` 属性的效果类似于 `static` + `fixed`
 
-   1、必须指定 `left`、`top`、`right` 或 `bottom` 其中之一，才能使该属性生效。否则元素仍会处于正常文档流中的位置。2、**该属性总会创建一个新的层叠上下文**。3、当元素的某个祖先具有 `overflow` 属性时，定位基点变为该祖先。
+   1、必须指定 `left`、`top`、`right` 或 `bottom` 其中之一，才能使该属性生效。否则元素仍会处于正常文档流中的位置。
+
+   2、**该属性总会创建一个新的层叠上下文**。
+
+   3、当元素的某个祖先具有 `overflow` 属性时，定位基点变为该祖先。
 
    **具体效果是**：当父元素完全在视口中时，效果和默认一样；当父元素部分脱离视口时，效果类似于 `fixed`，会相对视口定位；当父元素完全脱离视口时，效果和 `static` 一样，会还原成正常的文档流中的位置。
 
@@ -175,7 +194,9 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 - 层次结构
 
   1、所有元素的层叠上下文都属于根元素（`<html>`）的层叠上下文。
+
   2、当元素没有层叠上下文时，其层叠上下文同父元素。
+
   3、如果元素有层叠上下文，其效果不会大于父元素的。
 
   举例如下：
@@ -195,7 +216,7 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
   - `iframe`、`video` 元素
   - `transform: translateZ(0)`
-  - `transform` 的 3D 属性，如 `translate3d(0,0,0)`
+  - CSS 的 3D 属性或 CSS 的透视效果
   - `will-change`
 
     > 设置为 `opacity`、`transform`、`top`、`left`、`bottom`、`right`。其中使用 `top`、`left`、`bottom`、`right` 时，需要设置定位属性才能生效，如 `relative`。
@@ -203,6 +224,8 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
   - CSS 动画中使用 `opacity`、`transform`、`fliter`
 
     > 动画过程中会提升到单独的合成层，动画未开始或结束时不会。
+
+  - `...`
 
 - **后代元素原因**
 
@@ -215,6 +238,8 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
   > 如果不清楚这点，可能会写出导致 “合成层爆炸” 的代码。即整个页面的元素相互覆盖，所有元素都被提升到单独的合成层，使得资源耗尽，页面卡死。
 
+- `...`
+
 **性能优化的建议：**
 
 - 将动画效果提升到单独的合成层中
@@ -224,9 +249,10 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
 - 减少绘制区域
 
-  > 仔细分析页面，将需要重绘的区域，合理地提升至单独的合成层。
+  > 仔细分析页面，将需要回流或重绘的区域，合理地提升至单独的合成层。
 
 - 合成层需要消耗一定的资源，不要过分的使用
+- 任何一种优化方法都不是完美的，需要带入具体环境具体分析。
 
 ### 什么是 BFC？规则是什么？如何创建？
 
@@ -241,7 +267,9 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 - BFC 规则
 
   1、如果一个元素创建了 BFC，那么 BFC 会包含该元素的**所有东西**。
+
   2、**浮动定位**和**清除浮动**的规则，是针对同一个 BFC 来说的。
+
   3、`margin` 合并也只发生在同一个 BFC 中（阻止 `margin` 合并）。
 
 - BFC 创建
@@ -262,3 +290,71 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
   - `display` 为 `grid`、`inline-grid` 的**直接子元素**
   - `column-count`、`column-width` 不为 `auto`
   - `column-span` 为 `all` 的元素始终会创建一个新的 BFC
+
+### CSS 选择器权重
+
+`!important` > `内联` > `ID` > `类 | 伪类 | 属性` > `元素 | 伪元素` > `通配符` > `继承` > `浏览器默认`
+
+> 网上流传的一种说法是，**权重大小：内联 1000，ID 100，类 10，元素 1**。这种说法只是为了帮助理解，并不代表 10 个元素选择器的权重就大于 1 个 类选择器的权重。
+
+总之，选择器的权重大小顺序如上，但是权重具体是多少并不确定，会因浏览的的不同而有所差异。举个例子：在 Chrome 中，**可能** 20 个类选择器的权重会大于 1 个 ID 选择器的权重，但是在 Firefox 中就不一定是这样。
+
+### Bootstrap 分界点
+
+- `576px`：`xs`
+- `768px`：`sm`
+- `992px`：`md`
+- `1200px`：`lg`
+
+使用如下：
+
+```css
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  ...;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  ...;
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  ...;
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  ...;
+}
+```
+
+或
+
+```css
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  ...;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  ...;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  ...;
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  ...;
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  ...;
+}
+```
