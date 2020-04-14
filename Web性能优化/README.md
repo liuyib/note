@@ -145,7 +145,7 @@
 
     ```js
     var img = new Image();
-    img.src = 'https://xxx.png';
+    img.src = "https://xxx.png";
     ```
 
     通过这种方式，当请求 JS 脚本时，图片就会被请求。
@@ -202,10 +202,10 @@
 
     ```CSS
     offsetTop, offsetLeft, offsetWidth, offsetHeight
-    scrollTop / Left / Width / Height
-    clientTop / Left / Width / Height
+    scrollTop, scrollLeft, scrollWidth, scrollHeight
+    clientTop, clientLeft, clientWidth, clientHeight
     width, height
-    getComputedStyle() 或者 IE 的 currentStyle
+    getComputedStyle, currentStyle
     ```
 
     > 使用这些属性时，浏览器会强制刷新队列，使得回流重绘每次都要进行
@@ -284,39 +284,39 @@
 
 - 缓存机制
 
-  - 理解 cache-control 所控制的缓存策略
-  - 理解 last-modified 和 etag 以及整个服务端浏览器端的缓存流程
+  - 理解 `Cache-Control` 所控制的缓存策略
+  - 理解 `Last-Modified` 和 `ETag` 以及整个服务端浏览器端的缓存流程
 
   HTTP Header：
 
-  - Cache-Control
+  - `Cache-Control`
 
-    - Expires
+    - `Expires`
 
       > 设置资源的过期时间。告诉浏览器：在过期时间前，可以从缓存中直接读取资源。
 
-    - max-age
+    - `max-age`
 
       > 在 max-age 设置的时间内，客户端请求的资源都会从浏览器缓存中读取。
       > 优先级大于 `expires`。
 
-    - s-maxage
+    - `s-maxage`
 
       > 是对公共缓存设备（如：CDN，代理服务器）进行缓存设置。
       > 如果设置了 `s-maxage`，并且没有过期，资源就会向公共缓存设备请求。
       > 优先级大于 `max-age`。
 
-    - no-cache
+    - `no-cache`
 
-      > 这个属性并不是不进行缓存的意思。而是始终发送请求去判断浏览器里的缓存资源是否过期。如果过期就从服务器获取资源，否则直接使用浏览器中的缓存。
+      > 始终发送请求去判断浏览器里的缓存资源是否过期。如果过期就从服务器获取资源，否则返回 304（响应不带 body），并使用浏览器中的缓存。
       >
       > 另外，这个属性需要配合 `max-age=0` 来使用。
 
-    - no-store
+    - `no-store`
 
       > 对指定的文件完全不使用缓存策略。
 
-  - Last-Modified / If-Modified-Since
+  - `Last-Modified` / `If-Modified-Since`
 
     > 其中 `Last-Modified` 是 HTTP 响应头，`If-Modified-Since` 是 HTTP 请求头。
     > 需要与 `cache-control` 共同使用。
@@ -326,12 +326,14 @@
     - 某些服务端不能获取精确的修改时间
     - 文件修改时间变了，文件内容却没有变
 
-  - ETag / If-None-Match
+  - `ETag` / `If-None-Match`
 
-    > 这个 HTTP Header 用来解决 `Last-Modified / If-Modified-Since` 的缺点。
+    > 这个 HTTP Header 用来解决 `Last-Modified` / `If-Modified-Since` 的缺点。
     > 它们的值是一个标识文件不同的 MD5 戳。如果 `ETag` 和 `If-None-Match` 的值相同，证明文件没有改变。
-    > 优先级大于 `Last-Modified / If-Modified-Since`
+    > 优先级大于 `Last-Modified` / `If-Modified-Since`
 
   **浏览器分级缓存策略：**
 
   ![service_cache](./imgs/service_cache.png)
+
+  > 304 也可以同时更新缓存文件的过期时间。
