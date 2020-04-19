@@ -18,8 +18,14 @@
 
 需要注意的地方：
 
-- 基本类型中存储的都是值，没有任何方法和属性（虽然 `'1'.toString()` 可以使用，是因为这里 '1' 已经被后台转换为了基本包装类型）。
-- `null` 不是对象类型的（虽然 `typeof null` 得到的结果是 `object`，但是这是一个[历史遗留的 Bug](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/typeof#null) 造成的）。
+- 基本类型中存储的都是值，没有任何方法和属性
+
+  > 虽然 `'1'.toString()` 可以使用，是因为这里 '1' 已经被后台转换为了基本包装类型。
+
+- `null` 不是对象类型的
+
+  > 虽然 `typeof null` 得到的结果是 `object`，但是这是一个[历史遗留的 Bug](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/typeof#null) 造成的。
+
 - `number` 类型是浮点类型的（`0.1 + 0.2 != 0.3`）。
 
 ## 2、typeof 和 instanceof
@@ -32,10 +38,10 @@
 不过 `instanceof` 不能用于判断基本类型：
 
 ```javascript
-var str = 'hello world';
+var str = "hello world";
 console.log(str instanceof String); // => false
 
-var str = new String('hello world');
+var str = new String("hello world");
 console.log(str instanceof String); // => true
 ```
 
@@ -44,18 +50,18 @@ console.log(str instanceof String); // => true
 ```javascript
 class PrimitiveString {
   static [Symbol.hasInstance](x) {
-    return typeof x === 'string';
+    return typeof x === "string";
   }
 }
 
-console.log('hello world' instanceof PrimitiveString); // true
+console.log("hello world" instanceof PrimitiveString); // true
 ```
 
 其中 `Symbol.hasInstance` 是一个能让我们自定义 `instanceof` 行为的东西。上面的代码等同于 `typeof 'hello world' === 'string'`，所以结果就是 `true` 了。
 
 ### typeof 原理
 
-谈 typeof 的原理之前，需要了解 JS 底层如何存储数据的类型信息。
+谈 `typeof` 的原理之前，需要了解 JS 底层如何存储数据的类型信息。
 
 在 JS 最初实现的时候，JS 中的值是由一个表示类型的标签和实际的数据值组成。类型标签存储在变量的机器码的低 1~3 位，有以下几种：
 
@@ -81,7 +87,7 @@ console.log('hello world' instanceof PrimitiveString); // true
 代码如下：
 
 ```javascript
-function my_instanceof(a, b) {
+function instanceof(a, b) {
   var left = a.__proto__;
   var right = b.prototype;
 
@@ -98,7 +104,7 @@ function my_instanceof(a, b) {
 
 - `NaN` 是 `number` 类型的数据，所以 `number` 转其他类型时不要漏掉它。
 - 对象转字符串，结果为：`[object Object]`。
-- 数组转数字：空数组、只有一个数字元素的数组转为数字，其余情况均为 `NaN`。
+- 数组转数字：**空数组、只有一个数字的数组**转为数字，其余情况均为 `NaN`。
 - `undefined` 和 `null` 转数字，分别为：`NaN` 和 `0`。
 
 具体转换规则如图：
@@ -113,7 +119,16 @@ function my_instanceof(a, b) {
 
 ### 转为 Boolean
 
-除了 `undefined`，`null`，`false`，`NaN`，`0`，`-0` 转为 `false`，其他的都转为 `true`（所有对象转为布尔值，结果都为 `true`）。
+JavaScript 中只有 6 个假值：
+
+- `undefined`
+- `null`
+- `NaN`
+- `0/-0/+0`（正负 0）
+- `''`（空字符串）
+- `false`
+
+其余任何值转为 Boolean 时都为 true。
 
 ### 对象转为基本类型
 
@@ -136,7 +151,7 @@ let a = {
   },
   [Symbol.toPrimitive]() {
     return 2;
-  }
+  },
 };
 
 console.log(1 + a); // => 3
@@ -167,7 +182,7 @@ console.log([1, 2, 3] + 4); // 1,2,34
 下面来看这个表达式：
 
 ```javascript
-console.log('a' + +'b'); // => aNaN
+console.log("a" + +"b"); // => aNaN
 ```
 
 由于 `+ 'b'` 会转换为 `NaN`，所以结果为 `aNaN`。
@@ -175,7 +190,7 @@ console.log('a' + +'b'); // => aNaN
 四则运算中，除了加法运算以外，对于其他三种运算来说，只要一方有数字，另一方就会被尝试转换为数字：
 
 ```javascript
-console.log(2 - '3'); // -1
+console.log(2 - "3"); // -1
 console.log(2 * []); // 0
 console.log(2 / [1, 2]); // NaN
 ```
@@ -245,8 +260,8 @@ let a = {
     return 0;
   },
   toString() {
-    return '2';
-  }
+    return "2";
+  },
 };
 
 console.log(a > 1); // => false
@@ -274,7 +289,7 @@ foo();
 
 var obj = {
   a: 2,
-  foo: foo
+  foo: foo,
 };
 
 obj.foo();
@@ -314,7 +329,7 @@ foo()(); // => window
 
 ```javascript
 var a = {};
-var fn = function() {
+var fn = function () {
   console.log(this);
 };
 
@@ -325,7 +340,7 @@ fn.bind().bind(a)(); // => window
 
 ```javascript
 var fn2 = function fn1() {
-  return function() {
+  return function () {
     return fn.apply();
   }.apply(a);
 };
@@ -336,7 +351,7 @@ fn2();
 
 ```javascript
 var a = {};
-var fn = function() {
+var fn = function () {
   console.log(this);
 };
 
@@ -387,7 +402,7 @@ fn.bind(a).bind()(); // => {}
 function f1() {
   var n = 999;
 
-  add = function() {
+  add = function () {
     n += 1;
   };
 
@@ -418,33 +433,33 @@ result(); // => 1000
 > 如果能理解这两个思考题，应该就算理解闭包的运行机制了
 
 ```javascript
-var name = 'The Window';
+var name = "The Window";
 
 var object = {
-  name: 'My Object',
+  name: "My Object",
 
-  showName: function() {
-    return function() {
+  showName: function () {
+    return function () {
       return this.name;
     };
-  }
+  },
 };
 
 console.log(object.showName()());
 ```
 
 ```javascript
-var name = 'The Window';
+var name = "The Window";
 
 var object = {
-  name: 'My Object',
+  name: "My Object",
 
-  showName: function() {
+  showName: function () {
     var _this = this;
-    return function() {
+    return function () {
       return _this.name;
     };
-  }
+  },
 };
 
 console.log(object.showName()());
@@ -468,7 +483,7 @@ console.log(object.showName()());
 var data = [];
 
 for (var i = 0; i < 3; i++) {
-  data[i] = function() {
+  data[i] = function () {
     console.log(i);
   };
 }
@@ -481,13 +496,13 @@ data[2]();
 对于上面的输出结果，很显然都是 `3`。至于为什么都是 3，可以这样来理解：循环结束后，上面的代码等价于：
 
 ```javascript
-data[0] = function() {
+data[0] = function () {
   console.log(i);
 };
-data[1] = function() {
+data[1] = function () {
   console.log(i);
 };
-data[2] = function() {
+data[2] = function () {
   console.log(i);
 };
 ```
@@ -500,8 +515,8 @@ data[2] = function() {
 var data = [];
 
 for (var i = 0; i < 3; i++) {
-  (function(i) {
-    data[i] = function() {
+  (function (i) {
+    data[i] = function () {
       console.log(i);
     };
   })(i);
@@ -526,7 +541,11 @@ data[2](); // => 2
 > 防抖（debounce）：事件持续触发结束后，等待 n 秒才执行函数
 > 节流（throttle）：事件持续触发的时候，每 n 秒执行一次函数
 >
-> [JavaScript 专题之跟着 underscore 学节流](https://github.com/mqyqingfeng/Blog/issues/26) > [JavaScript 专题之跟着 underscore 学防抖](https://github.com/mqyqingfeng/Blog/issues/22) > [underscore 函数节流的实现](https://github.com/hanzichi/underscore-analysis/issues/22) > [underscore 函数去抖的实现](https://github.com/hanzichi/underscore-analysis/issues/21) > [JavaScript 函数节流和函数去抖应用场景辨析](https://github.com/hanzichi/underscore-analysis/issues/20)
+> - [JavaScript 专题之跟着 underscore 学节流](https://github.com/mqyqingfeng/Blog/issues/26)
+> - [JavaScript 专题之跟着 underscore 学防抖](https://github.com/mqyqingfeng/Blog/issues/22)
+> - [underscore 函数节流的实现](https://github.com/hanzichi/underscore-analysis/issues/22)
+> - [underscore 函数去抖的实现](https://github.com/hanzichi/underscore-analysis/issues/21)
+> - [JavaScript 函数节流和函数去抖应用场景辨析](https://github.com/hanzichi/underscore-analysis/issues/20)
 
 ### 防抖的应用场景
 
@@ -628,11 +647,11 @@ console.log(newObj.b.c); // => 1 // 不变
 
 ```js
 let obj = {
-  a: 'hello world',
+  a: "hello world",
   b: undefined,
-  c: Symbol('male'),
-  d: function() {},
-  e: /^coding$/
+  c: Symbol("male"),
+  d: function () {},
+  e: /^coding$/,
 };
 let newObj = JSON.parse(JSON.stringify(obj));
 
@@ -647,16 +666,16 @@ console.log(newObj); // => { a: "hello world", e: {} }
 
 ```js
 function structuralClone(obj) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const { port1, port2 } = new MessageChannel();
-    port2.onmessage = ev => resolve(ev.data);
+    port2.onmessage = (ev) => resolve(ev.data);
     port1.postMessage(obj);
   });
 }
 
 const obj = {
   a: undefined,
-  b: { c: 1 }
+  b: { c: 1 },
 };
 
 // 循环引用

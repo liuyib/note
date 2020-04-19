@@ -11,10 +11,10 @@
 var xhr = new XMLHttpRequest();
 
 // 2. 连接
-xhr.open("GET", url, true);
+xhr.open('GET', url, true);
 
 // 3. 发送
-xhr.send("hello world");
+xhr.send('hello world');
 
 // 4. 接收
 xhr.onreadystatechange = function (e) {
@@ -39,7 +39,7 @@ var xhr = null;
 if (window.XMLHttpRequest) {
   xhr = new XMLHttpRequest();
 } else {
-  xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  xhr = new ActiveXObject('Microsoft.XMLHTTP');
 }
 ```
 
@@ -73,16 +73,16 @@ var ajax = function (method, url, body, fnSucc, fnFail) {
 
 ```js
 ajax(
-  "GET",
-  "/api.json",
-  "",
+  'GET',
+  '/api.json',
+  '',
   // 成功回调
   function (res) {
-    console.log("res", res);
+    console.log('res', res);
   },
   // 失败回调
   function (e) {
-    console.log("e", e);
+    console.log('e', e);
   }
 );
 ```
@@ -121,14 +121,14 @@ var ajax = function (options) {
 
 ```js
 ajax({
-  method: "GET",
-  url: "/api.json",
-  body: "",
+  method: 'GET',
+  url: '/api.json',
+  body: '',
   fnSucc: function (res) {
-    console.log("res", res);
+    console.log('res', res);
   },
   fnFail: function (e) {
-    console.log("e", e);
+    console.log('e', e);
   },
 });
 ```
@@ -140,6 +140,7 @@ var ajax = function (options) {
   var method = options.method;
   var url = options.url;
   var body = options.body;
++ var headers = options.headers;
   var fnSucc = options.fnSucc;
   var fnFail = options.fnFail;
 
@@ -147,9 +148,7 @@ var ajax = function (options) {
 
   xhr.open(method, url, true);
 
-+ var headers = options.headers;
-+
-+  for (var key in headers) {
++ for (var key in headers) {
 +   var value = headers[key];
 +   xhr.setRequestHeader(key, value);
 + }
@@ -173,17 +172,17 @@ var ajax = function (options) {
 
 ```js
 ajax({
-  method: "GET",
-  url: "/api.json",
-  body: "",
+  method: 'GET',
+  url: '/api.json',
+  body: '',
   headers: {
-    "Content-Type": "multipart/form-data;",
+    'Content-Type': 'multipart/form-data;',
   },
   fnSucc: function (res) {
-    console.log("res", res);
+    console.log('res', res);
   },
   fnFail: function (e) {
-    console.log("e", e);
+    console.log('e', e);
   },
 });
 ```
@@ -249,12 +248,12 @@ var ajax = function ({ method, url, body, headers }) {
 使用如下：
 
 ```js
-ajax({ method: "GET", url: "/api.json" })
+ajax({ method: 'GET', url: '/api.json' })
   .then((res) => {
-    console.log("res", res);
+    console.log('res', res);
   })
   .catch((e) => {
-    console.log("e", e);
+    console.log('e', e);
   });
 ```
 
