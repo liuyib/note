@@ -737,16 +737,23 @@ var person = new Person();
 
 上图看上去有些复杂，其实就三点：
 
-1. 所有构造函数本身，都指向 `Function.prototype`
+1. 所有构造函数，都指向 `Function.prototype`
 
-   > 因为所有函数都是由 `Function()` 实例出来的。
+   > - 除 `Function()` 本身外，所有函数都是通过 `new Function()` 创建的。
+   > - 我们平时使用的 `function xxx() {}` 也不过是语法糖，其底层会调用 `new Function()` 来创建函数。
+   > - 但是 `Function()` 也指向 `Function.prototype`，这就产生了自己创建自己的问题。至于为什么，也仅是在 JS 最初设计的时候，为了满足“所有构造函数，都指向 `Function.prototype`”，避免产生混乱。实际上，引擎会先创建 `Function.prototype`，然后才有 `Function()`。
 
 2. 所有构造函数的原型，都指向 `Object.prototype`
 
-   > 因为构造函数的原型也是对象，是由 `Object()` 实例出来的。
+   > - 只要是对象，在底层就会通过 `new Object()` 来创建。而构造函数的原型也是对象，因此也会通过 `new Object()` 创建，所以构造函数的隐式原型都指向 `Object.prototype`。
+   > - 有个疑问是 `Object.prototype` 也是对象，如果它也是通过 `new Object()` 创建的，就会产生自己创建自己的问题。其实 `Object.prototype`是由引擎创建的，由于它不需要通过其他对象来创建，所以直接指向 `null`。
 
 3. 实例、构造函数、原型之间，形成一个环形指向
 
    > 它们的指向关系是：由构造函数 `new` 出实例，然后实例的隐式原型（`__proto__`）指向构造函数的显示原型（`prototype`）。
 
-其中第二点，不包括 `Object()` 构造函数。由于 `Object()` 已经处于了原型链顶端，如果再向上指，就是 `null` 了，因此也可以说 `null` 是原型链末端。
+---
+
+参考资料：
+
+- [深度解析原型中的各个难点](https://github.com/KieSun/Dream/issues/2)

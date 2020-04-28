@@ -228,3 +228,4 @@ Session tickets 由服务器加密和认证，服务器在使用之前会验证�
 - [深入揭秘 HTTPS 安全问题&连接建立全过程](https://zhuanlan.zhihu.com/p/22142170)
 - [从网络协议的角度聊一聊最近 Github 被大规模攻击事件](https://mp.weixin.qq.com/s/AI0mjOZxBx3bRn71CjbY3w?client=tim&ADUIN=1656081615&ADSESSION=1585797524&ADTAG=CLIENT.QQ.5603_.0&ADPUBNO=26933)
 - [SSL/TLS 原理详解](https://www.linuxidc.com/Linux/2016-05/131147.htm)
+- [你所不知道的 HSTS](https://www.barretlee.com/blog/2015/10/22/hsts-intro/)
