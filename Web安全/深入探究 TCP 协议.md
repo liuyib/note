@@ -8,7 +8,7 @@
 
 首先了解一下 TCP 报文的结构，如图所示：
 
-![](./img/tcp-message-struct.png)
+![](./images/tcp-message-struct.png)
 
 有几个字段需要重点介绍下：
 
@@ -41,7 +41,7 @@
 
 以上就是 TCP 三次握手的过程，如图所示：
 
-![](./img/tcp-three-handshake.png)
+![](./images/tcp-three-handshake.png)
 
 ## 一些问题（三次握手相关）
 
@@ -78,7 +78,7 @@
 
 该情况如下图所示：
 
-![](./img/tcp-three-handshake-fail-in-three.png)
+![](./images/tcp-three-handshake-fail-in-three.png)
 
 当客户端收到服务端的确认报文后，状态变为 ESTABLISHED，然后发送 ACK 报文给服务端。如果 ACK 报文没有到达服务端，则会进行超时重传。当超过了重传次数，服务端还是没有收到 ACK 报文，会直接断开连接。
 
@@ -138,7 +138,7 @@ SYN Cookie 防御的缺点：由于服务端不保存**连接的半开状态**�
 
 以上就是 TCP 四次挥手的过程，如图所示：
 
-![](./img/tcp-four-wave.png)
+![](./images/tcp-four-wave.png)
 
 > 其中，MSL（Maximum Segment Lifetime，报文段最大生存时间）表示报文段被丢弃前，在网络上的最长时间。
 

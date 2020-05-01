@@ -40,7 +40,7 @@ TLS 协议包括两层：[TLS 记录](https://en.wikipedia.org/wiki/Transport_La
 
 > 带证书的双向身份验证的 TLS 握手。
 
-![](./img/tls-four-handshake.png)
+![](./images/tls-four-handshake.png)
 
 > 图片原始来源：[Wikipedia - File:SSL handshake with two way authentication with certificates.svg](https://zh.wikipedia.org/wiki/File:SSL_handshake_with_two_way_authentication_with_certificates.svg)，由我翻译并绘制为中文。
 
