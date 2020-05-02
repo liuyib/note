@@ -24,8 +24,8 @@
 
 - JavaScript
 
-  - 《前端面试之道》- 掘金小册
   - [ES6 笔记](./JavaScript/ES6%20笔记/README.md)
+  - [零碎知识笔记](./JavaScript/零碎知识笔记.md)
 
 - 数据结构
 
@@ -33,8 +33,8 @@
 
 - Node
 
-  - [Node.js 包教不包会](https://github.com/liuyib/study-note/tree/master/Node/node%E5%8C%85%E6%95%99%E4%B8%8D%E5%8C%85%E4%BC%9A)
-  - [七天学会 Node.js](https://github.com/liuyib/study-note/tree/master/Node/%E4%B8%83%E5%A4%A9%E5%AD%A6%E4%BC%9ANodeJS)
+  - [Node.js 包教不包会](./Node/Node.js%20包教不包会/README.md)
+  - [七天学会 Node.js](./Node/七天学会%20Node.js/README.md)
 
 - 打包工具
 
@@ -71,7 +71,7 @@
     - [手写 Ajax](./JavaScript/手写系列/手写%20Ajax.md)
     - [手写 XXX](./JavaScript/手写系列/手写%20XXX.md)
   
-  - [正则表达式总结](./JavaScript/正则表达式总结/README.md)
+  - [正则表达式总结](./JavaScript/正则表达式总结.md)
 
 - 网络相关
 
@@ -105,7 +105,7 @@
 
 - 版本控制
 
-  - [Git 指令总结](./版本控制/Git%20指令总结.md)
+  - [Git 相关总结](./版本控制/Git%20相关总结.md)
 
 - 代码规范
 

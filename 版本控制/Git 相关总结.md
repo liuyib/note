@@ -242,6 +242,20 @@ Git Flow 具体流程详解：
     $ git push origin :<标签名>
     ```
 
+- 取消对文件的跟踪
+
+  - 如果是文件
+
+    ```bash
+    $ git rm --cached <文件名>
+    ```
+
+  - 如果是文件夹
+
+    ```bash
+    $ git rm -r --cached <文件夹>
+    ```
+
 - 撤销 commit
 
   ```bash
