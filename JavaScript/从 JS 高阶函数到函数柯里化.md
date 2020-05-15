@@ -5,9 +5,9 @@
 - 函数作为参数
 - 返回值为函数
 
-我们平时也一直在用到高阶函数，只不过可能没有了解过这个概念。JS 中内置的高阶函数有很多，例如：`forEach`、`filter`、`reduce` 等等。
+我们平时一直在用高阶函数，只不过可能没有了解过这个概念。JS 中内置的高阶函数有很多，例如：`forEach`、`filter`、`reduce` 等等。
 
-这里举两个例子，来更好的理解。
+为了更好的理解，这里举两个例子：
 
 1）函数作为参数
 
@@ -20,7 +20,7 @@ function multi(a) {
   return a * a;
 }
 
-console.log(calc(3, 4, multi)); // 25
+calc(3, 4, multi); // => 25
 ```
 
 2）返回值为函数
@@ -32,16 +32,16 @@ function isType(type) {
   };
 }
 
-console.log(isType("String")("liuyib")); // true
+isType("String")("liuyib"); // => true
 ```
 
 ## 函数柯里化
 
 在这里介绍函数柯里化，是因为柯里化函数中运用了很多高阶函数。
 
-柯里化（Currying）是一种技术，用于把多个参数的函数转换为一系列使用单个参数的函数。
+**柯里化（Currying）是一种技术，用于把多个参数的函数转换为一系列使用单个参数的函数**。
 
-柯里化函数在执行时，并不会立即求值，而是通过闭包把参数保存起来，当参数的数量达到执行函数的要求时（可能是**参数为空时**，也可能是**参数全部接收后**），就开始执行函数了。
+柯里化函数在执行时，并不会立即求值，而是通过闭包把参数保存起来，当参数的数量可以满足函数执行时（可能是**参数为空时**，也可能是**参数全部接收后**），就开始执行函数了。
 
 举例如下：
 
@@ -50,12 +50,13 @@ console.log(isType("String")("liuyib")); // true
 场景：统计每天的销售额，到月底计算一次销售总额。
 
 ```js
+// 柯里化函数
 function currying(fn) {
-  // 这个变量会保持在内存中（由于闭包）
+  // 这个变量会保持在内存中（通过闭包）
   var args = [];
 
   return function () {
-    // 不传变量的时候，执行参数函数
+    // 不传变量的时候，执行 fn
     if (arguments.length === 0) {
       return fn(args);
     } else {
@@ -86,9 +87,9 @@ sellAmount(); // => 600
 ```js
 function currying(fn, args) {
   return function () {
-    // 收集上次递归传来的参数，例如 currying(fn, [1, 2, ...])
+    // 收集上次递归传来的参数，形如 currying(fn, [1, 2, ...])
     var _args = args || [];
-    // 收集 fn 的参数，例如 fn(1, 2, ...)
+    // 收集 fn 的参数，形如 fn(1, 2, ...)
     Array.prototype.push.apply(_args, arguments);
 
     // 递归出口（收集的参数达到了指定数量）
@@ -120,16 +121,16 @@ var sum2 = currying(add, [1]);
 sum2(2)(3)(4); // => 10
 
 var sum3 = currying(add, [1, 2]);
-sum3(3)(4); // => 10
+sum3(3)(4);    // => 10
 
 var sum4 = currying(add, [1, 2, 3]);
-sum4(4); // => 10
+sum4(4);       // => 10
 
 var sum5 = currying(add, [1, 2, 3, 4]);
-sum5(); // => 10
+sum5();        // => 10
 ```
 
-更近一步，就是处理函数有“占位符”的情况，例如 [lodash 的柯里化函数](https://www.lodashjs.com/docs/lodash.curry)：
+更近一步，就是处理含有“占位符”的情况，例如 [lodash 的柯里化函数](https://www.lodashjs.com/docs/lodash.curry)：
 
 ```js
 var abc = function (a, b, c) {
@@ -138,6 +139,7 @@ var abc = function (a, b, c) {
 
 var curried = _.curry(abc);
 
+// 其中 _ 表示占位符
 curried(1)(_, 3)(2); // => [1, 2, 3]
 ```
 
