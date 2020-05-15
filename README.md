@@ -72,6 +72,7 @@
     - [手写 XXX](./JavaScript/手写系列/手写%20XXX.md)
   
   - [正则表达式总结](./JavaScript/正则表达式总结.md)
+  - [从 JS 高阶函数到函数柯里化](./JavaScript/从%20JS%20高阶函数到函数柯里化.md)
 
 - 网络相关
 
