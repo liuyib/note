@@ -108,10 +108,6 @@ $ npm install xxx --registry=https://registry.npm.taobao.org
 
 ## Git 基础概念
 
-首先，工作区（Working Directory）、暂存区（Stage）和历史记录区（History）的交互，如下图所示：
-
-![](./images/git-work-flow.png)
-
 一张图解 Git：
 
 ![](./images/a-picture-to-understand-git.png)
@@ -158,7 +154,7 @@ Git Flow 具体流程详解：
 
 然后，release 这个分支会进行 CI 测试，如果有问题，就在这个分支进行修复。在修复所有问题前，不停地进行流程“发布->测试->修复->重新发布->重新测试”。
 
-3、发布版本，将 develop 分支合并到 master 分支。如图所示：
+3、发布版本，将代码合并到 master 分支。如图所示：
 
 ![](./images/git-flow-3.png)
 
@@ -412,7 +408,7 @@ Git Flow 具体流程详解：
   - `--soft`：修改历史记录
   - `--hard`：修改工作区、暂存区、历史记录
 
-  > 由于使用 `git reset` 会删除 commit 记录，因此我要在公共的分支（例如 develop 分支）上使用。
+  > 由于使用 `git reset` 会删除 commit 记录，因此不要在公共的分支（例如 develop 分支）上使用。
 
 - `git checkout` 可以将 HEAD 指针指向一个新的分支。
 - `git revert` 和 `git reset` 的目的一样，但是做法不同。`git revert` 会以创建新 commit 的方式来撤销 commit。这样会保留之前的提交历史，比较安全。
@@ -492,6 +488,10 @@ A — B — C — D — — — — — E
   参数作用如图：
 
   ![git merge arguments](./images/git-merge.png)
+
+  > - 默认（无参数）是 Fast-forward 模式，直接将 commit 追加到当前分支的末端。（提交历史仍是直线）
+  > - `--no-ff` 参数，保留所有 commit 信息，新建一个用于合并的 commit。（提交历史不再是直线）
+  > - `--squash` 参数，所有 commit 信息会在原来的分支保留，同时会合并到暂存区（stage），用户手动 `git commit` 后，最终合并为一个新的 commit。（提交历史仍是直线）
 
 - `git fetch origin <分支名>` 拉取远程分支（只拉取不合并）
 - `git pull origin <分支名>` 拉取远程分支（拉取并合并）
