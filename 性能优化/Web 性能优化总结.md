@@ -385,17 +385,17 @@
 - 动画部分新建合成层
 - 合理使用硬件加速
 - 页面渲染时，浏览器自身有一定的优化。但是使用某些属性（如：offsetTop）会使浏览器的优化失效，因此减少使用。
-- 在 requestAnimationFrame 中先读取，在修改（在 raf 中，元素的样式在上一帧中就计算好了，所以读取时不会触发样式计算。但如果先设置样式，再读取；为了确保获取正确的样式，浏览器会在设置和读取时都计算样式）
+- 在 requestAnimationFrame 中，样式先读取再修改（在 raf 中，元素的样式在上一帧中就计算好了，所以读取时不会强制触发样式计算。但如果先设置样式，再读取；为了确保获取正确的样式，浏览器会在读取和设置时都强制计算样式）
 
-  - 浏览器存储
+- 浏览器存储
 
-    - 将 CDN 域名和主站域名分开（防止主站域名下的 Cookie，浪费 CDN 的流量）
-    - 可以用 SessionStorage 维持表单信息
-    - 可以用 LocalStorage 缓存一些不常更改的资源（微信公众号文章页实现秒开，就是将一些 CSS，JS 文件缓存到了 LocalStorage）
-    - Service Worker
+  - 将 CDN 域名和主站域名分开（防止主站域名下的 Cookie，浪费 CDN 的流量）
+  - 可以用 SessionStorage 维持表单信息
+  - 可以用 LocalStorage 缓存一些不常更改的资源（微信公众号文章页实现秒开，就是将一些 CSS，JS 文件缓存到了 LocalStorage）
+  - Service Worker
 
-      - 使用 Service Worker 拦截网络请求，然后从缓存中读取数据，实现离线应用
-      - 将不涉及 DOM 的比较耗时的运算放入 Service Worker
+    - 使用 Service Worker 拦截网络请求，然后从缓存中读取数据，实现离线应用
+    - 将不涉及 DOM 的比较耗时的运算放入 Service Worker
 
 - 缓存机制
 
