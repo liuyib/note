@@ -489,9 +489,15 @@ A — B — C — D — — — — — E
 
   ![git merge arguments](./images/git-merge.png)
 
-  > - 默认（无参数）是 Fast-forward 模式，直接将 commit 追加到当前分支的末端。（提交历史仍是直线）
-  > - `--no-ff` 参数，保留所有 commit 信息，新建一个用于合并的 commit。（提交历史不再是直线）
-  > - `--squash` 参数，所有 commit 信息会在原来的分支保留，同时会合并到暂存区（stage），用户手动 `git commit` 后，最终合并为一个新的 commit。（提交历史仍是直线）
+  假设从 dev 分支分出 feat 分支。
+
+  - 默认（无参数）
+
+    - 如果 dev 分支上没有新的 commit，则直接将 feat 上的 commit 追加到当前分支的末端。（Fast-forward 模式，提交历史仍是直线）
+    - 如果 dev 分支上有了新的 commit，则效果同 `--no-ff` 模式。（提交历史不再是直线）
+
+  - `--no-ff` 参数，保留所有 commit 信息，新建一个用于合并的 commit。（提交历史不再是直线）
+  - `--squash` 参数，所有 commit 信息会在原来的分支保留，同时会合并到暂存区（stage），用户手动 `git commit` 后，最终合并为一个新的 commit。（提交历史仍是直线）
 
 - `git fetch origin <分支名>` 拉取远程分支（只拉取不合并）
 - `git pull origin <分支名>` 拉取远程分支（拉取并合并）
