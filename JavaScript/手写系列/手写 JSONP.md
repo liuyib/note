@@ -59,7 +59,6 @@ jsonp({
 ```js
 function jsonp({ url, params }) {
   return new Promise((resolve, reject) => {
-    const callback = `jsonp_${Date.now()}`;
     const arr = [];
 
     // 将数据拼接成 URL 查询参数
@@ -68,24 +67,24 @@ function jsonp({ url, params }) {
       arr.push(`${key}=${value}`);
     }
 
-    const _url = `${url}?${arr.join("&")}&callback=${callback}`;
-    const _script = document.createElement("script");
-    _script.src = _url;
+    const callback = `jsonp_${Date.now()}`;
+    const script = document.createElement('script');
+    script.src = `${url}?${arr.join('&')}&callback=${callback}`;
 
     // 回调函数的名称不重要，主要用于触发 resolve 或 reject 逻辑
     window[callback] = (res) => {
       delete window[callback];
-      document.body.removeChild(_script);
+      document.body.removeChild(script);
 
       if (res) {
         resolve(res);
       } else {
-        reject("没有接收到参数");
+        reject('没有接收到参数');
       }
     };
 
     // 发送请求
-    document.body.appendChild(_script);
+    document.body.appendChild(script);
   });
 }
 ```
@@ -105,13 +104,13 @@ function jsonp({ url, params }) {
     }
 
     const _url = `${url}?${arr.join("&")}&callback=${callback}`;
-    const _script = document.createElement("script");
-    _script.src = _url;
+    const script = document.createElement("script");
+    script.src = _url;
 
     // 回调函数的名称不重要，主要用于触发 resolve 或 reject 逻辑
     window[callback] = (res) => {
       delete window[callback];
-      document.body.removeChild(_script);
+      document.body.removeChild(script);
 
       if (res) {
         resolve(res);
@@ -120,15 +119,15 @@ function jsonp({ url, params }) {
       }
     };
 
-+   _script.addEventListener('error', () => {
++   script.addEventListener('error', () => {
 +     delete window[callback];
-+     document.body.removeChild(_script);
++     document.body.removeChild(script);
 +
 +     reject('JSONP 跨域请求失败');
 +   }, false);
 
     // 发送请求
-    document.body.appendChild(_script);
+    document.body.appendChild(script);
   });
 }
 ```
