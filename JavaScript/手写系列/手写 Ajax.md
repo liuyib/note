@@ -30,6 +30,8 @@ xhr.onreadystatechange = function (e) {
 };
 ```
 
+> 其中，`xhr.send()` 是异步的，所以放在第三步或第四步都行。
+
 如果需要兼容 IE 和低版本的 Edge，需要改造如下代码：
 
 ```js
@@ -129,7 +131,7 @@ ajax({
   },
   fnFail: function (e) {
     console.log('e', e);
-  },
+  }
 });
 ```
 
@@ -176,14 +178,14 @@ ajax({
   url: '/api.json',
   body: '',
   headers: {
-    'Content-Type': 'multipart/form-data;',
+    'Content-Type': 'multipart/form-data;'
   },
   fnSucc: function (res) {
     console.log('res', res);
   },
   fnFail: function (e) {
     console.log('e', e);
-  },
+  }
 });
 ```
 
@@ -218,22 +220,23 @@ var ajax = function ({ method, url, body, headers, fnSucc, fnFail }) {
 ## 使用 Promise
 
 ```js
-var ajax = function ({ method, url, body, headers }) {
-  return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
+const ajax = function ({ url, method, data, headers }) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
 
     xhr.open(method, url, true);
 
-    for (var key in headers) {
-      var value = headers[key];
+    for (const key in headers) {
+      const value = headers[key];
       xhr.setRequestHeader(key, value);
     }
 
-    xhr.send(body);
-    xhr.onreadystatechange = function (e) {
-      var status = xhr.status;
+    xhr.send(data);
+    xhr.onreadystatechange = function () {
+      const state = xhr.readyState;
+      const status = xhr.status;
 
-      if (xhr.readyState == 4) {
+      if (state == 4) {
         if ((status >= 200 && status < 300) || status == 304) {
           resolve(xhr.response);
         } else {
@@ -248,12 +251,19 @@ var ajax = function ({ method, url, body, headers }) {
 使用如下：
 
 ```js
-ajax({ method: 'GET', url: '/api.json' })
+ajax({
+  url: '/api.json',
+  method: 'GET',
+  data: { name: 'liuyib', age: 22 },
+  headers: {
+    'Content-Type': 'text/plain'
+  }
+})
   .then((res) => {
     console.log('res', res);
   })
-  .catch((e) => {
-    console.log('e', e);
+  .catch((err) => {
+    console.log('err', err);
   });
 ```
 
