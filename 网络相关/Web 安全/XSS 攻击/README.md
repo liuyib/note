@@ -310,3 +310,9 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 ### 设置 HttpOnly
 
 通过设置 HttpOnly 使得 Cookies 只能通过 `Set-Cookie` 来设置，这样可以避免 XSS 代码窃取 Cookies。
+
+---
+
+参考资料：
+
+- [前端安全系列（一）：如何防止XSS攻击？](https://tech.meituan.com/2018/09/27/fe-security.html)
