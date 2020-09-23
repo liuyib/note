@@ -58,9 +58,10 @@ class LinkedList<E> {
   }
 
   /**
-   * 获取链表中，指定索引位置的元素
+   * 获取指定索引位置的节点值
    * （该操作在链表中不常用，练习用）
    * @param index 索引
+   * @return {E} 节点的值
    */
   public get(index: number): E {
     if (index < 0 || index >= this.size) {
@@ -85,7 +86,7 @@ class LinkedList<E> {
   }
 
   /**
-   * 设置链表中，指定索引位置的元素
+   * 设置指定索引位置的节点值
    * （该操作在链表中不常用，练习用）
    * @param index 索引
    * @param e 节点的元素值
@@ -114,6 +115,7 @@ class LinkedList<E> {
   /**
    * 查找链表中，是否包含某元素
    * @param e 节点的元素值
+   * @return {boolean}
    */
   public contains(e: E): boolean {
     let curr = this.head.next;
@@ -129,8 +131,9 @@ class LinkedList<E> {
   }
 
   /**
-   * 在链表中，删除指定为值的节点，并返回被删除的节点值
+   * 删除指定位置的节点
    * @param index 索引
+   * @return {E} 删除的节点的值
    */
   public del(index: number): E {
     if (index < 0 || index >= this.size) {
@@ -158,6 +161,29 @@ class LinkedList<E> {
 
   public delLast(): E {
     return this.del(this.size - 1);
+  }
+
+  /**
+   * 删除值为指定值的节点
+   * @param e 要删除的值
+   * @return {number} 删除的节点的索引
+   */
+  public delElem(e: E): void {
+    let prev = this.head;
+
+    while (prev.next !== null) {
+      if (prev.next.e === e) {
+        break;
+      }
+      prev = prev.next;
+    }
+
+    if (prev.next !== null) {
+      const curr = prev.next;
+      prev.next = curr.next;
+      curr.next = null;
+      this.size -= 1;
+    }
   }
 
   public print(): void {
@@ -200,9 +226,10 @@ console.log(`link.get(6)`, link.get(6));
 console.log(`link.getFirst()`, link.getFirst());
 console.log(`link.getLast()`, link.getLast());
 
-link.del(6);
+link.del(5);
 link.delFirst();
 link.delLast();
+link.delElem('666');
 
 link.print();
 ```
