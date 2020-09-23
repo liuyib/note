@@ -35,7 +35,7 @@ class LinkedList<E> {
   }
 
   public add(index: number, e: E): void {
-    if (index < 0 && index > this.size) {
+    if (index < 0 || index > this.size) {
       throw new Error('Add failed. Illegal index');
     }
 
@@ -63,7 +63,7 @@ class LinkedList<E> {
    * @param index 索引
    */
   public get(index: number): E {
-    if (index < 0 && index >= this.size) {
+    if (index < 0 || index >= this.size) {
       throw new Error('Get failed. Illegal index');
     }
 
@@ -91,7 +91,7 @@ class LinkedList<E> {
    * @param e 节点的元素值
    */
   public set(index: number, e: E): void {
-    if (index < 0 && index >= this.size) {
+    if (index < 0 || index >= this.size) {
       throw new Error('Get failed. Illegal index');
     }
 
@@ -133,7 +133,7 @@ class LinkedList<E> {
    * @param index 索引
    */
   public del(index: number): E {
-    if (index < 0 && index >= this.size) {
+    if (index < 0 || index >= this.size) {
       throw new Error('Del failed. Illegal index');
     }
 
