@@ -45,19 +45,19 @@ Stack.prototype.print = function () {
 
 var s = new Stack();
 
-s.print(); // => --
-console.log(s.isEmpty()); // => true
+s.print();                                        // => --
+console.log(s.isEmpty());                         // => true
 
 s.push(...[3, 1, 5, 2]);
-s.print(); // => -3,1,5,2-
-console.log(s.getTop()); // => 2
-console.log(s.size()); // => 4
+s.print();                                        // => -3,1,5,2-
+console.log(s.getTop());                          // => 2
+console.log(s.size());                            // => 4
 
 s.pop();
-s.print(); // => -3,1,5-
+s.print();                                        // => -3,1,5-
 
 s.clear();
-s.print(); // => --
+s.print();                                        // => --
 ```
 
 ## 使用 ES6 class 创建栈
@@ -101,19 +101,19 @@ class Stack {
 
 var s = new Stack();
 
-s.print(); // => --
-console.log(s.isEmpty()); // => true
+s.print();                                        // => --
+console.log(s.isEmpty());                         // => true
 
 s.push(...[3, 1, 5, 2]);
-s.print(); // => -3,1,5,2-
-console.log(s.getTop()); // => 2
-console.log(s.size()); // => 4
+s.print();                                        // => -3,1,5,2-
+console.log(s.getTop());                          // => 2
+console.log(s.size());                            // => 4
 
 s.pop();
-s.print(); // => -3,1,5-
+s.print();                                        // => -3,1,5-
 
 s.clear();
-s.print(); // => --
+s.print();                                        // => --
 ```
 
 ## 实现数据的私有化
@@ -160,32 +160,32 @@ class Stack {
 
 var s = new Stack();
 
-s.print(); // => --
-console.log(s.isEmpty()); // => true
+s.print();                                        // => --
+console.log(s.isEmpty());                         // => true
 
 s.push(...[3, 1, 5, 2]);
-s.print(); // => -3,1,5,2-
-console.log(s.getTop()); // => 2
-console.log(s.size()); // => 4
+s.print();                                        // => -3,1,5,2-
+console.log(s.getTop());                          // => 2
+console.log(s.size());                            // => 4
 
 s.pop();
-s.print(); // => -3,1,5-
+s.print();                                        // => -3,1,5-
 
 s.clear();
-s.print(); // => --
+s.print();                                        // => --
 ```
 
 实际上这种方法创建的是一个假的私有属性。ES6 中新增的 `Object.getOwnPropertySymbols` 方法能够获取到类里面声明的所有 `Symbol` 属性，这样就能破坏通过 `Symbol` 构造出来的私有属性。
 
 例如：
 
-```js
+``` js
 var symbol = Object.getOwnPropertySymbols(s);
-console.log(symbol.length); // => 1
-console.log(symbol); // => [Symbol()]
-console.log(symbol[0]); // => Symbol()
+console.log(symbol.length);  // => 1
+console.log(symbol);         // => [Symbol()]
+console.log(symbol[0]);      // => Symbol()
 s[symbol[0]].push(9);
-s.print(); // => 3,1,5,6,9
+s.print();                   // => 3,1,5,6,9
 ```
 
 - **用 ES6 限定作用域 WeakMap 实现**
@@ -236,25 +236,25 @@ let Stack = (() => {
 
 let s = new Stack();
 
-s.print(); // => --
-console.log(s.isEmpty()); // => true
-console.log(s.getTop()); // => undefined
-console.log(s.pop()); // => undefined
-console.log(s.size()); // => 0
+s.print();                                        // => --
+console.log(s.isEmpty());                         // => true
+console.log(s.getTop());                          // => undefined
+console.log(s.pop());                             // => undefined
+console.log(s.size());                            // => 0
 
 s.push(...[3, 1, 5, 2]);
-s.print(); // => -3,1,5,2-
-console.log(s.getTop()); // => 2
-console.log(s.size()); // => 4
+s.print();                                        // => -3,1,5,2-
+console.log(s.getTop());                          // => 2
+console.log(s.size());                            // => 4
 
 s.pop();
-s.print(); // => -3,1,5-
+s.print();                                        // => -3,1,5-
 
 s.clear();
-s.print(); // => --
+s.print();                                        // => --
 
 // 无法直接访问私有属性
-console.log(s.items); // => undefined
+console.log(s.items);                             // => undefined
 ```
 
 ## 实际应用

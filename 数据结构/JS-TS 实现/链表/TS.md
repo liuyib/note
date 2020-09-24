@@ -18,6 +18,13 @@ class NodeItem<E> {
  * 单向链表（只有头结点）
  */
 class LinkedList<E> {
+  /**
+   * 虚拟头结点、真实尾结点
+   * 例如（ O 表示链表节点 ）：
+   *   head        tail
+   *    ↓           ↓
+   *   NULL -> O -> O -> NULL
+   */
   private head: any;
   private size: any;
 
