@@ -1,10 +1,10 @@
 class NodeItem<E> {
-  elem: any;
+  e: any;
   left: any;
   right: any;
 
   constructor(e?: E) {
-    this.elem = e;
+    this.e = e;
     this.left = null;
     this.right = null;
   }
@@ -37,9 +37,9 @@ class BST<E> {
       return new NodeItem(e);
     }
 
-    if (e < node.elem) {
+    if (e < node.e) {
       node.left = this.addItem(e, node.left);
-    } else if (e > node.elem) {
+    } else if (e > node.e) {
       node.right = this.addItem(e, node.right);
     }
 
@@ -47,19 +47,15 @@ class BST<E> {
     return node;
   }
 
-  public contains(e: E): boolean {
-    return this.containsItem(e, this.root);
-  }
-
-  private containsItem(e: E, node: NodeItem<E>): boolean {
+  public contains(e: E, node = this.root): boolean {
     if (node === null) {
       return false;
     }
 
-    if (e < node.elem) {
-      return this.containsItem(e, node.left);
-    } else if (e > node.elem) {
-      return this.containsItem(e, node.right);
+    if (e < node.e) {
+      return this.contains(e, node.left);
+    } else if (e > node.e) {
+      return this.contains(e, node.right);
     }
 
     return true;
@@ -70,7 +66,7 @@ class BST<E> {
       return;
     }
 
-    console.log(node.elem);
+    console.log(node.e);
     this.preOrder(node.left);
     this.preOrder(node.right);
   }
@@ -81,7 +77,7 @@ class BST<E> {
     }
 
     this.midOrder(node.left);
-    console.log(node.elem);
+    console.log(node.e);
     this.midOrder(node.right);
   }
 
@@ -92,7 +88,7 @@ class BST<E> {
 
     this.sufOrder(node.left);
     this.sufOrder(node.right);
-    console.log(node.elem);
+    console.log(node.e);
   }
 
   // 前序遍历（非递归）
@@ -106,7 +102,7 @@ class BST<E> {
 
     while (stack.length !== 0) {
       const e = stack.pop();
-      console.log(e.elem);
+      console.log(e.e);
 
       if (e.right !== null) {
         stack.push(e.right);
@@ -127,7 +123,7 @@ class BST<E> {
     let cur = JSON.parse(JSON.stringify(this.root));
     stack.push(cur);
 
-    while (cur !== null && stack.length !== 0) {
+    while (stack.length !== 0) {
       // 先找到最深的左节点
       if (cur.left !== null) {
         stack.push(cur.left);
@@ -138,11 +134,12 @@ class BST<E> {
         cur = stack.pop();
         // 将左节点置空，防止回溯的时候进入 if 逻辑
         cur.left = null;
-        console.log(cur.elem);
+        console.log(cur.e);
 
         // 如果有右节点，则回溯之后，从右节点开始递归上述操作
         if (cur.right !== null) {
           stack.push(cur.right);
+          cur = cur.right;
         }
       }
     }
@@ -156,9 +153,9 @@ class BST<E> {
 
     const stack = [];
     let cur = JSON.parse(JSON.stringify(this.root));
-    stack.push(this.root);
+    stack.push(cur);
 
-    while (cur !== null && stack.length !== 0) {
+    while (stack.length !== 0) {
       // 先找到最深的左节点
       if (cur.left !== null) {
         stack.push(cur.left);
@@ -171,15 +168,37 @@ class BST<E> {
         cur.left = null;
 
         if (cur.right !== null) {
-          stack.push(cur);
-          // 对所有右子树，递归进行上述操作
-          const rightChildTree = JSON.parse(JSON.stringify(cur.right));
-          stack.push(rightChildTree);
-          // 将右节点置空，防止回溯时进入 if 逻辑
-          cur.right = null;
+          // 当前节点存在右节点，则当前节点先入栈，后续再输入
+          stack.push(new NodeItem(cur.e));
+          // 右节点入栈，然后递归执行上述操作
+          stack.push(cur.right);
+          cur = cur.right;
         } else {
-          console.log(cur.elem);
+          console.log(cur.e);
         }
+      }
+    }
+  }
+
+  // 层序遍历
+  public levelOrder(): void {
+    if (this.root === null) {
+      return;
+    }
+
+    const queue = [];
+    queue.push(this.root);
+
+    while (queue.length !== 0) {
+      const cur = queue.shift();
+      console.log(cur.e);
+
+      if (cur.left !== null) {
+        queue.push(cur.left);
+      }
+
+      if (cur.right !== null) {
+        queue.push(cur.right);
       }
     }
   }
@@ -187,15 +206,18 @@ class BST<E> {
 
 const bst = new BST();
 
-bst.add(5);
-bst.add(3);
-bst.add(8);
+bst.add(6);
+bst.add(2);
 bst.add(1);
+bst.add(4);
+bst.add(3);
+bst.add(5);
+bst.add(8);
+bst.add(7);
 bst.add(9);
-bst.add(0);
 
 console.log(`bst.contains(666)`, bst.contains(666)); // => false
-console.log(`bst.contains(3)`, bst.contains(3)); // => true
+console.log(`bst.contains(4)`, bst.contains(4)); // => true
 
 console.log('Pre Order: ');
 console.log('Recusive: ');
@@ -214,3 +236,6 @@ console.log('Recusive: ');
 bst.sufOrder();
 console.log('Non-Recusive: ');
 bst.sufOrderNR();
+
+console.log('Level Order: ');
+bst.levelOrder();
