@@ -145,6 +145,25 @@ class BST {
       }
     }
   }
+
+  levelOrder() {
+    if (this.root === null) return;
+
+    const queue = [];
+    queue.push(this.root);
+
+    while (queue.length !== 0) {
+      const cur = queue.shift();
+      console.log(cur.e);
+
+      if (cur.left !== null) {
+        queue.push(cur.left);
+      }
+      if (cur.right !== null) {
+        queue.push(cur.right);
+      }
+    }
+  }
 }
 
 const bst = new BST();
@@ -180,5 +199,5 @@ bst.sufOrder();
 console.log('Non-Recusive: ');
 bst.sufOrderNR();
 
-// console.log('Level Order: ');
-// bst.levelOrder();
+console.log('Level Order: ');
+bst.levelOrder();

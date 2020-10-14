@@ -196,7 +196,6 @@ class BST<E> {
       if (cur.left !== null) {
         queue.push(cur.left);
       }
-
       if (cur.right !== null) {
         queue.push(cur.right);
       }
