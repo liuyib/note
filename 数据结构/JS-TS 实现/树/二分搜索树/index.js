@@ -23,13 +23,13 @@ class BST {
   /**
    * 添加一个树节点
    * @param {number} e 要添加的值
-   * @param {Object} node 树的节点
-   * @return {Object} 新添加的节点 | 修改过左右孩子后的节点
+   * @param {Object} node 树的节点（递归辅助参数）
+   * @return {Object} 新添加的节点 | 已经存在的某个节点
    */
   add(e, node = this.root) {
-    if (node === null) {
-      const ret = new NodeItem(e);
+    const ret = new NodeItem(e);
 
+    if (node === null) {
       if (this.root === null) {
         this.root = ret;
       }
@@ -69,7 +69,9 @@ class BST {
 
   // 前序遍历（递归）
   preOrder(node = this.root) {
-    if (node === null) return;
+    if (node === null) {
+      return;
+    }
 
     console.log(node.e);
     this.preOrder(node.left);
@@ -78,7 +80,9 @@ class BST {
 
   // 中序遍历（递归）
   midOrder(node = this.root) {
-    if (node === null) return;
+    if (node === null) {
+      return;
+    }
 
     this.midOrder(node.left);
     console.log(node.e);
@@ -87,7 +91,9 @@ class BST {
 
   // 后序遍历（递归）
   sufOrder(node = this.root) {
-    if (node === null) return;
+    if (node === null) {
+      return;
+    }
 
     this.sufOrder(node.left);
     this.sufOrder(node.right);
@@ -96,7 +102,9 @@ class BST {
 
   // 前序遍历（非递归）
   preOrderNR() {
-    if (this.root === null) return;
+    if (this.root === null) {
+      return;
+    }
 
     const stack = [];
     stack.push(this.root);
@@ -116,7 +124,9 @@ class BST {
 
   // 中序遍历（非递归）
   midOrderNR() {
-    if (this.root === null) return;
+    if (this.root === null) {
+      return;
+    }
 
     const stack = [];
     let cur = JSON.parse(JSON.stringify(this.root));
@@ -141,7 +151,9 @@ class BST {
 
   // 后序遍历（非递归）
   sufOrderNR() {
-    if (this.root === null) return;
+    if (this.root === null) {
+      return;
+    }
 
     const stack = [];
     let cur = JSON.parse(JSON.stringify(this.root));
@@ -168,7 +180,9 @@ class BST {
 
   // 层序遍历
   levelOrder() {
-    if (this.root === null) return;
+    if (this.root === null) {
+      return;
+    }
 
     const queue = [];
     queue.push(this.root);
@@ -196,7 +210,7 @@ class BST {
       throw new Error('BST is Empty.');
     }
 
-    if (node && node.left === null) {
+    if (node.left === null) {
       return node;
     }
 
@@ -213,7 +227,7 @@ class BST {
       throw new Error('BST is Empty');
     }
 
-    if (node && node.right === null) {
+    if (node.right === null) {
       return node;
     }
 
@@ -222,8 +236,8 @@ class BST {
 
   /**
    * 删除最小节点（递归）
-   * @param {Object} node 树的节点
-   * @return {Object} 被删除节点的右孩子 | 修改过左右孩子后的节点
+   * @param {Object} node 树的节点（递归辅助参数）
+   * @return {Object} 被删除节点的右孩子 | 修改过左右孩子后的节点（递归用）
    */
   delMin(node = this.root) {
     if (this.size === 0) {
@@ -244,7 +258,7 @@ class BST {
   /**
    * 删除最大节点（递归）
    * @param {Object} node 树的节点
-   * @return {Object} 被删除节点的左孩子 | 修改过左右孩子后的节点
+   * @return {Object} 被删除节点的左孩子 | 修改过左右孩子后的节点（递归用）
    */
   delMax(node = this.root) {
     if (this.size === 0) {
