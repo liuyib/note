@@ -20,25 +20,39 @@ class BST {
     return this.size === 0;
   }
 
-  add(e) {
-    this.root = this.addItem(e, this.root);
-  }
-
-  addItem(e, node) {
+  /**
+   * 添加一个树节点
+   * @param {number} e 要添加的值
+   * @param {Object} node 树的节点
+   * @return {Object} 新添加的节点 | 修改过左右孩子后的节点
+   */
+  add(e, node = this.root) {
     if (node === null) {
+      const ret = new NodeItem(e);
+
+      if (this.root === null) {
+        this.root = ret;
+      }
+
       this.size += 1;
-      return new NodeItem(e);
+      return ret;
     }
 
     if (e < node.e) {
-      node.left = this.addItem(e, node.left);
+      node.left = this.add(e, node.left);
     } else if (e > node.e) {
-      node.right = this.addItem(e, node.right);
+      node.right = this.add(e, node.right);
     }
 
     return node;
   }
 
+  /**
+   * 检查树中是否包含某个节点值
+   * @param {number} e 要检查的值
+   * @param {Object} node 树的节点
+   * @return {boolean}
+   */
   contains(e, node = this.root) {
     if (node === null) {
       return false;
@@ -53,6 +67,7 @@ class BST {
     return true;
   }
 
+  // 前序遍历（递归）
   preOrder(node = this.root) {
     if (node === null) return;
 
@@ -61,6 +76,7 @@ class BST {
     this.preOrder(node.right);
   }
 
+  // 中序遍历（递归）
   midOrder(node = this.root) {
     if (node === null) return;
 
@@ -69,6 +85,7 @@ class BST {
     this.midOrder(node.right);
   }
 
+  // 后序遍历（递归）
   sufOrder(node = this.root) {
     if (node === null) return;
 
@@ -77,6 +94,7 @@ class BST {
     console.log(node.e);
   }
 
+  // 前序遍历（非递归）
   preOrderNR() {
     if (this.root === null) return;
 
@@ -96,6 +114,7 @@ class BST {
     }
   }
 
+  // 中序遍历（非递归）
   midOrderNR() {
     if (this.root === null) return;
 
@@ -120,6 +139,7 @@ class BST {
     }
   }
 
+  // 后序遍历（非递归）
   sufOrderNR() {
     if (this.root === null) return;
 
@@ -146,6 +166,7 @@ class BST {
     }
   }
 
+  // 层序遍历
   levelOrder() {
     if (this.root === null) return;
 
@@ -163,6 +184,125 @@ class BST {
         queue.push(cur.right);
       }
     }
+  }
+
+  /**
+   * 获取最小值
+   * @param {Object} node 树的节点
+   * @return {Object} 最小节点的值
+   */
+  getMin(node = this.root) {
+    if (this.size === 0) {
+      throw new Error('BST is Empty.');
+    }
+
+    if (node && node.left === null) {
+      return node;
+    }
+
+    return this.getMin(node.left);
+  }
+
+  /**
+   * 获取最大值
+   * @param {Object} node 树的节点
+   * @return {number} 最大节点的值
+   */
+  getMax(node = this.root) {
+    if (this.size === 0) {
+      throw new Error('BST is Empty');
+    }
+
+    if (node && node.right === null) {
+      return node;
+    }
+
+    return this.getMax(node.right);
+  }
+
+  /**
+   * 删除最小节点（递归）
+   * @param {Object} node 树的节点
+   * @return {Object} 被删除节点的右孩子 | 修改过左右孩子后的节点
+   */
+  delMin(node = this.root) {
+    if (this.size === 0) {
+      throw new Error('BST is Empty.');
+    }
+
+    if (node.left === null) {
+      const right = node.right;
+      node.right = null;
+      this.size -= 1;
+      return right;
+    }
+
+    node.left = this.delMin(node.left);
+    return node;
+  }
+
+  /**
+   * 删除最大节点（递归）
+   * @param {Object} node 树的节点
+   * @return {Object} 被删除节点的左孩子 | 修改过左右孩子后的节点
+   */
+  delMax(node = this.root) {
+    if (this.size === 0) {
+      throw new Error('BST is Empty.');
+    }
+
+    if (node.right === null) {
+      const left = node.left;
+      node.left = null;
+      this.size -= 1;
+      return left;
+    }
+
+    node.right = this.delMax(node.right);
+    return node;
+  }
+
+  /**
+   * 删除树中任意指定元素
+   * @param {number} e 待删除的元素值
+   * @param {Object} node
+   */
+  del(e, node = this.root) {
+    if (this.size === 0) {
+      throw new Error('BST is Empty.');
+    }
+
+    if (e < node.e) {
+      node.left = this.del(e, node.left);
+      return node;
+    } else if (e > node.e) {
+      node.right = this.del(e, node.right);
+      return node;
+    }
+
+    // 左节点为空，直接把右节点替代当前节点
+    if (node.left === null) {
+      const right = node.right;
+      node.right = null;
+      this.size -= 1;
+      return right;
+    }
+
+    // 右节点为空，直接把左节点替代当前节点
+    if (node.right === null) {
+      const left = node.left;
+      node.left = null;
+      this.size -= 1;
+      return left;
+    }
+
+    // 左右节点都不为空，用右子树中最小的节点替换当前节点
+    const replace = new NodeItem(this.getMin(node.right).e);
+    replace.left = node.left;
+    replace.right = this.delMin(node.right);
+    node.left = node.right = null;
+
+    return replace;
   }
 }
 
@@ -199,5 +339,20 @@ bst.sufOrder();
 console.log('Non-Recusive: ');
 bst.sufOrderNR();
 
-console.log('Level Order: ');
+const minNode = bst.getMin();
+console.log(`Min: `, minNode.e);
+
+const maxNode = bst.getMax();
+console.log(`Max: `, maxNode.e);
+
+bst.delMin();
+console.log('Del min: ');
+bst.levelOrder();
+
+bst.delMax();
+console.log('Del max: ');
+bst.levelOrder();
+
+bst.del(2);
+console.log('Del 2: ');
 bst.levelOrder();
