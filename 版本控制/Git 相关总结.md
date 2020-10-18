@@ -224,11 +224,25 @@ Git Flow 具体流程详解：
   - 删除远程分支 / 标签
 
     ```bash
-    # 删除远程分支
+    # 首先，删除本地分支
+    $ git branch -d/-D <分支名>
+    # 然后，删除远程分支（如果有标签和该分支重名，则方法 1, 2 无效）
+    # 方法 1
     $ git push origin :<分支名>
+    # 方法 2
+    $ git push origin -d <分支名>
+    # 方法 3
+    $ git push origin :refs/heads/<分支名>
 
-    # 删除远程标签
+    # 首先，删除本地标签
+    $ git tag -d <标签名>
+    # 然后，删除远程标签（如果有分支和该标签重名，则方法 1, 2 无效）
+    # 方法 1
     $ git push origin :<标签名>
+    # 方法 2
+    $ git push origin -d <标签名>
+    # 方法 3
+    $ git push origin :refs/tags/<标签名>
     ```
 
 - 取消对文件的跟踪
