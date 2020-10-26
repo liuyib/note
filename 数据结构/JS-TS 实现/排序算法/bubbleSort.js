@@ -15,8 +15,6 @@ function bubbleSort(arr) {
       }
     }
   }
-
-  return arr;
 }
 
 /**
@@ -41,8 +39,6 @@ function bubbleSort(arr) {
       }
     }
   }
-
-  return arr;
 }
 
 /**
@@ -68,8 +64,6 @@ function bubbleSort(arr) {
 
     if (isSorted) break;
   }
-
-  return arr;
 }
 
 /**
@@ -137,8 +131,6 @@ function cocktailSort(arr) {
 
     if (isSorted) break;
   }
-
-  return arr;
 }
 
 // ==========================================

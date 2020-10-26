@@ -18,16 +18,18 @@
 
 ### 代码实现
 
-``` js
-function bubble_sort(arr) {
-  for (var i = 0; i < arr.length - 1; i++) {
-    for (var j = 0; j < arr.length - i - 1; j++) {
-      var tmp = 0;
+```js
+function bubbleSort(arr) {
+  if (arr.length <= 1) return arr;
 
-      if (arr[j] > arr[j + 1]) {
-        tmp = arr[j];
+  const arrLen = arr.length;
+
+  for (let i = 0; i < arrLen; i++) {
+    for (let j = 0; j < arrLen; j++) {
+      if (j + 1 < arrLen && arr[j] > arr[j + 1]) {
+        const temp = arr[j];
         arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
+        arr[j + 1] = temp;
       }
     }
   }
@@ -36,7 +38,34 @@ function bubble_sort(arr) {
 
 ### 性能优化
 
-（1）加标志位
+（1）减少循环次数
+
+冒泡排序第 2 版如下：
+
+```js
+function bubbleSort(arr) {
+  if (arr.length <= 1) return arr;
+
+  const arrLen = arr.length;
+
+  // 外层只需要循环 arrLen - 1 即可
+  // 因为最后一次循环还剩一个元素，其必定有序
+  for (let i = 0; i < arrLen - 1; i++) {
+    // 排序一次，数组最后就会多一个排好序的数据
+    // 所以，每次内层循环可以减去循环次数
+    // 再减去 1，就可以省去数组越界的判断逻辑
+    for (let j = 0; j < arrLen - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+}
+```
+
+（2）加标志位
 
 仍然以上述无序数组为例，当排到第 6、7 轮时，状态如下。
 
@@ -44,23 +73,24 @@ function bubble_sort(arr) {
 
 可以看到，当排到第 6 轮 的时候，数组已经有序。不过排序算法还是会进行第 7 轮排序，所以这是第一个可以优化的点。当数组有序后，进行标记，那么后面的几轮排序就可以不必进行。
 
-冒泡排序第 2 版如下：
+冒泡排序第 3 版如下：
 
-``` js
-function bubble_sort2(arr) {
-  for (var i = 0; i < arr.length - 1; i++) {
-    // 数组是否已经排好序
-    var isSorted = true;
+```js
+function bubbleSort(arr) {
+  if (arr.length <= 1) return arr;
 
-    for (var j = 0; j < arr.length - i - 1; j++) {
-      var tmp = 0;
+  const arrLen = arr.length;
 
+  for (let i = 0; i < arrLen - 1; i++) {
+    let isSorted = true;
+
+    for (let j = 0; j < arrLen - i - 1; j++) {
       if (arr[j] > arr[j + 1]) {
-        tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
-        // 只要有元素交换，都将标记转为 false
         isSorted = false;
+
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
       }
     }
 
@@ -69,7 +99,7 @@ function bubble_sort2(arr) {
 }
 ```
 
-（2）增加有序区
+（3）增加有序区
 
 下面以一个新的无序数组为例。
 
@@ -81,21 +111,21 @@ function bubble_sort2(arr) {
 
 可以看出，循环到后面时，数组已经有序了。但排序算法仍会进行元素比较，所以这是第二个可以优化的点。我们可以记录最后一次进行元素交换的位置，这个位置就是无序元素的边界，再往后就是有序的了。
 
-冒泡排序第 3 版如下：
+冒泡排序第 4 版如下：
 
-``` js
-function bubble_sort3(arr) {
+```js
+function bubbleSort(arr) {
   //记录最后一次交换的位置
-  var lastExchangeIndex = 0;
+  let lastExchangeIndex = 0;
   // 无序区的边界
-  var sortBorder = arr.length - 1;
-  var tmp = 0;
+  let sortBorder = arr.length - 1;
+  let tmp = 0;
 
-  for (var i = 0; i < arr.length - 1; i++) {
+  for (let i = 0; i < arr.length - 1; i++) {
     // 数组是否已经排好序
-    var isSorted = true;
+    let isSorted = true;
 
-    for (var j = 0; j < sortBorder; j++) {
+    for (let j = 0; j < sortBorder; j++) {
       if (arr[j] > arr[j + 1]) {
         tmp = arr[j];
         arr[j] = arr[j + 1];
@@ -112,7 +142,7 @@ function bubble_sort3(arr) {
 }
 ```
 
-（3）升级版 -- 鸡尾酒排序
+（4）升级版 -- 鸡尾酒排序
 
 鸡尾酒排序相当于冒泡排序的升级版。传统的冒泡排序是进行元素单向交换，而鸡尾酒排序是在此基础上对元素进行双向交换。这样做是为了解决下面这个问题。
 
@@ -130,17 +160,18 @@ function bubble_sort3(arr) {
 
 这就是鸡尾酒排序的思路。由于整个排序过程左右来回循环，所以又叫双向冒泡排序 (Bidirectional Bubble Sort)、波浪排序 (Ripple Sort)、摇曳排序 (Shuffle Sort)、飞梭排序 (Shuttle Sort) 和欢乐时光排序 (Happy Hour Sort) 等等。
 
-冒泡排序第 4 版 -- 鸡尾酒排序：
+冒泡排序第 5 版 -- 鸡尾酒排序：
 
-``` js
-function cocktail_sort(arr) {
-  var i, left = 0, right = arr.length - 1;
-  var temp;
+```js
+function cocktailSort(arr) {
+  let i;
+  let left = 0;
+  let right = arr.length - 1;
+  let temp;
 
   while (left < right) {
-    var isSorted = true;
+    let isSorted = true;
 
-    // 从左向右循环
     for (i = left; i < right; i++) {
       if (arr[i] > arr[i + 1]) {
         temp = arr[i];
@@ -149,9 +180,8 @@ function cocktail_sort(arr) {
         isSorted = false;
       }
     }
-    right--;
+    right -= 1;
 
-    // 从右向左循环
     for (i = right; i > left; i--) {
       if (arr[i - 1] > arr[i]) {
         temp = arr[i];
@@ -160,18 +190,16 @@ function cocktail_sort(arr) {
         isSorted = false;
       }
     }
-    left++;
+    left += 1;
 
     if (isSorted) break;
   }
-};
+}
 ```
 
 鸡尾酒排序的优势是在大部分元素已经有序的情况下，排序速度非常快。
 
 ## 快速排序
-
-
 
 ## 堆排序
 
