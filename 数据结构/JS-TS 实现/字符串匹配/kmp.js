@@ -20,7 +20,7 @@ function calcNext(pattern) {
   return next;
 }
 
-function kmp(text, pattern) {
+function KMP(text, pattern) {
   var i = 0; // 主串的索引
   var j = 0; // 模式串的索引
   var tLen = text.length;
@@ -45,4 +45,4 @@ function kmp(text, pattern) {
   return -1;
 }
 
-module.exports = kmp;
+module.exports = KMP;
