@@ -1,3 +1,18 @@
+/**
+ * Rabin-Karp 算法被称道的三个原因：
+ * - 它可以用来检测抄袭，因为它能够处理多模式匹配。
+ * - 虽然在理论上并不比暴力匹配法更优，但在实际应用中它的复杂度仅为 O(n+m)。
+ * - 如果能够选择一个好的哈希函数，它的效率将会很高，而且也易于实现。
+ *
+ * Rabin-Karp 算法被诟病的两个原因：
+ * - 有许多字符串匹配算法的复杂度小于 O(n+m)。
+ * - 有时候它和暴力匹配法一样慢，并且它需要额外空间。
+ *
+ * Rabin-Karp 算法之所以出众最大的原因就是它可以对多模式进行匹配。这一特性使得它在检测抄袭方面（尤其是大篇幅文字）非常好用。
+ *
+ *  @param {string} text 总字符串
+ * @param {string} pattern 待匹配的字符串
+ */
 function rabinKarp(text, pattern) {
   const tLen = text.length;
   const pLen = pattern.length;
