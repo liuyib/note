@@ -1,13 +1,12 @@
-# ES6 中的面向对象和模块化
+- [ES6 中的面向对象和模块化](#es6-中的面向对象和模块化)
+  - [1、class、extends、constructor、super](#1classextendsconstructorsuper)
+  - [2、ES5 中的伪面向对象](#2es5-中的伪面向对象)
+  - [3、模块化](#3模块化)
+    - [3.1、导入](#31导入)
+    - [3.2、导出](#32导出)
+    - [3.3、简单的 webpack 配置](#33简单的-webpack-配置)
 
-> 目录
->
-> - class、extends、constructor、super
-> - ES5 中的伪面向对象
-> - 模块化
->   - 导入
->   - 导出
->   - 简单的 webpack 配置
+# ES6 中的面向对象和模块化
 
 ## 1、class、extends、constructor、super
 
@@ -60,10 +59,10 @@ function Person(name, age) {
   this.age = age;
 }
 
-Person.prototype.showName = function() {
+Person.prototype.showName = function () {
   console.log(this.name);
 };
-Person.prototype.showAge = function() {
+Person.prototype.showAge = function () {
   console.log(this.age);
 };
 
@@ -78,7 +77,7 @@ Worker.prototype = new Person(); // 将子类的原型指向父类的实例，�
 Worker.constructor = Worker; // 修正子类的 constructor
 
 // 添加子类自己的方法
-Worker.prototype.showJob = function() {
+Worker.prototype.showJob = function () {
   console.log(this.job);
 };
 

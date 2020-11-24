@@ -1,3 +1,7 @@
+- [从 JS 高阶函数到函数柯里化](#从-js-高阶函数到函数柯里化)
+  - [函数柯里化](#函数柯里化)
+  - [高阶函数实战](#高阶函数实战)
+
 # 从 JS 高阶函数到函数柯里化
 
 所谓高阶函数，只要满足一下条件之一即可：
@@ -28,11 +32,11 @@ calc(3, 4, multi); // => 25
 ```js
 function isType(type) {
   return function (obj) {
-    return Object.prototype.toString.call(obj) === "[object " + type + "]";
+    return Object.prototype.toString.call(obj) === '[object ' + type + ']';
   };
 }
 
-isType("String")("liuyib"); // => true
+isType('String')('liuyib'); // => true
 ```
 
 ## 函数柯里化
@@ -121,13 +125,13 @@ var sum2 = currying(add, [1]);
 sum2(2)(3)(4); // => 10
 
 var sum3 = currying(add, [1, 2]);
-sum3(3)(4);    // => 10
+sum3(3)(4); // => 10
 
 var sum4 = currying(add, [1, 2, 3]);
-sum4(4);       // => 10
+sum4(4); // => 10
 
 var sum5 = currying(add, [1, 2, 3, 4]);
-sum5();        // => 10
+sum5(); // => 10
 ```
 
 更近一步，就是处理含有“占位符”的情况，例如 [lodash 的柯里化函数](https://www.lodashjs.com/docs/lodash.curry)：
@@ -164,7 +168,7 @@ curried(1)(_, 3)(2); // => [1, 2, 3]
   }
 
   window.onscroll = throttle(function () {
-    console.log("execute");
+    console.log('execute');
   }, 300);
   ```
 

@@ -1,3 +1,5 @@
+- [手写 instanceof](#手写-instanceof)
+
 ## 手写 instanceof
 
 `instanceof` 的原理很简单：**沿左边变量的原型链向上查找，如果能找到右边的变量，就返回 `true`，否则返回 `false`**。

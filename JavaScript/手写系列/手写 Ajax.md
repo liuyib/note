@@ -1,3 +1,12 @@
+- [手写 Ajax](#手写-ajax)
+  - [初识 XMLHttpRequest](#初识-xmlhttprequest)
+  - [封装代码](#封装代码)
+  - [改进参数](#改进参数)
+  - [添加请求头](#添加请求头)
+  - [使用 ES6 简化代码](#使用-es6-简化代码)
+  - [使用 Promise](#使用-promise)
+  - [本文总结](#本文总结)
+
 # 手写 Ajax
 
 ## 初识 XMLHttpRequest

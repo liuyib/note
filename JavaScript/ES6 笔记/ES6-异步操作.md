@@ -1,10 +1,8 @@
-# ES6 中的异步操作
+- [ES6 中的异步操作](#es6-中的异步操作)
+  - [Promise](#promise)
+  - [async / await](#async--await)
 
-> 目录
->
-> - Promise
->   - promise.all
-> - async / await
+# ES6 中的异步操作
 
 ## Promise
 
@@ -29,10 +27,10 @@ const promise = new Promise((resolve, reject) => {
 
 // then 中接收的两个函数分别就是 resolve 和 reject
 promise.then(
-  res => {
+  (res) => {
     console.log(res); // => foo
   },
-  err => {
+  (err) => {
     console.log(err);
   }
 );
@@ -65,10 +63,10 @@ $.ajax(// ...).then(res => {
   ```javascript
   // p1，p2，p3 是异步操作
   Promise.all([p1, p2, p3]).then(
-    res => {
+    (res) => {
       console.log(res);
     },
-    err => {
+    (err) => {
       console.log(err);
     }
   );
@@ -88,11 +86,11 @@ $.ajax(// ...).then(res => {
 ```javascript
 // 间隔指定时间，且异步操作成功后，输出 value
 let timeout = (value, time) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(value);
     }, time);
-  }).then(res => {
+  }).then((res) => {
     console.log(res);
   });
 };
