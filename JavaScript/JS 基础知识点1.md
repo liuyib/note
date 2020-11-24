@@ -1,3 +1,29 @@
+- [原始数据类型](#原始数据类型)
+- [对象类型](#对象类型)
+- [类型转换](#类型转换)
+  - [转为 Boolean](#转为-boolean)
+  - [对象转为基本类型](#对象转为基本类型)
+  - [类型转换的小技巧](#类型转换的小技巧)
+  - [四则运算](#四则运算)
+  - [比较运算](#比较运算)
+  - [== 和 === 的区别](#-和--的区别)
+- [typeof v.s. instanceof](#typeof-vs-instanceof)
+  - [typeof 原理](#typeof-原理)
+  - [手写 instanceof](#手写-instanceof)
+- [this](#this)
+  - [bind 这类改变上下文的 API](#bind-这类改变上下文的-api)
+  - [箭头函数的 this](#箭头函数的-this)
+  - [其他方面的 this](#其他方面的-this)
+  - [this 总结](#this-总结)
+- [闭包](#闭包)
+  - [闭包的用途](#闭包的用途)
+  - [两个思考题](#两个思考题)
+  - [关于闭包，面试必问的问题](#关于闭包面试必问的问题)
+- [深浅拷贝](#深浅拷贝)
+  - [浅拷贝](#浅拷贝)
+  - [深拷贝](#深拷贝)
+- [原型链](#原型链)
+
 ## 原始数据类型
 
 > 涉及面试题：原始类型有哪几种？`null` 是对象吗？
@@ -38,20 +64,12 @@
 ```js
 function test(person) {
   person.age = 20;
-
-  person = {
-    name: "bar",
-    age: 21,
-  };
+  person = { name: 'bar', age: 21 };
 
   return person;
 }
 
-var p1 = {
-  name: "foo",
-  age: 22,
-};
-
+var p1 = { name: 'foo', age: 22 };
 var p2 = test(p1);
 
 console.log(p1.age); // => 20
@@ -81,7 +99,7 @@ console.log(p2.age); // => 21
 > 其中，`Symbol` 转字符串时，使用隐式方式（例如：`Symbol('foo') + 'bar'`）转换会报错。需要显示转换，如下所示：
 >
 > ```js
-> console.log(Symbol("foo").toString());
+> console.log(Symbol('foo').toString());
 > // => "Symbol('foo')"
 > ```
 
@@ -115,7 +133,7 @@ JavaScript 中只有 6 个假值：
 
 当然，也可以自己重写对象的 `Symbol.toPrimitive` 方法（该方法在对象转基本类型时，调用优先级最高）：
 
-```javascript
+```js
 let a = {
   valueOf() {
     return 0;
@@ -125,7 +143,7 @@ let a = {
   },
   [Symbol.toPrimitive]() {
     return 2;
-  },
+  }
 };
 
 console.log(1 + a); // => 3
@@ -146,7 +164,7 @@ console.log(1 + a); // => 3
 
 举例如下：
 
-```javascript
+```js
 console.log([1, 2, 3] + 4); // 1,2,34
 ```
 
@@ -154,17 +172,17 @@ console.log([1, 2, 3] + 4); // 1,2,34
 
 下面来看这个表达式：
 
-```javascript
-console.log("a" + +"b"); // => aNaN
+```js
+console.log('a' + +'b'); // => aNaN
 ```
 
 就优先级而言，类型转换大于四则运算，所以首先 `+'b'` 转换为 `NaN`，因此结果为 `aNaN`。同理，这就是为什么 `('b' + 'a' + + 'a' + 'a').toLowerCase()` 的结果为 `banana`。
 
-四则运算中，除了加法运算以外，对于其他三种运算来说“所有操作数都尝试转为数字；如果都无法转为数字，则返回 `NaN`”：
+四则运算中，除了加法运算以外，对于其他三种运算来说“所有操作数都尝试转为数字；如果都无法转为数字，则返回 `NaN`：
 
-```javascript
-console.log([2] - "3"); // => -1
-console.log("2" * []); // => 0
+```js
+console.log([2] - '3'); // => -1
+console.log('2' * []); // => 0
 console.log(2 / [1, 2]); // => NaN
 ```
 
@@ -212,7 +230,7 @@ true == '1' // => true
 
 例子如下：
 
-```javascript
+```js
 // 例 1
 1 == '2' // 第四点
       ↓
@@ -261,24 +279,24 @@ true == '1' // => true
 
 不过 `instanceof` 不能用于判断基本类型：
 
-```javascript
-var str = "hello world";
+```js
+var str = 'hello world';
 console.log(str instanceof String); // => false
 
-var str = new String("hello world");
+var str = new String('hello world');
 console.log(str instanceof String); // => true
 ```
 
 但是有另一种方式，让 `instanceof` 可以判断基本类型：
 
-```javascript
+```js
 class PrimitiveString {
   static [Symbol.hasInstance](x) {
-    return typeof x === "string";
+    return typeof x === 'string';
   }
 }
 
-console.log("hello world" instanceof PrimitiveString); // true
+console.log('hello world' instanceof PrimitiveString); // true
 ```
 
 其中 `Symbol.hasInstance` 是一个能让我们自定义 `instanceof` 行为的东西。上面的代码等同于 `typeof 'hello world' === 'string'`，所以结果就是 `true` 了。
@@ -310,7 +328,7 @@ console.log("hello world" instanceof PrimitiveString); // true
 
 代码如下：
 
-```javascript
+```js
 function instanceof(a, b) {
   var left = a.__proto__;
   var right = b.prototype;
@@ -332,11 +350,11 @@ function instanceof(a, b) {
 
 首先来看几个使用场景：
 
-```javascript
+```js
 var a = 1;
 var obj = {
   a: 2,
-  foo: foo,
+  foo: foo
 };
 
 function foo() {
@@ -355,15 +373,89 @@ var b = new foo();
 
 下面对这几种用法进行分析：
 
-- 直接调用 `foo`，不管 `foo` 函数放在哪里，`this` 都是 `window`
-- 对于 `obj.foo` 这种用法，只需要记住，谁调用了函数，`this` 就指向谁
+- 直接调用 `foo`（称为**默认绑定**）不管 `foo` 函数放在哪里，`this` 都是全局对象（`window`、`global`）
+- 对于 `obj.foo` 这种用法（称为**隐式绑定**）只需要记住，谁调用了函数，`this` 就指向谁
 - 对于 `new` 的方式来说，`this` 永远被绑定在了实例上，**任何方式**都无法改变 `this`
+
+### bind 这类改变上下文的 API
+
+其中 `call` 和 `apply` 除了接收参数不同外，修改 `this` 时的行为都一样。因此，这里将它俩归在一起。
+
+`bind` 和 `call/apply` 的异同如下：
+
+- 相同：都会修改函数中的 `this`，并将 `this` 指向传入的对象
+- 不同
+
+  - `bind`：修改 `this` 后，返回一个硬编码的**新函数**，需要手动执行新函数
+  - `call/apply`：不返回新函数，修改 `this` 后会立即执行**原函数**
+
+看明白下面的代码，`bind` 和 `call/apply` 的区别就清楚了：
+
+```js
+function foo() {
+  console.log(this.a);
+}
+
+var obj1 = { a: 1, foo: foo };
+var obj2 = { a: 2 };
+var obj3 = { a: 3 };
+var a = 4;
+
+var bar = obj1.foo;
+// call 将 this 指向 obj2，并立即执行原函数
+bar.call(obj2); // => 2
+obj1.foo(); // => 1
+
+var baz = bar.bind(obj3);
+// bind 修改 this 后，返回硬编码的新函数，需要手动执行
+baz(); // => 3
+// 调用 bar 并不等价于调用 obj1.foo，而是等价于直接调用 foo
+// 因此 this 丢失（隐式绑定 this 丢失），应用默认绑定规则
+bar(); // => 4
+```
+
+如果对一个函数多次使用 `bind`，那么上下文（`this` 的值）会是什么呢？
+
+```js
+var a = {};
+var fn = function () {
+  console.log(this);
+};
+
+fn.bind().bind(a)(); // => window
+```
+
+上面的 `fn` 为什么会被绑定到 `window` 上？其实 `fn.bind().bind(a)` 等价于：
+
+```js
+var fn2 = function fn1() {
+  return function () {
+    return fn.apply();
+  }.apply(a);
+};
+fn2();
+```
+
+所以可以看出，不管给函数 `bind` 几次，函数的 `this` 永远由第一次 `bind` 决定。再举个例子验证一下：
+
+```js
+var obj = { a: 1 };
+var fn = function () {
+  console.log(this);
+};
+
+fn.bind(obj).bind()(); // => { a: 1 }
+```
+
+> 对于 `bind` / `call` / `apply`，如果第一个参数为 `null`、`undefined` 或 `不传`，那么就会应用默认绑定规则，也就是函数中的 `this` 会泄漏到全局对象（`window`, `global`）上。
+>
+> 为了防止这个副作用，可以通过传一个空对象 `∅ = Object.create(null)` 来保护全局对象。
 
 ### 箭头函数的 this
 
 首先要知道，箭头函数没有 `this`，它的 `this` 只取决于包裹箭头函数的第一个普通函数的 `this`。举个例子：
 
-```javascript
+```js
 function foo() {
   return () => {
     return () => {
@@ -379,50 +471,88 @@ foo()(); // => window
 
 另外，对箭头函数使用 `call、apply、bind` 这类函数是无效的（箭头函数没有 `this` 嘛，因此绑定上下文的函数无法生效）。
 
-### bind 这类改变上下文的 API
+### 其他方面的 this
 
-如果对一个函数多次使用 `bind`，那么上下文（`this` 的值）会是什么呢？
+- 隐式绑定中 `this` 丢失
 
-```javascript
-var a = {};
-var fn = function () {
-  console.log(this);
-};
+  ```js
+  function foo() {
+    console.log(this.a);
+  }
 
-fn.bind().bind(a)(); // => window
-```
+  var obj = { a: 1, foo: foo };
+  var a = 2;
+  var bar = obj.foo;
 
-上面的 `fn` 为什么会被绑定到 `window` 上？其实 `fn.bind().bind(a)` 等价于：
+  // 隐式绑定
+  obj.foo(); // => 1
 
-```javascript
-var fn2 = function fn1() {
-  return function () {
-    return fn.apply();
-  }.apply(a);
-};
-fn2();
-```
+  // 给隐式绑定起别名后，直接调用别名就会出现 this 丢失的问题
+  bar(); // => 2
+  ```
 
-所以可以看出，不管给函数 `bind` 几次，函数的 `this` 永远由第一次 `bind` 决定。再举个例子验证一下：
+- 隐式绑定中多次调用
 
-```javascript
-var a = {};
-var fn = function () {
-  console.log(this);
-};
+  ```js
+  function foo() {
+    console.log(this.a);
+  }
 
-fn.bind(a).bind()(); // => {}
-```
+  var obj3 = { a: 3, foo: foo };
+  var obj2 = { a: 2, obj3: obj3 };
+  var obj1 = { a: 1, obj2: obj2 };
+
+  // 多次调用时，this 的指向只取决于最后一次
+  obj1.obj2.obj3.foo(); // => 3
+  ```
+
+- 严格模式下的 `this`
+
+  严格模式主要影响 `this` 的默认绑定规则，但是不影响函数调用中的 `this`。来看下面的代码：
+
+  ```js
+  var a = 1;
+
+  function foo() {
+    'use strict';
+
+    console.log(this.a);
+  }
+
+  foo(); // TypeError: Cannot read property 'a' of undefined
+
+  // 由于严格模式的限制，foo 函数中 this 的默认绑定规则失效了。
+  ```
+
+  ```js
+  var a = 1;
+
+  function foo() {
+    console.log(this.a);
+  }
+
+  (function () {
+    'use strict';
+
+    foo(); // => 1
+  })();
+
+  // foo 函数中不是严格模式，其中 this 的默认绑定规则仍有效
+  // 并且调用时，其 this 不受外界严格模式的影响
+  ```
+
+  通常来说，不应该在代码中混用 `strict` 模式和非 `strict` 模式。上述情况主要出现在调用第三方库时，其严格程度和你的代码可能有所不同，因此需要注意此类兼容细节。
 
 ### this 总结
 
-当 `this` 的多个规则同时出现，就需要根据**优先级**来决定 `this` 最终指向哪里。优先级情况如下：
+- 当多个规则同时出现，就需要根据**优先级**来决定 `this` 最终指向哪里。优先级情况如下：
 
-**`new` 关键字 > `bind` 这类函数 > `obj.foo()` 这种方式 > 直接调用**
+  **`new` 关键字 > `bind` 这类函数 > `obj.foo()` 这种方式 > 直接调用**
 
-同时要记得，箭头函数的 `this` 一旦被绑定，就无法被修改。
-
-> 这就是 `this` 的全部内容，真的一点都不难。
+- 箭头函数没有自己的 `this`，仅继承外层函数的，因此无法通过 `bind/call/apply` 修改。
+- 隐式绑定中，要注意 `this` 丢失的问题
+- 隐式绑定中，多次调用时 `this` 只取决于最后一次
+- 严格模式会使 `this` 的默认绑定失效，但不影响函数调用中的 `this`
 
 ## 闭包
 
@@ -437,7 +567,7 @@ fn.bind(a).bind()(); // => {}
 
 来看一个例子：
 
-```javascript
+```js
 var add = null;
 
 function f1() {
@@ -475,17 +605,17 @@ result(); // => 1000
 
 思考题 1：
 
-```javascript
-var name = "The Window";
+```js
+var name = 'The Window';
 
 var object = {
-  name: "My Object",
+  name: 'My Object',
 
   showName: function () {
     return function () {
       return this.name;
     };
-  },
+  }
 };
 
 console.log(object.showName()());
@@ -493,18 +623,18 @@ console.log(object.showName()());
 
 思考题 2：
 
-```javascript
-var name = "The Window";
+```js
+var name = 'The Window';
 
 var object = {
-  name: "My Object",
+  name: 'My Object',
 
   showName: function () {
     var _this = this;
     return function () {
       return _this.name;
     };
-  },
+  }
 };
 
 console.log(object.showName()());
@@ -524,7 +654,7 @@ console.log(object.showName()());
 
 ### 关于闭包，面试必问的问题
 
-```javascript
+```js
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -540,7 +670,7 @@ data[2]();
 
 对于上面的输出结果，很显然都是 `3`。至于为什么都是 3，可以这样来理解：循环结束后，上面的代码等价于：
 
-```javascript
+```js
 data[0] = function () {
   console.log(i);
 };
@@ -556,7 +686,7 @@ data[2] = function () {
 
 用闭包解决上面的问题：
 
-```javascript
+```js
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -671,11 +801,11 @@ data[2](); // => 2
 
    ```js
    let obj = {
-     a: "hello world",
+     a: 'hello world',
      b: undefined,
-     c: Symbol("male"),
+     c: Symbol('male'),
      d: function () {},
-     e: /^coding$/,
+     e: /^coding$/
    };
    let newObj = JSON.parse(JSON.stringify(obj));
 
@@ -699,7 +829,7 @@ data[2](); // => 2
 
    const obj = {
      a: undefined,
-     b: { c: 1 },
+     b: { c: 1 }
    };
 
    // 循环引用
