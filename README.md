@@ -28,9 +28,7 @@
   - [ES6 笔记](./JavaScript/ES6%20笔记/README.md)
   - [零碎知识笔记](./JavaScript/零碎知识笔记.md)
 
-- 数据结构
-
-  - [JS 版数据结构与算法](./数据结构/JS%20版数据结构与算法/)
+- 数据结构 ==> 移步：[https://github.com/liuyib/fucking-algorithm](https://github.com/liuyib/fucking-algorithm)
 
 - Node
 
