@@ -449,7 +449,7 @@ A — B — C — D — E — — — H — I
 
 - 关联本地与远程仓库的 commit 记录
 
-  以 Github 为例，新建一个远程仓库，并勾选 `Initialize this repository with a README` 选项，这样会在新建仓库后，生成 README 并提交一条 commit 记录。
+  以 GitHub 为例，新建一个远程仓库，并勾选 `Initialize this repository with a README` 选项，这样会在新建仓库后，生成 README 并提交一条 commit 记录。
 
   此时，在本地新建一个项目，但是忘记执行 `git pull`（即没有将远程仓库的 README 拉取下来）。然后直接在本地仓库做了一些修改并提交 commit，当 `git push` 时会发现被拒绝了（因为本地和远程的 commit 历史记录不相关）。这时，可能会想到使用 `git pull` 来拉取远程提交，发现又失败了。这是因为两个仓库的 commit 历史记录不相关，导致相互之间都无法同步。
 
@@ -538,7 +538,7 @@ A — B — C — D — E — — — H — I
 
 - 获取 `.gitignore` 文件
 
-  - Github 仓库：[github/gitignore](https://github.com/github/gitignore)
+  - GitHub 仓库：[github/gitignore](https://github.com/github/gitignore)
   - 在线生成：[gitignore.io
 ](https://www.toptal.com/developers/gitignore)
 
