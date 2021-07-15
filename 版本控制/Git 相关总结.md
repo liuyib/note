@@ -106,6 +106,11 @@ $ npm config set registry https://registry.npmjs.org/
 
 # 在 NPM 指令参数中指定源地址
 $ npm install xxx --registry=https://registry.npm.taobao.org
+
+# 通过 NRM 工具修改
+1、安装 NRM        ：`npm i -g nrm`
+2、查看所有的 NPM 源：`nrm ls`
+3、切换 NPM 源     ：`nrm use taobao`
 ```
 
 ## Git 基础概念
