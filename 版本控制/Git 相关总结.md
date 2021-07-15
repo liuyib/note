@@ -195,6 +195,31 @@ Git Flow 具体流程详解：
   $ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
   ```
 
+- 重命名已被 Git 追踪的文件
+
+  > 用途：**解决修改文件名大小写后，Git 无法检测到的问题**。详见[文章](https://www.jianshu.com/p/28fb73520316)。
+
+  1. 修改 Git 配置（不推荐，Mac 上尝试的没有生效）
+
+     ```bash
+     # 让 Git 忽略大小写（项目级生效）
+     git config core.ignorecase false
+
+     # 让 Git 忽略大小写（全局生效）
+     git config --global core.ignorecase false
+     ```
+
+  2. 使用 `git mv` 指令
+
+     ```
+     # 1、对于区分大小写的文件系统（如：Windows）
+     git mv foldname foldName
+
+     # 2、对于不区分大小写的文件系统（如：Mac）
+     # 通过临时文件名作为中介，先将文件重命名为一个完全不相同的名字，再重命名为新的文件名
+     git mv foldname tempName && git mv tempName foldName
+     ```
+
 - 和远程仓库交互
 
   - 本地仓库和远程仓库关联
