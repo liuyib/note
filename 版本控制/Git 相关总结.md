@@ -282,13 +282,21 @@ Git Flow 具体流程详解：
   - 如果是文件
 
     ```bash
+    # 删除 Git 追踪，保留本地文件
     $ git rm --cached <文件名>
+
+    # 删除 Git 追踪，并删除本地文件
+    $ git rm --f <文件名>
     ```
 
   - 如果是文件夹
 
     ```bash
+    # 删除 Git 追踪，保留本地文件夹
     $ git rm -r --cached <文件夹>
+
+    # 删除 Git 追踪，并删除本地文件夹
+    $ git rm -r --f <文件名>
     ```
 
 - 撤销 commit
