@@ -192,7 +192,7 @@ Git Flow 具体流程详解：
 - 配置 log 指令输出样式和别名
 
   ```bash
-  $ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+  git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
   ```
 
 - 重命名已被 Git 追踪的文件
