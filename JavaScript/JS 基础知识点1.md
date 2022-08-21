@@ -105,7 +105,7 @@ console.log(p2.age); // => 21
 |    undefined、null    |  布尔值  | `false` |
 |       引用类型        |  布尔值  | `true` |
 |        number         |  字符串  | `1` -> `'1'` |
-| boolean、函数、symbol |  字符串  | `true` -> `'true'`、`function foo() {}` -> `'function foo() {}'`、`Symbol(1)` -> `'Symbol(1)'`     |
+| boolean、函数、symbol |  字符串  | `true` -> `'true'`、<br>`function foo() {}` -> `'function foo() {}'`、<br>`const bar = () => {}` -> `() => {}`、<br>`Symbol('a')` -> `'Symbol(a)'`     |
 |         数组          |  字符串  | `[]` -> `''`、`[1, 2, 3]` -> `'1,2,3'` |
 |         对象          |  字符串  | `[object Object]` |
 |        string         |   数字   | `''` -> `0`、`'1'` -> `1`、`'a'` -> `NaN` |
