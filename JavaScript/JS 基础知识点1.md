@@ -420,17 +420,20 @@ var obj2 = { a: 2 };
 var obj3 = { a: 3 };
 var a = 4;
 
+// 隐式绑定
+obj1.foo(); // => 1
+
 var bar = obj1.foo;
+// 调用 bar 并不等价于调用 obj1.foo，而是等价于直接调用 foo
+// 因此 this 丢失（隐式绑定 this 丢失），应用默认绑定规则
+bar(); // => 4
+
 // call 将 this 指向 obj2，并立即执行原函数
 bar.call(obj2); // => 2
-obj1.foo(); // => 1
 
 var baz = bar.bind(obj3);
 // bind 修改 this 后，返回硬编码的新函数，需要手动执行
 baz(); // => 3
-// 调用 bar 并不等价于调用 obj1.foo，而是等价于直接调用 foo
-// 因此 this 丢失（隐式绑定 this 丢失），应用默认绑定规则
-bar(); // => 4
 ```
 
 如果对一个函数多次使用 `bind`，那么上下文（`this` 的值）会是什么呢？
@@ -491,24 +494,6 @@ foo()(); // => window
 另外，对箭头函数使用 `call、apply、bind` 这类函数是无效的（箭头函数没有 `this` 嘛，因此绑定上下文的函数无法生效）。
 
 ### 其他方面的 this
-
-- 隐式绑定中 `this` 丢失
-
-  ```js
-  function foo() {
-    console.log(this.a);
-  }
-
-  var obj = { a: 1, foo: foo };
-  var a = 2;
-  var bar = obj.foo;
-
-  // 隐式绑定
-  obj.foo(); // => 1
-
-  // 给隐式绑定起别名后，直接调用别名就会出现 this 丢失的问题
-  bar(); // => 2
-  ```
 
 - 隐式绑定中多次调用
 
