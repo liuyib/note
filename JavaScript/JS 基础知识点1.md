@@ -36,7 +36,8 @@
 - `string`
 - `null`
 - `undefined`
-- `symbol` - ES6 新引入的基本类型
+- `symbol`
+- `bigint`
 
 需要注意的地方：
 
@@ -89,28 +90,39 @@ console.log(p2.age); // => 21
 
 ## 类型转换
 
-- `NaN` 是 `number` 类型
-- `null` 转数字：`0`。
-- `undefined` 转数字：`NaN`
-- 对象转字符串：`[object Object]`。
-- 数组转数字：空数组转为 0，只有一个数字的数组转为数字，其余情况均为 `NaN`。
-
-具体转换规则如图：
-
-![JS_type_change](./images/JS_type_change.png)
-
-> 其中，`Symbol` 转字符串时，使用隐式方式（例如：`Symbol('foo') + 'bar'`）转换会报错。需要显示转换，如下所示：
->
-> ```js
-> console.log(Symbol('foo').toString());
-> // => "Symbol('foo')"
-> ```
-
 总的来说，JS 中类型转换只有三种情况，分别是：
 
 - 转为布尔值
 - 转为数字
 - 转为字符串
+
+具体转换规则如下：
+
+|        原始值         | 转换目标 | 结果 |
+| :-------------------: | :------: | :--: |
+|        number         |  布尔值  | 除了 `+0`, `-0`, `NaN` 都为 `true` |
+|        string         |  布尔值  | 除了空串都为 `true` |
+|    undefined、null    |  布尔值  | `false` |
+|       引用类型        |  布尔值  | `true` |
+|        number         |  字符串  | `1` -> `'1'` |
+| boolean、函数、symbol |  字符串  | `true` -> `'true'`、`function foo() {}` -> `'function foo() {}'`、`Symbol(1)` -> `'Symbol(1)'`     |
+|         数组          |  字符串  | `[]` -> `''`、`[1, 2, 3]` -> `'1,2,3'` |
+|         对象          |  字符串  | `[object Object]` |
+|        string         |   数字   | `''` -> `0`、`'1'` -> `1`、`'a'` -> `NaN` |
+|         数组          |   数字   | 空数组为 `0`，存在一个元素且能转成数字则转数字，其余为 `NaN` |
+|         null          |   数字   |  `0` |
+|  除了数组的引用类型   |   数字   | `NaN` |
+|        symbol         |   数字   | 抛错 |
+
+> 其中，symbol 转字符串时，使用隐式方式（例如：`Symbol('foo') + 'bar'`）转换会报错。需要显示转换，如下所示：
+>
+> ```js
+> Symbol('foo').toString();
+> // 或
+> String(Symbol('foo'));
+> 
+> // => 'Symbol(foo)'
+> ```
 
 ### 转为 Boolean
 
