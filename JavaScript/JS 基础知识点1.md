@@ -867,6 +867,8 @@ data[2](); // => 2
 
 总的来说，想实现一个深拷贝是很困难的，需要考虑很多边界情况，例如：处理原型链、如何处理 DOM 等。因此实际使用中，推荐使用 [lodash 的深拷贝函数](https://lodash.com/docs/4.17.15#cloneDeep)。
 
+- 相关资料：[如何写出一个惊艳面试官的深拷贝](https://mp.weixin.qq.com/s?__biz=Mzk0MDMwMzQyOA==&mid=2247490151&idx=1&sn=ba6b57ca70ad91d3e48aacc8e9019604&chksm=c2e2ef4cf595665a43cf7c0cc203f9b4cd9ac1529e8e8dfad076429a02c40ae959c1dbcc3c14&token=254251558&lang=zh_CN#rd)
+
 ## 原型链
 
 > 涉及面试题：如何理解原型？如何理解原型链？
