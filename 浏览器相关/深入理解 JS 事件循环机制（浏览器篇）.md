@@ -1,3 +1,5 @@
+[相关标准规范文档](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
+
 # 深入理解 JS 事件循环机制（浏览器篇）
 
 众所周知，JavaScript 是一门**单线程**的**非阻塞**的语言，这是由于其最初的用途“与浏览器交互”决定的。
@@ -31,16 +33,18 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 
 > 图片来源：http://vimeo.com/96425312
 
-## 微任务和宏任务
+## 宏任务和微任务
 
 现在我们知道了，JavaScript 遇到异步任务时，会将其加入任务队列来等待执行。
 
-其实，不同异步任务的处理方式并不完全相同，根据执行时机可分为**微任务**（microtask）和**宏任务**（macrotask）。
+其实，不同异步任务的处理方式并不完全相同，根据执行时机可分为**宏任务**（macrotask）和**微任务**（microtask）。
 
 它们具体的分类如下：
 
-- **微任务**：`Promise` 回调、`MutationObserver`、`Object.observe`
-- **宏任务**：全局 JS 代码、事件回调、XHR 回调、定时器（`setTimeout`/`setInterval`）、IO 操作、UI 渲染
+- **宏任务**：定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、`MessageChannel`、事件回调、I/O（文件、网络）操作、UI 渲染
+- **微任务**：`Promise 的 .then, .catch, .finally`、`await 之后的代码`、`MutationObserver`、`Process.nextTick（Node.js）`、`Object.observe（废弃）`
+
+> 注意：`Promise` 构造函数里的代码，属于同步任务。
 
 相应地，任务队列可以分为**微任务队列**和**宏任务队列**，它们的执行顺序如下图所示：
 
