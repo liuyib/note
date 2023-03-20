@@ -41,7 +41,7 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 
 它们具体的分类如下：
 
-- **宏任务**：定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、`MessageChannel`、事件回调、I/O（文件、网络）操作、UI 渲染
+- **宏任务**：主代码块、定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、`MessageChannel`、事件回调、I/O（文件、网络）操作、UI 渲染
 - **微任务**：`Promise 的 .then, .catch, .finally`、`await 之后的代码`、`MutationObserver`、`Process.nextTick（Node.js）`、`Object.observe（废弃）`
 
 > 注意：`Promise` 构造函数里的代码，属于同步任务。
@@ -55,7 +55,7 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 如上图所示，一次 Event Loop 的具体过程如下：
 
 1. 检查宏任务队列，不为空就执行其中**一个**宏任务；为空就去检查微任务队列。
-2. 检查微任务队列，不为空就依次执行微任务，直到清空微任务队列。
+2. 检查微任务队列，不为空则清空微任务队列。
 3. 如果可以更新视图，则进行更新，否则进行下一次 Event Loop。
 
 下面我们通过一个具体的示例来加深理解：
@@ -87,13 +87,20 @@ console.log('end');
 
 > 图片来源：http://lynnelv.github.io/js-event-loop-browser
 
-首先，全局代码（`Main()`）入栈，打印 start。
+> 答案：
+> start
+> end
+> promise1
+> promise2
+> setTimeout
+
+首先，主代码块（`Main()`）入栈，打印 start。
 
 然后，遇到 `setTimeout`，将其加入宏任务队列，代码继续向下执行。
 
 遇到 `Promise`，将其回调加入微任务队列，代码继续向下执行。
 
-打印 end。此时，全局代码执行结束，`Main()` 出栈。由于全局代码（`Main()`）属于宏任务，所以根据 Event Loop 执行过程可知，执行完**一个**宏任务后，会去检查微任务队列。
+打印 end。此时，主代码块执行结束，`Main()` 出栈。由于主代码块（`Main()`）属于宏任务，所以根据 Event Loop 执行过程可知，执行完**一个**宏任务后，会去检查微任务队列。
 
 然后，**清空微任务队列**和**执行一个宏任务**依次交替进行，直到所有任务执行完毕。
 
