@@ -42,9 +42,25 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 它们具体的分类如下：
 
 - **宏任务**：主代码块、定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、`MessageChannel`、事件回调、I/O（文件、网络）操作、UI 渲染
-- **微任务**：`Promise 的 .then, .catch, .finally`、`await 之后的代码`、`MutationObserver`、`Process.nextTick（Node.js）`、`Object.observe（废弃）`
+- **微任务**：`Promise 的 .then, .catch, .finally`、`await 之后的代码`、`MutationObserver`、[`queueMicrotask`](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask)、`Process.nextTick（Node.js）`、`Object.observe（废弃）`
 
-> 注意：`Promise` 构造函数里的代码，属于同步任务。
+> 注意：
+>
+> 1. `Promise` 构造函数里的代码，属于同步任务
+>
+> 2. [async 函数返回值](https://juejin.cn/post/7194744938276323384#heading-1)
+>
+>    - 返回值：非 thenable、非 promise（不等待）
+>    - 返回值：thenable（等待 1 个 then 的时间）
+>    - 返回值：promise（等待 2 个 then 的时间）
+>
+> 3. [await 右值类型区别](https://juejin.cn/post/7194744938276323384#heading-2)
+>
+>    - 接非 thenable 类型，会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
+>    - 接 thenable 类型，需要等待一个 then 的时间之后执行
+>    - 接 Promise 类型（有确定的返回值），会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
+>
+>      > TC 39 对 await 后面是 promise 的情况如何处理进行了一次修改，移除了额外的两个微任务，在早期版本，依然会等待两个 then 的时间
 
 相应地，任务队列可以分为**微任务队列**和**宏任务队列**，它们的执行顺序如下图所示：
 
@@ -61,24 +77,24 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 下面我们通过一个具体的示例来加深理解：
 
 ```js
-console.log('start');
+console.log("start");
 
 // setTimeout 属于宏任务
 setTimeout(function () {
-  console.log('setTimeout');
+  console.log("setTimeout");
 }, 0);
 
 Promise.resolve()
   .then(function () {
     // Promise 回调属于微任务
-    console.log('promise1');
+    console.log("promise1");
   })
   .then(function () {
     // Promise 回调属于微任务
-    console.log('promise2');
+    console.log("promise2");
   });
 
-console.log('end');
+console.log("end");
 ```
 
 执行过程如下图所示：
@@ -118,25 +134,25 @@ console.log('end');
 以下代码可以验证：
 
 ```js
-console.log('start');
+console.log("start");
 
 setTimeout(function () {
-  console.log('timer1');
+  console.log("timer1");
 }, 0);
 
 requestAnimationFrame(function () {
-  console.log('requestAnimationFrame');
+  console.log("requestAnimationFrame");
 });
 
 setTimeout(function () {
-  console.log('timer2');
+  console.log("timer2");
 }, 0);
 
 Promise.resolve().then(function () {
-  console.log('promise1');
+  console.log("promise1");
 });
 
-console.log('end');
+console.log("end");
 ```
 
 执行结果如下：
@@ -163,6 +179,7 @@ requestAnimationFrame; // 多次 Event Loop 后执行
 
 ---
 
+- [你不知道的 async、await 魔鬼细节](https://juejin.cn/post/7194744938276323384#heading-1)
 - [详解 JavaScript 中的 Event Loop（事件循环）机制](https://zhuanlan.zhihu.com/p/33058983)
 - [JavaScript 运行机制详解：再谈 Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 - [深入理解 js 事件循环机制（浏览器篇）](http://lynnelv.github.io/js-event-loop-browser)
