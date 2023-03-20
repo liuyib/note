@@ -112,7 +112,7 @@ console.log('end');
 
 为了让页面流畅渲染，**一个宏任务**和**它相关的微任务**（也就是一次 Event Loop）最好能再 16.7ms 内完成。否则，一帧中没有多余的时间来更新视图，只能放到下一帧再更新，从而造成了**丢帧**。
 
-但也不是每轮 Event Loop 都会更新视图。比如，有可能好几轮 Event Loop 的总耗时还未大于 16.7ms。因此，如果每帧都进行视图渲染，则会比较浪费资源。所以，可以使用 `requestAnimationFrame` 来进行优化，确保**每帧最多只进行一次**（也可能一帧中没有视图渲染）视图渲染，也就是说 `requestAnimationFrame` 的执行时机是一次或多次 Event Loop 后的 UI 渲染阶段。
+但也不是每轮 Event Loop 都会更新视图。比如，有可能好几轮 Event Loop 的总耗时还未大于 16.7ms。因此，如果每帧都进行视图渲染，则会比较浪费资源。所以，可以使用 `requestAnimationFrame` 来进行优化，确保**每帧最多只进行一次**视图渲染（也可能一帧中没有视图渲染），也就是说 `requestAnimationFrame` 的执行时机是一次或多次 Event Loop 后的 UI 渲染阶段。
 
 以下代码可以验证：
 
