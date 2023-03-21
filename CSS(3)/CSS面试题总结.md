@@ -53,7 +53,7 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
   --clearfix: {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 
   /* 使用定义的 Mixins */
@@ -155,7 +155,7 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
    ```css
    .clearfix::after {
-     content: "";
+     content: '';
      display: table;
      clear: both;
    }
@@ -165,7 +165,7 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
    ```css
    .clearfix::after {
-     content: "";
+     content: '';
      visibility: hidden;
      display: block;
      height: 0;
@@ -246,6 +246,28 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 >
 > - [MDN: The stacking context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context)
 > - [深入理解 CSS 中的层叠上下文和层叠顺序](https://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
+
+- 形成条件
+
+  文档中的层叠上下文由满足以下任意一个条件的元素形成：
+
+  - 文档根元素（`<html>`）
+  - `position: absolute/relative` 且 `z-index` 值不为 `auto` 的元素
+  - `position: fixed/sticky`
+  - `flex` 容器的子元素，且 `z-index` 值不为 `auto`
+  - `grid` 容器的子元素，且 `z-index` 值不为 `auto`
+  - `opacity` 属性值小于 1 的元素
+  - `mix-blend-mode` 属性值不为 `normal` 的元素
+  - 以下任意属性值不为 `none` 的元素：
+    - `transform`
+    - `filter`
+    - `backdrop-filter`
+    - `perspective`
+    - `clip-path`
+    - `mask / mask-image / mask-border`
+  - `isolation` 属性值为 `isolate` 的元素
+  - `will-change` 值设定了任一属性，在非初始值时，会创建层叠上下文
+  - `contain` 属性值为 `layout、paint` 或包含它们其中之一的合成值（比如 `contain: strict`、`contain: content`）的元素
 
 - 层叠与浮动
 
