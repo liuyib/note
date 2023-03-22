@@ -670,7 +670,17 @@ foo()(); // => window
   }
 
   // 柯里化
-  function curry(fn, ...args) {}
+  const curry = function (fn) {
+    return function nest(...args) {
+      if (args.length >= fn.length) {
+        return fn.apply(this, args);
+      } else {
+        return function (...args2) {
+          return nest.apply(this, args.concat(args2));
+        };
+      }
+    };
+  };
   ```
 
 ### 闭包的问题
