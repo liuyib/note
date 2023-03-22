@@ -17,9 +17,14 @@
     - [其他方面的 this](#其他方面的-this)
     - [this 总结](#this-总结)
   - [闭包](#闭包)
-    - [闭包的用途](#闭包的用途)
+    - [闭包是什么](#闭包是什么)
+    - [闭包产生原因](#闭包产生原因)
+    - [闭包变量的存储位置](#闭包变量的存储位置)
+    - [闭包的作用](#闭包的作用)
+    - [闭包的使用场景](#闭包的使用场景)
+    - [闭包的问题](#闭包的问题)
+    - [闭包的谣言](#闭包的谣言)
     - [两个思考题](#两个思考题)
-    - [关于闭包，面试必问的问题](#关于闭包面试必问的问题)
   - [深浅拷贝](#深浅拷贝)
     - [浅拷贝](#浅拷贝)
     - [深拷贝](#深拷贝)
@@ -98,21 +103,21 @@ console.log(p2.age); // => 21
 
 具体转换规则如下：
 
-|        原始值         | 转换目标 | 结果 |
-| :-------------------: | :------: | :--: |
-|        number         |  布尔值  | 除了 `+0`, `-0`, `NaN` 都为 `true` |
-|        string         |  布尔值  | 除了空串都为 `true` |
-|    undefined、null    |  布尔值  | `false` |
-|       引用类型        |  布尔值  | `true` |
-|        number         |  字符串  | `1` -> `'1'` |
-| boolean、函数、symbol |  字符串  | `true` -> `'true'`、<br>`function foo() {}` -> `'function foo() {}'`、<br>`const bar = () => {}` -> `() => {}`、<br>`Symbol('a')` -> `'Symbol(a)'`     |
-|         数组          |  字符串  | `[]` -> `''`、`[1, 2, 3]` -> `'1,2,3'` |
-|         对象          |  字符串  | `[object Object]` |
-|        string         |   数字   | `''` -> `0`、`'1'` -> `1`、`'a'` -> `NaN` |
-|         数组          |   数字   | 空数组为 `0`，存在一个元素且能转成数字则转数字，其余为 `NaN` |
-|         null          |   数字   |  `0` |
-|  除了数组的引用类型   |   数字   | `NaN` |
-|        symbol         |   数字   | 抛错 |
+|        原始值         | 转换目标 |                                                                        结果                                                                        |
+| :-------------------: | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
+|        number         |  布尔值  |                                                         除了 `+0`, `-0`, `NaN` 都为 `true`                                                         |
+|        string         |  布尔值  |                                                                除了空串都为 `true`                                                                 |
+|    undefined、null    |  布尔值  |                                                                      `false`                                                                       |
+|       引用类型        |  布尔值  |                                                                       `true`                                                                       |
+|        number         |  字符串  |                                                                    `1` -> `'1'`                                                                    |
+| boolean、函数、symbol |  字符串  | `true` -> `'true'`、<br>`function foo() {}` -> `'function foo() {}'`、<br>`const bar = () => {}` -> `() => {}`、<br>`Symbol('a')` -> `'Symbol(a)'` |
+|         数组          |  字符串  |                                                       `[]` -> `''`、`[1, 2, 3]` -> `'1,2,3'`                                                       |
+|         对象          |  字符串  |                                                                 `[object Object]`                                                                  |
+|        string         |   数字   |                                                     `''` -> `0`、`'1'` -> `1`、`'a'` -> `NaN`                                                      |
+|         数组          |   数字   |                                            空数组为 `0`，存在一个元素且能转成数字则转数字，其余为 `NaN`                                            |
+|         null          |   数字   |                                                                        `0`                                                                         |
+|  除了数组的引用类型   |   数字   |                                                                       `NaN`                                                                        |
+|        symbol         |   数字   |                                                                        抛错                                                                        |
 
 > 其中，symbol 转字符串时，使用隐式方式（例如：`Symbol('foo') + 'bar'`）转换会报错。需要显示转换，如下所示：
 >
@@ -120,7 +125,7 @@ console.log(p2.age); // => 21
 > Symbol('foo').toString();
 > // 或
 > String(Symbol('foo'));
-> 
+>
 > // => 'Symbol(foo)'
 > ```
 
@@ -575,46 +580,108 @@ foo()(); // => window
 
 > 涉及面试题：什么是闭包？
 
-所谓闭包，就是**能够访问其他函数内部变量的函数**。
+### 闭包是什么
 
-### 闭包的用途
+闭包是「一个函数」和「函数内部能访问到的变量」的总和。
+
+### 闭包产生原因
+
+函数存在外部作用域的引用时，就会导致闭包。
+
+### 闭包变量的存储位置
+
+闭包中的变量存储的位置是堆内存。
+
+> 假如闭包中的变量存储在栈内存中，那么栈的回收就会把处于栈顶的变量自动回收。所以如果闭包中的变量处于栈中，那么变量被销毁后，闭包中的变量就没有了，所以闭包引用的变量存储于堆内存中的。
+
+### 闭包的作用
 
 1. 读取/设置一个函数内部的私有变量
 2. 让变量的值始终保持在内存中
 
-来看一个例子：
+### 闭包的使用场景
 
-```js
-var add = null;
+- 实现私有方法
 
-function f1() {
-  var n = 999;
+  ```js
+  var Counter = (function () {
+    var value = 0;
 
-  add = function () {
-    n += 1;
-  };
+    // 返回三个私有方法
+    return {
+      increment: function () {
+        value++;
+      },
+      decrement: function () {
+        value--;
+      },
+      value: function () {
+        return value;
+      }
+    };
+  })();
 
-  function f2() {
-    console.log(n);
+  console.log(Counter.value()); // 0
+  Counter.increment();
+  console.log(Counter.value()); // 1
+  Counter.decrement();
+  console.log(Counter.value()); // 0
+  ```
+
+- IIFE（立即执行函数）
+- 解决 `for` 循环索引问题
+- 引用了外部变量的回调函数
+
+  ```js
+  var name = 'foo';
+
+  document.addEventListener('click', () => {
+    console.log(name); // foo
+  });
+  ```
+
+- 节流、防抖、柯里化等工具函数的实现
+
+  ```js
+  // 节流
+  function throttle(fn, timeout) {
+    let timer = null;
+
+    return function (...args) {
+      if (timer) return;
+
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+        timer = null;
+      }, timeout);
+    };
   }
 
-  return f2;
-}
+  // 防抖
+  function debounce(fn, timeout) {
+    let timer = null;
 
-var result = f1();
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+      }, timeout);
+    };
+  }
 
-result(); // => 999
+  // 柯里化
+  function curry(fn, ...args) {}
+  ```
 
-add();
+### 闭包的问题
 
-result(); // => 1000
-```
+**闭包会导致其他上下文里本该回收的变量无法被回收，过度使用闭包会导致内存占用过多**。
 
-上面代码的执行结果，第一次为 `999`，第二次为 `1000`。这就证明了，函数 `f1` 中的局部变量一直保存在内存中，并没有在 `f1` 被调用后被清除。
+### 闭包的谣言
 
-为什么会这样？原因是因为 `f1` 是 `f2` 的父函数，`f2` 被返回赋给了全局变量 `result`，这就导致 `f2` 始终保存在内存中，而 `f2` 的存在依赖于 `f1` 的存在，所以 `f1` 也始终保存在内存中，而不是被垃圾回收机制回收。
+闭包会造成内存泄露？错！
 
-这段代码中有一个值得注意的地方，就是 `add = function () { n += 1 }` 这一行，`add` 的值是一个匿名函数，而这个匿名函数本身也是一个闭包，所以 `add` 的作用就相当于 `setter`，可以在函数外部对函数内部的局部变量进行操作。
+内存泄露是指你用不到（访问不到）的变量，依然占居着内存空间，而闭包里面的变量明明就是我们需要的变量。
 
 ### 两个思考题
 
@@ -669,64 +736,9 @@ console.log(object.showName()());
 
 </details>
 
-### 关于闭包，面试必问的问题
+参考资料：
 
-```js
-var data = [];
-
-for (var i = 0; i < 3; i++) {
-  data[i] = function () {
-    console.log(i);
-  };
-}
-
-data[0]();
-data[1]();
-data[2]();
-```
-
-对于上面的输出结果，很显然都是 `3`。至于为什么都是 3，可以这样来理解：循环结束后，上面的代码等价于：
-
-```js
-data[0] = function () {
-  console.log(i);
-};
-data[1] = function () {
-  console.log(i);
-};
-data[2] = function () {
-  console.log(i);
-};
-```
-
-此时 `i` 的值已经为 3 ，所以当 `data[0]、data[1]、data[2]` 中任意一个执行时输出结果都为 `3`。
-
-用闭包解决上面的问题：
-
-```js
-var data = [];
-
-for (var i = 0; i < 3; i++) {
-  (function (i) {
-    data[i] = function () {
-      console.log(i);
-    };
-  })(i);
-
-  // 或者写成下面这种形式
-  // data[i] = (function(i) {
-  //   return function() {
-  //     console.log(i);
-  //   };
-  // })(i);
-}
-
-data[0](); // => 0
-data[1](); // => 1
-data[2](); // => 2
-```
-
-当然更简单的方法就是使用 `let`。
+- [JS 中的闭包是什么？](https://zhuanlan.zhihu.com/p/22486908)
 
 ## 深浅拷贝
 
