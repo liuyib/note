@@ -1,8 +1,28 @@
-## 移动端 1px 的解决方案
+- [移动端 1px 问题](#移动端-1px-问题)
+  - [Viewport meta 标签](#viewport-meta-标签)
+  - [0.5px 方案](#05px-方案)
+  - [border-image 方案](#border-image-方案)
+  - [background-image 方案](#background-image-方案)
+  - [box-shadow 方案](#box-shadow-方案)
+  - [transform 方案](#transform-方案)
+  - [postcss-write-svg 插件方案](#postcss-write-svg-插件方案)
+
+## 移动端 1px 问题
+
+在高分辨率（比如 Retina 屏幕）的移动设备上，`1px` 的线实际的显示效果会大于 `1px`，例如在 `dpr = 2` 时，会显示成 `2px`。
+
+### Viewport meta 标签
+
+通过设置 Viewport meta 标签的缩放比例来将 CSS 像素和物理像素的比例设置为 `1:1`，从而避免因为缩放导致的 `1px` 边框过粗问题，例如：
+
+```html
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0,user-scalable=no"
+/>
+```
 
 ### 0.5px 方案
-
-在 Retina 屏幕下，`1px` 的线实际的显示效果会大于 `1px`，例如在 `dpr = 2` 时，会显示成 `2px`。
 
 在 iOS8 及以后，开始支持 `0.5px`，因此我们可以通过媒体查询，根据 dpr 动态设置线条宽度：
 
@@ -11,7 +31,7 @@
   border: 1px solid #eee;
 }
 
-@media (-webkit-min-device-pixel-ratio: 2) {
+@media (min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2) {
   .border {
     border-width: 0.5px;
   }
@@ -28,7 +48,7 @@
     var version = parseInt(v[1], 10);
 
     if (version >= 8) {
-      document.documentElement.classList.add("hairlines");
+      document.documentElement.classList.add('hairlines');
     }
   }
   ```
@@ -45,12 +65,12 @@
 
   ```js
   if (window.devicePixelRatio && devicePixelRatio >= 2) {
-    var testElem = document.createElement("div");
-    testElem.style.border = ".5px solid transparent";
+    var testElem = document.createElement('div');
+    testElem.style.border = '.5px solid transparent';
     document.body.appendChild(testElem);
 
     if (testElem.offsetHeight == 1) {
-      document.querySelector("html").classList.add("hairlines");
+      document.querySelector('html').classList.add('hairlines');
     }
 
     document.body.removeChild(testElem);
@@ -99,7 +119,7 @@
   .border {
     border-width: 1px 0px;
     border-style: solid;
-    border-image: url("border.png") 2 0 stretch;
+    border-image: url('border.png') 2 0 stretch;
   }
   ```
 
@@ -117,7 +137,7 @@
   .border {
     border-width: 1px;
     border-style: solid;
-    border-image: url("border.png") 1 1 1 1 stretch;
+    border-image: url('border.png') 1 1 1 1 stretch;
   }
   ```
 
@@ -142,7 +162,7 @@
 
 ```css
 .border {
-  background: url("border.png") repeat-x left bottom;
+  background: url('border.png') repeat-x left bottom;
   background-size: 100% 1px;
 }
 ```
@@ -164,11 +184,11 @@
 
   ```css
   .border {
-    background:
-      linear-gradient(#000, #000 100%, transparent 100%) left / 1px 100% no-repeat,
-      linear-gradient(#000, #000 100%, transparent 100%) right / 1px 100% no-repeat,
-      linear-gradient(#000,#000 100%, transparent 100%) top / 100% 1px no-repeat,
-      linear-gradient(#000,#000 100%, transparent 100%) bottom / 100% 1px no-repeat;
+    background: linear-gradient(#000, #000 100%, transparent 100%) left / 1px 100%
+        no-repeat, linear-gradient(#000, #000 100%, transparent 100%) right / 1px
+        100% no-repeat,
+      linear-gradient(#000, #000 100%, transparent 100%) top / 100% 1px no-repeat,
+      linear-gradient(#000, #000 100%, transparent 100%) bottom / 100% 1px no-repeat;
   }
   ```
 
@@ -217,9 +237,9 @@
   .border::after {
     content: '';
     display: block;
-
+    width: 100%;
     height: 1px;
-    background: red;
+    background-color: #000;
     transform: scaleY(0.5);
     transform-origin: center;
   }
@@ -230,22 +250,19 @@
   ```css
   .border {
     position: relative;
-    border:none;
+    border: none;
   }
 
   .border::after {
     content: '';
-
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
-
     box-sizing: border-box;
     border: 1px solid #000;
     width: 200%;
     height: 200%;
-
     transform: scale(0.5);
     transform-origin: left top;
   }
