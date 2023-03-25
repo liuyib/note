@@ -1,3 +1,16 @@
+- [BEM 规范](#bem-规范)
+  - [B -- Block](#b----block)
+  - [E -- Element](#e----element)
+  - [M -- Modifier](#m----modifier)
+  - [混合](#混合)
+  - [命名规则](#命名规则)
+  - [命名风格](#命名风格)
+  - [文件结构](#文件结构)
+  - [如何定位一个块](#如何定位一个块)
+  - [选择器](#选择器)
+  - [如何切换到 BEM 样式的 CSS](#如何切换到-bem-样式的-css)
+  - [如何在已有的项目中使用 BEM](#如何在已有的项目中使用-bem)
+
 # BEM 规范
 
 ## B -- Block
@@ -16,18 +29,12 @@
 ```html
 <header class="header">
   <div class="logo"></div>
-  
-  <div class="menu">
-    ...
-  </div>
 
-  <div class="search">
-    ...
-  </div>
+  <div class="menu">...</div>
 
-  <div class="auth">
-    ...
-  </div>
+  <div class="search">...</div>
+
+  <div class="auth">...</div>
 </header>
 ```
 
@@ -51,7 +58,7 @@
 <!-- 正确 -->
 <div class="search">
   <div class="search__content">
-    <input class="search__input">
+    <input class="search__input" />
   </div>
 </div>
 
@@ -59,13 +66,13 @@
 <div class="search"></div>
 
 <div class="search__content">
-  <input class="search__input">
+  <input class="search__input" />
 </div>
 
 <!-- 错误（不能连续两次使用元素） -->
 <div class="search">
   <div class="search__content">
-    <input class="search__content__input">
+    <input class="search__content__input" />
   </div>
 </div>
 ```
@@ -91,29 +98,31 @@
 
 示例：
 
-``` html
+```html
 <!-- 正确 -->
 <!-- 块；`search`，修饰符：`theme`，修饰符的值：`islands`  -->
 <div class="search search_theme_islands">
   <div class="search__content">
     <!-- 块：`search`，元素：`input`，修饰符：`size`，修饰符的值：`big` -->
-    <input class="search__input search__input_size_big">
+    <input class="search__input search__input_size_big" />
   </div>
 </div>
 
 <!-- 错误（不能同时使用多个具有不同值的修饰符） -->
 <div class="search search_theme_islands">
   <div class="search__content">
-    <input class="search__input
+    <input
+      class="search__input
                   search__input_size_big
-                  search__input_size_small">
+                  search__input_size_small"
+    />
   </div>
 </div>
 
 <!-- 错误（缺少块 `search`） -->
 <div class="search_theme_islands">
   <div class="search__content">
-    <input class="search__input">
+    <input class="search__input" />
   </div>
 </div>
 ```
@@ -129,7 +138,7 @@
 
 示例：
 
-``` html
+```html
 <div class="header">
   <!-- 将 `search` 块与元素 `header__search` 混合 -->
   <div class="search header__search"></div>
@@ -164,30 +173,30 @@
 
 - 通过混合来定位一个块
 
-  ``` html
+  ```html
   <!-- 块：`page` -->
   <body class="page">
     <header class="header page__header"></header>
   </body>
   ```
 
-  ``` css
+  ```css
   /* 影响定位的属性写在混合元素 `page__header` 上 */
   .page__header {
-    margin: 20px
+    margin: 20px;
   }
   ```
 
 - 添加额外的元素来定位一个快
 
-  ``` html
+  ```html
   <!-- 块：`page` -->
   <body class="page">
     <div class="page__inner"></div>
   </body>
   ```
 
-  ``` css
+  ```css
   .page__inner {
     margin: 0 auto;
     width: 960px;

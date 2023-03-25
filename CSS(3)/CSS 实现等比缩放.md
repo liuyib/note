@@ -1,3 +1,8 @@
+- [CSS 实现等比缩放](#css-实现等比缩放)
+  - [vw 方案](#vw-方案)
+  - [padding 方案](#padding-方案)
+  - [padding 方案改进](#padding-方案改进)
+
 # CSS 实现等比缩放
 
 元素的等比缩放（宽：高 = 固定比例）是一个常见的需求，也是面试中可能问到的问题。
@@ -95,9 +100,7 @@ CSS 中 `vw` 单位相对于**浏览器视口**宽度，100vw 等于视口宽度
 
 <div class="outer">
   <div class="scale">
-    <div class="inner">
-      hello world
-    </div>
+    <div class="inner">hello world</div>
   </div>
 </div>
 ```

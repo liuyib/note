@@ -1,3 +1,6 @@
+- [WebSocket](#websocket)
+  - [WebSocket 基本用法](#websocket-基本用法)
+
 # WebSocket
 
 在 H5 WebSocket 出现之前，为了实现消息推送，最常用的方式有三种：**轮询**、**长轮询**、**iframe 流**。它们的优缺点以及适用场景如下：
@@ -32,17 +35,17 @@
 
 `index.html`
 
-``` html
+```html
 <script>
   var ws = new WebSocket('ws://localhost:9999');
 
   // onopen 在客户端和服务端建立连接后触发
-  ws.onopen = function() {
+  ws.onopen = function () {
     ws.send('你好，服务端');
   };
 
   // onmessage 在服务端给客户端发来消息时触发
-  ws.onmessage = function(res) {
+  ws.onmessage = function (res) {
     var data = res.data;
 
     console.log(res); // 打印 MessageEvent 对象
@@ -53,13 +56,13 @@
 
 然后，后台接收和向前台发送消息。后台创建 WebSocket 服务之前，需要安装 ws 包：
 
-``` bash
+```bash
 npm install ws -S
 ```
 
 找个目录，新建 server.js 编写后台服务代码：
 
-``` js
+```js
 var express = require('express');
 var app = express();
 
@@ -73,11 +76,11 @@ var Server = require('ws').Server;
 var ws = new Server({ port: 9999 });
 
 // 监听客户端和服务端的连接
-ws.on('connection', function(socket) {
+ws.on('connection', function (socket) {
   // 客户端发来消息
-  socket.on('message', function(msg) {
+  socket.on('message', function (msg) {
     console.log('客户端发来的消息：', msg);
-    socket.send('服务端返回的消息：', "你好，客户端");
+    socket.send('服务端返回的消息：', '你好，客户端');
   });
 });
 ```
@@ -89,4 +92,4 @@ ws.on('connection', function(socket) {
 参考文章：
 
 - [Web 实时推送技术的总结](https://juejin.im/post/5c20e5766fb9a049b13e387b)
-- [WebSocket是时候展现你优秀的一面了](https://juejin.im/post/5bc7f6b96fb9a05d3447eef8)
+- [WebSocket 是时候展现你优秀的一面了](https://juejin.im/post/5bc7f6b96fb9a05d3447eef8)

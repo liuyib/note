@@ -1,3 +1,12 @@
+- [回流与重绘](#回流与重绘)
+  - [浏览器渲染过程](#浏览器渲染过程)
+  - [生成渲染树](#生成渲染树)
+  - [回流](#回流)
+  - [重绘](#重绘)
+  - [触发条件](#触发条件)
+  - [浏览器的优化机制](#浏览器的优化机制)
+  - [优化点](#优化点)
+
 # 回流与重绘
 
 想要深入了解浏览器的回流或重绘，需要先知道浏览器的工作原理。
@@ -90,8 +99,8 @@ getBoundingClientRect()、getClientRects()
   - 使用 `cssText`（兼容性较差）
 
     ```js
-    var elem = document.getElementById("div");
-    elem.style.cssText = "margin: 10px; padding: 5px;";
+    var elem = document.getElementById('div');
+    elem.style.cssText = 'margin: 10px; padding: 5px;';
     ```
 
 - 使用 `transform` 代替 `top`、`bottom`、`left`、`right`

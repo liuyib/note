@@ -1,3 +1,18 @@
+- [HTML5 知识总结](#html5-知识总结)
+  - [1、常用的 DOCTYPE 声明](#1常用的-doctype-声明)
+  - [2、语义化标签](#2语义化标签)
+  - [3、浏览器对 H5 的支持](#3浏览器对-h5-的支持)
+  - [4、H5 新增的表单类型，和表单属性](#4h5-新增的表单类型和表单属性)
+  - [5、新增表单元素 datalist](#5新增表单元素-datalist)
+  - [6、表单事件](#6表单事件)
+  - [7、媒体元素](#7媒体元素)
+  - [8、媒体属性](#8媒体属性)
+  - [9、H5 中 DOM 扩展](#9h5-中-dom-扩展)
+  - [10、网络状态](#10网络状态)
+  - [11、地理定位](#11地理定位)
+  - [12、web 储存](#12web-储存)
+  - [13、文件读取](#13文件读取)
+
 # HTML5 知识总结
 
 > HTML 也先后经历了 HTML4.01、XHTML1.0、HTML5 几个重要的版本，在版本的演变过程中新增或废弃了一些属性，同时对语法规范也做了一些调整，为了能够保证浏览器可以兼容不同版本语法规范的，我们可以使用<!DOCTYPE>指示浏览器应该如何处理我们的 HTML。
@@ -76,28 +91,20 @@
 新增类型：网址 邮箱 日期 时间 星期 数量 范围 电话 颜色 搜索:
 
 ```html
-网址: <input type="url" >
-邮箱: <input type="email" >
-日期: <input type="date" >
-时间: <input type="time" >
-星期: <input type="week" >
-数量: <input type="number" >
-范围: <input type="range" >
-电话: <input type="tel" >
-颜色: <input type="color" >
-搜索: <input type="search" >
+网址: <input type="url" /> 邮箱: <input type="email" /> 日期:
+<input type="date" /> 时间: <input type="time" /> 星期:
+<input type="week" /> 数量: <input type="number" /> 范围:
+<input type="range" /> 电话: <input type="tel" /> 颜色:
+<input type="color" /> 搜索: <input type="search" />
 ```
 
 H5 新增的一些表单属性:
 
 ```html
-placeholder
-required
-autofocus 自动获得焦点（autofocus="autofocus"）
-autocomplete 自动完成功能（autocomplete="on/off"） 
-novalidate 不使用表单元素的规则进行验（novalidate="novalidate"）
-multiple 多文件上传（multiple="multiple"）
-form 绑定输入域（form="form元素的id值"）
+placeholder required autofocus 自动获得焦点（autofocus="autofocus"）
+autocomplete 自动完成功能（autocomplete="on/off"） novalidate
+不使用表单元素的规则进行验（novalidate="novalidate"） multiple
+多文件上传（multiple="multiple"） form 绑定输入域（form="form元素的id值"）
 pattern 自定义验证（pattern="正则表达式"）
 ```
 
@@ -153,8 +160,8 @@ pattern 自定义验证（pattern="正则表达式"）
 当验证无法通过时，可以使用 `setCustomValidity 方法` 来自定义错误提示，例如：
 
 ```javascript
-pwd.oninvalid = function() {
-  this.setCustomValidity("密码格式错误");
+pwd.oninvalid = function () {
+  this.setCustomValidity('密码格式错误');
 };
 ```
 
@@ -203,8 +210,8 @@ autoplay 自动播放 controls 是否显示控制条 loop 循环播放
 例如：获取视频第一段缓冲范围：
 
 ```javascript
-var video = document.getElementById("video1");
-alert("Start: " + video.buffered.start(0) + " End: " + video.buffered.end(0));
+var video = document.getElementById('video1');
+alert('Start: ' + video.buffered.start(0) + ' End: ' + video.buffered.end(0));
 ```
 
 8.2、所有媒体属性
@@ -247,7 +254,7 @@ classList 的一些方法：
 ```
 
 ```javascript
-var oDiv = document.getElementById("oDiv");
+var oDiv = document.getElementById('oDiv');
 
 console.log(oDiv.classList); // => 类数组
 console.log(Array.prototype.slice.call(oDiv.classList)); // => 数组
@@ -276,14 +283,14 @@ console.log(Array.prototype.slice.call(oDiv.classList)); // => 数组
 ```
 
 ```javascript
-var aNames = document.getElementsByTagName("div");
+var aNames = document.getElementsByTagName('div');
 
 for (var i = 0; i < aNames.length; i++) {
   var _data = aNames[i].dataset;
-  console.log(_data["name"]); // zhangsan
+  console.log(_data['name']); // zhangsan
 
-  _data["name"] = "lisi";
-  console.log(_data["name"]); // lisi
+  _data['name'] = 'lisi';
+  console.log(_data['name']); // lisi
 }
 ```
 
@@ -292,13 +299,13 @@ for (var i = 0; i < aNames.length; i++) {
 当用户通网时，触发 `online 事件`：
 
 ```javascript
-window.addEventListener("online", function() {});
+window.addEventListener('online', function () {});
 ```
 
 当用户断网时，触发 `offline 事件`：
 
 ```javascript
-window.addEventListener("offline", function() {});
+window.addEventListener('offline', function () {});
 ```
 
 ## 11、地理定位
@@ -346,18 +353,18 @@ navigator.geolocation.watchPosition(successCallback, errorCallback, options);
 
 ```javascript
 window.navigator.geolocation.getCurrentPosition(
-  function(pos) {
+  function (pos) {
     var lati = pos.coords.latitude; // 经度
     var long = pos.coords.longitude; // 经度
   },
-  function(err) {
+  function (err) {
     // 错误时回调信息
     if (err.code == 1) {
-      alert("没有权限");
+      alert('没有权限');
     } else if (err.code == 2) {
-      alert("内部错误");
+      alert('内部错误');
     } else {
-      alert("超时");
+      alert('超时');
     }
   },
   {
@@ -385,27 +392,27 @@ window.navigator.geolocation.getCurrentPosition(
 - length - 存储的数据的个数
 
 ```javascript
-window.localStorage.setItem("username1", "Ryan's");
-window.localStorage.setItem("username2", "Levi's");
+window.localStorage.setItem('username1', "Ryan's");
+window.localStorage.setItem('username2', "Levi's");
 
-window.sessionStorage.setItem("username1", "Ryan's");
-window.sessionStorage.setItem("username2", "Levi's");
+window.sessionStorage.setItem('username1', "Ryan's");
+window.sessionStorage.setItem('username2', "Levi's");
 
 // 索引键的名字
 console.log(window.localStorage.key(0));
 console.log(window.sessionStorage.key(0));
 
 // 取数据
-console.log(window.localStorage.getItem("username1"));
-console.log(window.sessionStorage.getItem("username1"));
+console.log(window.localStorage.getItem('username1'));
+console.log(window.sessionStorage.getItem('username1'));
 
 // 获取本地数据的长度
 console.log(window.localStorage.length);
 console.log(window.sessionStorage.length);
 
 // 删除数据
-window.localStorage.removeItem("username1");
-window.sessionStorage.removeItem("username1");
+window.localStorage.removeItem('username1');
+window.sessionStorage.removeItem('username1');
 
 // 清空所有的数据
 window.localStorage.clear();
@@ -425,7 +432,7 @@ window.sessionStorage.clear();
 - 生命周期永久有效，除非手动删除或用代码删除
 - 可以多个窗口共享（同源策略）
 
-12.3、三者特点比较
+  12.3、三者特点比较
 
 相同点：
 
@@ -445,7 +452,7 @@ window.sessionStorage.clear();
 ```
 
 ```javascript
-var oUpload = document.getElementById("oUpload");
+var oUpload = document.getElementById('oUpload');
 
 console.log(oUpload.files); // FileList {length: 0}
 ```
@@ -460,24 +467,24 @@ console.log(oUpload.files); // FileList {length: 0}
 ```
 
 ```javascript
-var oBtn = document.getElementById("oBtn");
-var oUpload = document.getElementById("oUpload");
+var oBtn = document.getElementById('oBtn');
+var oUpload = document.getElementById('oUpload');
 var aFiles = [];
 
-oBtn.onclick = function() {
+oBtn.onclick = function () {
   for (var i = 0; i < oUpload.files.length; i++) {
     aFiles[i] = new FileReader();
     aFiles[i].readAsDataURL(oUpload.files[i]); // readAsDataURL() 以 DataURL 形式读取文件
   }
 
   for (var i = 0; i < aFiles.length; i++) {
-    aFiles[i].addEventListener("load", function() {
+    aFiles[i].addEventListener('load', function () {
       var result = this.result; // 文件的base64编码
 
-      var oImg = document.createElement("img");
+      var oImg = document.createElement('img');
       oImg.src = result;
-      oImg.style.width = "100px";
-      oImg.style.height = "100px";
+      oImg.style.width = '100px';
+      oImg.style.height = '100px';
       document.body.appendChild(oImg);
     });
   }
@@ -514,29 +521,29 @@ oBtn.onclick = function() {
 ```
 
 ```javascript
-var oDrag = document.getElementById("oDrag");
+var oDrag = document.getElementById('oDrag');
 var oHtml = document.documentElement;
 
 // 在 html 对象上松开鼠标
-oHtml.ondrop = function(e) {
+oHtml.ondrop = function (e) {
   e.preventDefault();
 };
 // 鼠标经过 html 对象
-oHtml.ondragover = function(e) {
+oHtml.ondragover = function (e) {
   e.preventDefault();
 };
 
 // 在指定的 div 上松开鼠标
-oDrag.ondrop = function(e) {
+oDrag.ondrop = function (e) {
   var data = e.dataTransfer.files[0];
   var fr = new FileReader();
   fr.readAsDataURL(data);
-  fr.addEventListener("load", function() {
+  fr.addEventListener('load', function () {
     var result = fr.result;
-    var img = document.createElement("img");
+    var img = document.createElement('img');
 
     img.src = result;
-    oDrag.innerHTML = "";
+    oDrag.innerHTML = '';
     oDrag.appendChild(img);
   });
 };
