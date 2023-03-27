@@ -115,6 +115,88 @@ function debounce(fn, timeout) {
 
 ## async/await
 
+在 ES8 引入，是 Generator 和 Promise 的语法糖。
+
+底层实现如下，举例：
+
+```js
+async function log() {}
+
+async function print() {
+  return await log();
+}
+```
+
+会被 Babel 编译成（[在线尝试](https://babeljs.io/repl#?browsers=chrome%3E%3D54&build=&builtIns=usage&corejs=3.21&spec=false&loose=false&code_lz=IYZwngdgxgBAZgV2gFwJYHsIwDboOYAUAlDAN4C-AUJaJLIihlgA4BOqEyxZlAkKwFNkCVlmAB3YKmQ58xANyVyQA&debug=false&forceAllTransforms=false&modules=false&shippedProposals=false&circleciRepo=&evaluate=true&fileSize=false&timeTravel=false&sourceType=module&lineWrap=false&presets=env&prettier=true&targets=&version=7.21.3&externalPlugins=&assumptions=%7B%7D)）：
+
+```js
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+      args = arguments;
+
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'next', value);
+      }
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'throw', err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+function log() {
+  return _log.apply(this, arguments);
+}
+
+function _log() {
+  _log = _asyncToGenerator(function* () {});
+  return _log.apply(this, arguments);
+}
+
+function print() {
+  return _print.apply(this, arguments);
+}
+
+function _print() {
+  _print = _asyncToGenerator(function* () {
+    return yield log();
+  });
+  return _print.apply(this, arguments);
+}
+```
+
+由此可见，编译后：一个 `await` 对应一个 `yield`，没什么特别。主要是 `async`，只要函数被 `async` 修饰，整个函数体就会被包裹到一个特殊的函数中，这个特殊的函数形如（不准确，只是方便理解）下面的格式：
+
+```js
+new Promise(function (resolve, reject) {
+  function* () {
+    // 函数体的所有代码在这
+  }
+})
+```
+
 ### 实现并发请求
 
 请求组装到数组中，然后根据业务具体情况使用 `Promise.all` / `Promise.allSettled` / `Promise.race` 来并发执行数组中的请求。
