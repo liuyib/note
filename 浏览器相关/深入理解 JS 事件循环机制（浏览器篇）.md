@@ -58,66 +58,142 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 > 2. [async 函数返回值](https://juejin.cn/post/7194744938276323384#heading-1)
 >
 >    1. 返回值：非 thenable、非 promise（不等待）
->    2. 返回值：thenable（等待 1 个 then 的时间）
->    3. 返回值：promise（等待 2 个 then 的时间）
+>    2. 返回值：thenable（等待 1 个微任务的时间）
+>    3. 返回值：Promise 类型（等待 2 个微任务的时间）
 >
 > 3. [await 右值类型区别](https://juejin.cn/post/7194744938276323384#heading-2)
 >
 >    1. 接非 thenable 类型，会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
->    2. 接 thenable 类型，需要等待一个 then 的时间之后执行
+>    2. 接 thenable 类型，需要等待一个微任务的时间之后执行
 >    3. 接 Promise 类型（有确定的返回值），会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
 >
->    > TC 39 对 await 后面是 promise 的情况如何处理进行了一次修改，移除了额外的两个微任务，在早期版本，依然会等待两个 then 的时间
+>    > TC 39 对 await 后面是 Promise 的情况如何处理进行了一次修改，移除了额外的两个微任务，在早期版本，依然会等待两个微任务的时间
 
 注意一下代码：
 
-1. 示例 1
+```js
+function fn() {
+  return new Promise((resolve) => {
+    resolve();
+  }).then(() => console.log(1));
+}
 
-   ```js
-   function fn() {
-     return new Promise((resolve) => {
-       resolve();
-     }).then(() => console.log(1));
-   }
+fn();
+Promise.resolve()
+  .then(() => console.log(2))
+  .then(() => console.log(3))
+  .then(() => console.log(4));
 
-   fn();
-   Promise.resolve()
-     .then(() => console.log(2))
-     .then(() => console.log(3));
+// 依次打印：1 2 3 4
+```
 
-   // 依次打印：1 2 3
-   ```
+```js
+function fn() {
+  return new Promise((resolve) => {
+    resolve();
+  });
+}
 
-   ```js
-   function fn() {
-     return new Promise((resolve) => {
-       resolve();
-     });
-   }
+fn().then(() => console.log(1));
+Promise.resolve()
+  .then(() => console.log(2))
+  .then(() => console.log(3))
+  .then(() => console.log(4));
 
-   fn().then(() => console.log(1));
-   Promise.resolve()
-     .then(() => console.log(2))
-     .then(() => console.log(3));
+// 依次打印：1 2 3 4
+```
 
-   // 依次打印：1 2 3
-   ```
+```js
+// 有了 async 修饰后，执行规则就变了，参考上文「async 函数返回值 - 第三条规则」
+async function fn() {
+  return new Promise((resolve) => {
+    resolve();
+  });
+}
 
-   ```js
-   // 有了 async 修饰后，执行规则就变了，参考上文「async 函数返回值 - 第三条规则」
-   async function fn() {
-     return new Promise((resolve) => {
-       resolve();
-     });
-   }
+fn().then(() => console.log(1));
+Promise.resolve()
+  .then(() => console.log(2))
+  .then(() => console.log(3))
+  .then(() => console.log(4));
 
-   fn().then(() => console.log(1));
-   Promise.resolve()
-     .then(() => console.log(2))
-     .then(() => console.log(3));
+// 依次打印：2 3 1 4
+```
 
-   // 依次打印：2 3 1
-   ```
+题目练习：
+
+1. 练习 1
+
+```js
+async function async1() {
+  console.log('1');
+  await async2();
+  console.log('2');
+}
+
+async function async2() {
+  console.log('3');
+}
+
+console.log('4');
+
+setTimeout(function () {
+  console.log('5');
+}, 0);
+
+async1();
+
+new Promise(function (resolve) {
+  console.log('6');
+  resolve();
+}).then(function () {
+  console.log('7');
+});
+
+console.log('8');
+
+// 最终结果: 4 1 3 6 8 2 7 5
+```
+
+2. 练习 2
+
+```js
+async function async1 () {
+    console.log('1')
+    await async2()
+    console.log('2')
+}
+​
+async function async2 () {
+    console.log('3')
+    return new Promise((resolve, reject) => {
+        resolve()
+        console.log('4')
+    })
+}
+​
+console.log('5')
+​
+setTimeout(() => {
+    console.log('6')
+}, 0);
+​
+async1()
+​
+new Promise((resolve) => {
+    console.log('7')
+    resolve()
+}).then(() => {
+    console.log('8')
+}).then(() => {
+    console.log('9')
+}).then(() => {
+    console.log('10')
+})
+console.log('11')
+​
+// 最终结果: 5 1 3 4 7 11 8 9 2 10 6
+```
 
 ## 宏/微任务队列
 
@@ -145,11 +221,11 @@ setTimeout(function () {
 
 Promise.resolve()
   .then(function () {
-    // Promise 回调属于微任务
+    // Promise.then 回调属于微任务
     console.log('promise1');
   })
   .then(function () {
-    // Promise 回调属于微任务
+    // Promise.then 回调属于微任务
     console.log('promise2');
   });
 
@@ -162,18 +238,13 @@ console.log('end');
 
 > 图片来源：http://lynnelv.github.io/js-event-loop-browser
 
-> 答案：
-> start
-> end
-> promise1
-> promise2
-> setTimeout
+> 答案：start end promise1 promise2 setTimeout
 
 首先，主代码块（`Main()`）入栈，打印 start。
 
 然后，遇到 `setTimeout`，将其加入宏任务队列，代码继续向下执行。
 
-遇到 `Promise`，将其回调加入微任务队列，代码继续向下执行。
+遇到 `Promise.then`，将其回调加入微任务队列，代码继续向下执行。
 
 打印 end。此时，主代码块执行结束，`Main()` 出栈。由于主代码块（`Main()`）属于宏任务，所以根据 Event Loop 执行过程可知，执行完**一个**宏任务后，会去检查微任务队列。
 
