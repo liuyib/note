@@ -642,35 +642,9 @@ foo()(); // => window
   });
   ```
 
-- 节流、防抖、柯里化等工具函数的实现
+- [节流、防抖](./JS%20%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B92.md#节流和防抖)、柯里化等工具函数的实现
 
   ```js
-  // 节流
-  function throttle(fn, timeout) {
-    let timer = null;
-
-    return function (...args) {
-      if (timer) return;
-
-      timer = setTimeout(() => {
-        fn.apply(this, args);
-        timer = null;
-      }, timeout);
-    };
-  }
-
-  // 防抖
-  function debounce(fn, timeout) {
-    let timer = null;
-
-    return function (...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn.apply(this, args);
-      }, timeout);
-    };
-  }
-
   // 柯里化
   const curry = function (fn) {
     return function nest(...args) {

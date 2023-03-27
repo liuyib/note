@@ -153,16 +153,16 @@ curried(1)(_, 3)(2); // => [1, 2, 3]
 
   ```js
   function throttle(fn, wait) {
-    var isRuning = false;
+    var isRunning = false;
 
     return function () {
-      if (isRuning) return;
+      if (isRunning) return;
 
-      isRuning = true;
+      isRunning = true;
       fn.apply(this, arguments);
 
       setTimeout(function () {
-        isRuning = false;
+        isRunning = false;
       }, wait);
     };
   }
