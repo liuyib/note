@@ -85,11 +85,13 @@ Chromium 内核早期是以 Webkit（WebCore） 作为渲染引擎，JSCore 作�
 
   - IE 盒模型
 
-    `width、height = content`
+    - `盒子总宽/高 = width/height`
+    - `width/height = content + padding + border`
 
   - W3C 盒模型
 
-    `width、height = content + padding + border`
+    - `盒子总宽/高 = width/height + padding + border`
+    - `width/height = content`
 
 - 获取盒模型的尺寸
 
