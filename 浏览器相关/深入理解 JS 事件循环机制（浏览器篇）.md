@@ -48,7 +48,7 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 
 它们具体的分类如下：
 
-- **宏任务**：主代码块、定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、`MessageChannel`、事件回调、I/O（文件、网络）操作、UI 渲染
+- [宏任务](https://html.spec.whatwg.org/multipage/webappapis.html#generic-task-sources)：主代码块、`MessageChannel`、定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、DOM 操作、事件回调、I/O（文件、网络）操作、UI 渲染
 - **微任务**：`Promise 的 .then, .catch, .finally`、`await 之后的代码`、`MutationObserver`、[`queueMicrotask`](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask)、`Process.nextTick（Node.js）`、`Object.observe（废弃）`
 
 > 注意：
