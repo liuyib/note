@@ -26,43 +26,59 @@ function instanceof(a, b) {
 `call`:
 
 ```js
-// ES6
-Function.prototype.call = function (context, ...args) {
-  context = context ? Object(context) : window;
-  context.fn = this;
-
-  var result = context.fn(...args);
-
-  delete context.fn;
-
-  return result;
-};
-
-// ES5
 Function.prototype.call = function (context) {
   context = context ? Object(context) : window;
   context.fn = this;
 
   var args = [];
+  // 注意循环从 1 开始
   for (var i = 1; i < arguments.length; i++) {
     args.push('arguments[' + i + ']');
   }
-  var result = eval('context.fn(' + args + ')');
+
+  var fn = new Function('context,arguments', 'return context.fn(' + args + ')');
+  var result = fn(context, arguments);
 
   delete context.fn;
+
   return result;
 };
 ```
 
-`apply`: 略（基本同 `call`）
+`apply`:
+
+```js
+Function.prototype.apply = function (context, arr) {
+  context = context ? Object(context) : window;
+  context.fn = this;
+
+  if (!arr) {
+    return context.fn();
+  }
+
+  var args = [];
+  for (let i = 0; i < arr.length; i++) {
+    args.push('arr[' + i + ']');
+  }
+
+  var fn = new Function('context,arr', 'return context.fn(' + args + ')');
+  var result = fn(context, arr);
+
+  delete context.fn;
+
+  return result;
+};
+```
 
 `bind`:
+
+> 这里直接使用 ES6 语法，省去不重要的细节。
 
 ```js
 Function.prototype.bind = function (context, ...args1) {
   // 处理异常
   if (typeof this !== 'function') {
-    throw new TypeError(`${this} cannot be bound as it's not callable`);
+    throw new TypeError('error');
   }
 
   const F = this;
