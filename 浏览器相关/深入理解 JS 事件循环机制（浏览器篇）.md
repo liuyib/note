@@ -210,6 +210,41 @@ Promise.resolve()
    // 最终结果: 5 1 3 4 7 11 8 9 2 10 6
    ```
 
+3. 练习 3
+
+   ```js
+   async function async1() {
+     console.log(1);
+     await async2();
+     console.log(2);
+   }
+
+   async function async2() {
+     await setTimeout(() => {
+       Promise.resolve().then(() => {
+         console.log(3);
+       });
+       console.log(4);
+     }, 0);
+
+     setTimeout(() => {
+       console.log(5);
+     }, 0);
+   }
+
+   async function async3() {
+     Promise.resolve().then(() => {
+       console.log(6);
+     });
+   }
+
+   async1();
+   console.log(7);
+   async3();
+
+   // 最终结果：1 7 6 2 4 3 5
+   ```
+
 ## 宏/微任务队列
 
 相应地，任务队列可以分为**微任务队列**和**宏任务队列**，它们的执行顺序如下图所示：
