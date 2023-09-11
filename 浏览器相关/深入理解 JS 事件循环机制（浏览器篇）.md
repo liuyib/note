@@ -42,34 +42,46 @@ JavaScript 中的任务分为两种：**同步任务**和**异步任务**。它�
 
 ## 宏任务和微任务
 
-现在我们知道了，JavaScript 遇到异步任务时，会将其加入任务队列来等待执行。
+宏任务（Macro Task）
 
-其实，不同异步任务的处理方式并不完全相同，根据执行时机可分为**宏任务**（macrotask）和**微任务**（microtask）。
+- script（主代码块）
+- 定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）
+- `MessageChannel`
+- DOM 操作
+- 事件回调
+- I/O 操作（文件 IO、网络 IO）
+- UI 渲染
 
-它们具体的分类如下：
+微任务（Micro Task）
 
-- [宏任务](https://html.spec.whatwg.org/multipage/webappapis.html#generic-task-sources)：主代码块、`MessageChannel`、定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）、DOM 操作、事件回调、I/O（文件、网络）操作、UI 渲染
-- **微任务**：`Promise 的 .then, .catch, .finally`、`await 之后的代码`、`MutationObserver`、[`queueMicrotask`](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask)、`Process.nextTick（Node.js）`、`Object.observe（废弃）`
+- `Promise 的 .then/.catch/.finally`
+- `await 下面的代码`
+- `MutationObserver`
+- [`queueMicrotask`](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask)
+- `Process.nextTick（Node.js）`
+- `Object.observe（废弃）`
 
-> 注意：
->
-> 1. `Promise` 构造函数里的代码，属于同步任务
->
-> 2. [async 函数返回值](https://juejin.cn/post/7194744938276323384#heading-1)
->
->    1. 返回值：非 thenable、非 promise（不等待）
->    2. 返回值：thenable（等待 1 个微任务的时间）
->    3. 返回值：Promise 类型（等待 2 个微任务的时间）
->
-> 3. [await 右值类型区别](https://juejin.cn/post/7194744938276323384#heading-2)
->
->    1. 接非 thenable 类型，会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
->    2. 接 thenable 类型，需要等待一个微任务的时间之后执行
->    3. 接 Promise 类型（有确定的返回值），会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
->
->    > TC 39 对 await 后面是 Promise 的情况如何处理进行了一次修改，移除了额外的两个微任务，在早期版本，依然会等待两个微任务的时间
+注意事项：
 
-注意一下代码：
+1. `Promise` 构造函数里的代码，属于同步任务
+
+TODO: 下面 2、3 部分理解有歧义，待完善
+
+2. [async 函数返回值](https://juejin.cn/post/7194744938276323384#heading-1)
+
+   1. 返回值：非 thenable、非 promise（不等待）
+   2. 返回值：thenable（等待 1 个微任务的时间）
+   3. 返回值：Promise 类型（等待 2 个微任务的时间）
+
+3. [await 右值类型区别](https://juejin.cn/post/7194744938276323384#heading-2)
+
+   1. 接非 thenable 类型，会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
+   2. 接 thenable 类型，需要等待一个微任务的时间之后执行
+   3. 接 Promise 类型（有确定的返回值），会立即向微任务队列“添加一个微任务（await **后面**的代码）”，但不需等待
+
+   > TC 39 对 await 后面是 Promise 的情况如何处理进行了一次修改，移除了额外的两个微任务，在早期版本，依然会等待两个微任务的时间。
+
+代码示例：
 
 ```js
 function fn() {
@@ -124,76 +136,79 @@ Promise.resolve()
 
 1. 练习 1
 
-```js
-async function async1() {
-  console.log('1');
-  await async2();
-  console.log('2');
-}
+   ```js
+   async function async1() {
+     console.log('1');
+     await async2();
+     console.log('2');
+   }
 
-async function async2() {
-  console.log('3');
-}
+   async function async2() {
+     console.log('3');
+   }
 
-console.log('4');
+   console.log('4');
 
-setTimeout(function () {
-  console.log('5');
-}, 0);
+   setTimeout(function () {
+     console.log('5');
+   }, 0);
 
-async1();
+   async1();
 
-new Promise(function (resolve) {
-  console.log('6');
-  resolve();
-}).then(function () {
-  console.log('7');
-});
+   new Promise(function (resolve) {
+     console.log('6');
+     resolve();
+   }).then(function () {
+     console.log('7');
+   });
 
-console.log('8');
+   console.log('8');
 
-// 最终结果: 4 1 3 6 8 2 7 5
-```
+   // 最终结果: 4 1 3 6 8 2 7 5
+   ```
 
 2. 练习 2
 
-```js
-async function async1 () {
-    console.log('1')
-    await async2()
-    console.log('2')
-}
-​
-async function async2 () {
-    console.log('3')
-    return new Promise((resolve, reject) => {
-        resolve()
-        console.log('4')
-    })
-}
-​
-console.log('5')
-​
-setTimeout(() => {
-    console.log('6')
-}, 0);
-​
-async1()
-​
-new Promise((resolve) => {
-    console.log('7')
-    resolve()
-}).then(() => {
-    console.log('8')
-}).then(() => {
-    console.log('9')
-}).then(() => {
-    console.log('10')
-})
-console.log('11')
-​
-// 最终结果: 5 1 3 4 7 11 8 9 2 10 6
-```
+   ```js
+   async function async1() {
+     console.log('1');
+     await async2();
+     console.log('2');
+   }
+
+   async function async2() {
+     console.log('3');
+     return new Promise((resolve, reject) => {
+       resolve();
+       console.log('4');
+     });
+   }
+
+   console.log('5');
+
+   setTimeout(() => {
+     console.log('6');
+   }, 0);
+
+   async1();
+
+   new Promise((resolve) => {
+     console.log('7');
+     resolve();
+   })
+     .then(() => {
+       console.log('8');
+     })
+     .then(() => {
+       console.log('9');
+     })
+     .then(() => {
+       console.log('10');
+     });
+   console.log('11');
+
+   // 最终结果: 5 1 3 4 7 11 8 9 2 10 6
+   ```
 
 ## 宏/微任务队列
 
