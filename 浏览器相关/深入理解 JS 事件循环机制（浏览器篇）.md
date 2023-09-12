@@ -262,11 +262,6 @@ Promise.resolve()
    // 最终结果：1 7 6 2 4 3 5
    ```
 
-一些资料：
-
-- [async/await 在 chrome 环境和 node 环境的 执行结果不一致，求解？ - 贺师俊的回答 - 知乎](https://www.zhihu.com/question/268007969/answer/339811998)
-- [你不知道的 async、await 魔鬼细节](https://juejin.cn/post/7194744938276323384)
-
 ## 宏/微任务队列
 
 相应地，任务队列可以分为**微任务队列**和**宏任务队列**，它们的执行顺序如下图所示：
@@ -385,3 +380,4 @@ requestAnimationFrame; // 多次 Event Loop 后执行
 - [详解 JavaScript 中的 Event Loop（事件循环）机制](https://zhuanlan.zhihu.com/p/33058983)
 - [JavaScript 运行机制详解：再谈 Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 - [深入理解 js 事件循环机制（浏览器篇）](http://lynnelv.github.io/js-event-loop-browser)
+- [async/await 在 chrome 环境和 node 环境的 执行结果不一致，求解？ - 贺师俊的回答 - 知乎](https://www.zhihu.com/question/268007969/answer/339811998)
