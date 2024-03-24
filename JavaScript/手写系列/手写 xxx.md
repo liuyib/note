@@ -1,4 +1,5 @@
 - [手写 instanceof](#手写-instanceof)
+- [手写 new](#手写-new)
 - [手写 call/apply/bind](#手写-callapplybind)
 
 ## 手写 instanceof
@@ -18,6 +19,20 @@ function instanceof(a, b) {
 
     left = left.__proto__;
   }
+}
+```
+
+## 手写 new
+
+```js
+function _new(obj, ...args) {
+  const newObj = Object.create(obj.prototype);
+
+  const result = obj.apply(newObj, args);
+
+  return typeof result === 'object' || typeof result === 'function'
+    ? result
+    : newObj;
 }
 ```
 
