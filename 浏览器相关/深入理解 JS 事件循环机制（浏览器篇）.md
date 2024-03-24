@@ -50,6 +50,7 @@ TL;DR
 4. `.then/.catch/.finally` 链式调用时，上一个执行完后，才会把下一个加入微队列
 5. `await` 需要“右侧的表达式有确定的值（非 `Promise`、`Promise` 状态确定）”才会放行，否则将一直等待
 6. `await` 语句执行后，会把其**下面的**代码加入微任务队列
+7. `async` 函数的返回值是 `Promise` 类型（函数需等待 2 个微任务的时间，然后放行，继续**下面**的代码）
 
 ---
 
@@ -189,7 +190,7 @@ Promise.resolve()
    ```js
    async function async1() {
      console.log('1');
-     await async2();
+     await async2(); // ！！！这里属于 async 返回值是 Promise，所以 await 后面的代码等待两个 then 时间后放行
      console.log('2');
    }
 
