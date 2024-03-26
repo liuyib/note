@@ -124,4 +124,5 @@
 
 ## 模仿面试
 
-[./模仿面试.md](./模仿面试.md)
+- [面试前八股速查](./模仿面试/八股速查.md)
+- [面试前必刷算法题](https://github.com/liuyib/fucking-algorithm#面试前必刷题)
