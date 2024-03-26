@@ -1,3 +1,17 @@
+- [XSS 攻击](#xss-攻击)
+  - [什么是 XSS](#什么是-xss)
+  - [XSS 攻击方式](#xss-攻击方式)
+    - [1、反射型](#1反射型)
+    - [2、存储型](#2存储型)
+    - [3、DOM 型](#3dom-型)
+  - [XSS 攻击的注入点](#xss-攻击的注入点)
+  - [防御 XSS 攻击](#防御-xss-攻击)
+    - [编写代码防御](#编写代码防御)
+    - [设置 HTTP 请求头 CSP 防御 XSS](#设置-http-请求头-csp-防御-xss)
+    - [设置 HTTP 响应头 X-XSS-Protection 防御 XSS](#设置-http-响应头-x-xss-protection-防御-xss)
+    - [浏览器自带 XSS 防御](#浏览器自带-xss-防御)
+    - [设置 HttpOnly](#设置-httponly)
+
 # XSS 攻击
 
 ## 什么是 XSS
@@ -53,7 +67,8 @@ https://a.com/?xss=<img src="null" onerror="alert(1)" />
 
   ```html
   <div>
-    文本中带有JS代码<script>
+    文本中带有JS代码
+    <script>
       alert(1);
     </script>
   </div>
@@ -202,7 +217,7 @@ JSON.stringify(str);
     // ...
   ];
 
-  var xssFilter = function(html) {
+  var xssFilter = function (html) {
     if (!html) return '';
 
     var cheerio = require(cheerio);
@@ -214,7 +229,7 @@ JSON.stringify(str);
       font: ['size', 'color']
     };
 
-    $('*').forEach(function(index, elem) {
+    $('*').forEach(function (index, elem) {
       if (!whiteList[elem.name]) {
         // 元素名称不在白名单中
         $(elem).remove();
@@ -237,7 +252,7 @@ XSS 过滤的第三方库推荐：[js-xss](https://github.com/leizongmin/js-xss)
 使用 `js-xss` 库过滤 XSS 脚本示例：
 
 ```js
-var xssFilter = function(html) {
+var xssFilter = function (html) {
   if (!html) return '';
 
   var xss = require('xss');
@@ -248,7 +263,7 @@ var xssFilter = function(html) {
       font: ['size', 'color']
       // ...
     },
-    onIgnoreTag: function() {
+    onIgnoreTag: function () {
       // ...
     }
     // ...
@@ -315,4 +330,4 @@ Content-Security-Policy: default-src 'self' www.example.com *.example2.com
 
 参考资料：
 
-- [前端安全系列（一）：如何防止XSS攻击？](https://tech.meituan.com/2018/09/27/fe-security.html)
+- [前端安全系列（一）：如何防止 XSS 攻击？](https://tech.meituan.com/2018/09/27/fe-security.html)

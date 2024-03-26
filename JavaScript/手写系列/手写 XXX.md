@@ -25,14 +25,11 @@ function instanceof(a, b) {
 ## 手写 new
 
 ```js
-function _new(obj, ...args) {
-  const newObj = Object.create(obj.prototype);
+function _new(constructor, ...args) {
+  const instance = Object.create(constructor.prototype);
+  const result = constructor.apply(instance, args);
 
-  const result = obj.apply(newObj, args);
-
-  return typeof result === 'object' || typeof result === 'function'
-    ? result
-    : newObj;
+  return typeof result === 'object' || result === null ? result : instance;
 }
 ```
 
@@ -46,12 +43,15 @@ Function.prototype.call = function (context) {
   context.fn = this;
 
   var args = [];
-  // 注意循环从 1 开始
+  // 注意循环从 1 开始，否则会把 context 包含进去
   for (var i = 1; i < arguments.length; i++) {
     args.push('arguments[' + i + ']');
   }
 
-  var fn = new Function('context,arguments', 'return context.fn(' + args + ')');
+  var fn = new Function(
+    'context,arguments',
+    `return context.fn(${args.join(',')})`
+  );
   var result = fn(context, arguments);
 
   delete context.fn;
@@ -73,10 +73,13 @@ Function.prototype.apply = function (context, arr) {
 
   var args = [];
   for (let i = 0; i < arr.length; i++) {
-    args.push('arr[' + i + ']');
+    args.push('arguments[' + i + ']');
   }
 
-  var fn = new Function('context,arr', 'return context.fn(' + args + ')');
+  var fn = new Function(
+    'context,arguments',
+    `return context.fn(${args.join(',')})`
+  );
   var result = fn(context, arr);
 
   delete context.fn;

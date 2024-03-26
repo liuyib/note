@@ -21,7 +21,7 @@
   - [CSS 重排与重绘笔记](<./CSS(3)/CSS%20重排与重绘笔记.md>)
   - [BEM 命名规范笔记](<./CSS(3)/BEM%20命名规范笔记.md>)
   - [深入理解 font-size 笔记](<./CSS(3)/深入理解%20font-size%20笔记.md>)
-  - [CSS 实现等比缩放](./CSS(3)/CSS%20实现等比缩放.md)
+  - [CSS 实现等比缩放](<./CSS(3)/CSS%20实现等比缩放.md>)
 
 - JavaScript
 
@@ -121,3 +121,7 @@
 
   - [MEB 风格图标设计](./UI%20设计/MBE风格图标设计/README.md)
   - [Photoshop (PS)](<./UI%20设计/Photoshop%20(PS)/README.md>)
+
+## 模仿面试
+
+[./模仿面试.md](./模仿面试.md)

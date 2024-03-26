@@ -1,3 +1,15 @@
+- [CSRF 攻击](#csrf-攻击)
+  - [什么是 CSRF](#什么是-csrf)
+  - [CSRF 的攻击原理](#csrf-的攻击原理)
+  - [CSRF 攻击示例](#csrf-攻击示例)
+  - [CSRF 攻击类型](#csrf-攻击类型)
+  - [CSRF 攻击的防御](#csrf-攻击的防御)
+    - [1、同源检测](#1同源检测)
+    - [2、设置 SameSite](#2设置-samesite)
+    - [3、添加 Token](#3添加-token)
+    - [4、双重 Cookie 验证](#4双重-cookie-验证)
+  - [结语](#结语)
+
 # CSRF 攻击
 
 ## 什么是 CSRF
@@ -58,7 +70,7 @@
     iframe.style.display = 'none';
     document.body.appendChild(iframe);
 
-    setTimeout(function() {
+    setTimeout(function () {
       document.forms[0].submit();
     }, 100);
   </script>

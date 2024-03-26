@@ -1,3 +1,19 @@
+- [Vim 操作](#vim-操作)
+- [Git Bash](#git-bash)
+- [NPM 修改源地址](#npm-修改源地址)
+- [Git 基础概念](#git-基础概念)
+- [Git Flow 基本流程和理解](#git-flow-基本流程和理解)
+- [常用指令](#常用指令)
+- [git add 和 git stage 的区别](#git-add-和-git-stage-的区别)
+- [git reset、git revert 和 git checkout 的区别](#git-resetgit-revert-和-git-checkout-的区别)
+- [`git pull` 和 `git pull --rebase` 的区别](#git-pull-和-git-pull---rebase-的区别)
+- [`git bisect` 查找哪一次的代码提交引入了错误](#git-bisect-查找哪一次的代码提交引入了错误)
+- [分支操作](#分支操作)
+- [标签操作](#标签操作)
+- [储存区操作](#储存区操作)
+- [.gitignore](#gitignore)
+- [学习资源](#学习资源)
+
 ## Vim 操作
 
 使用 Git 就避不开 Vim 的使用，一个最经典的的操作就是：如何保存并退出 Vim 编辑器。这个操作在 [Stack Overflow ](https://stackoverflow.com/questions/11828270/how-do-i-exit-the-vim-editor) 上的浏览量已经超过了 210 万次，可见其重要性。
@@ -123,13 +139,13 @@ $ npm install xxx --registry=https://registry.npm.taobao.org
 
 Git 的标准操作流程，包括如下几个关键的分支：
 
-|分支名|作用|
-|:---:|:---|
-|master|主分支|
-|develop (dev)|主开发分支，包含确定发布的代码|
-|feature (feat)|新功能分支，一般一个新功能对应一个分支，对于功能的拆分需要比较合理，以避免一些后面不必要的代码冲突|
-|release|发布分支，发布时候用的分支，一般测试时候发现的 bug 在这个分支进行修复|
-|hotfix |hotfix 分支，紧急修 bug 的时候用|
+|     分支名     | 作用                                                                                               |
+| :------------: | :------------------------------------------------------------------------------------------------- |
+|     master     | 主分支                                                                                             |
+| develop (dev)  | 主开发分支，包含确定发布的代码                                                                     |
+| feature (feat) | 新功能分支，一般一个新功能对应一个分支，对于功能的拆分需要比较合理，以避免一些后面不必要的代码冲突 |
+|    release     | 发布分支，发布时候用的分支，一般测试时候发现的 bug 在这个分支进行修复                              |
+|     hotfix     | hotfix 分支，紧急修 bug 的时候用                                                                   |
 
 Git Flow 的优点：
 
@@ -598,7 +614,7 @@ A — B — C — D — E — H — I
 
   - GitHub 仓库：[github/gitignore](https://github.com/github/gitignore)
   - 在线生成：[gitignore.io
-](https://www.toptal.com/developers/gitignore)
+    ](https://www.toptal.com/developers/gitignore)
 
 - `git add -f <文件名>` 将被忽略的文件，强制添加到暂存区
 - `git rm --cached <文件名>` 删除对指定文件的追踪

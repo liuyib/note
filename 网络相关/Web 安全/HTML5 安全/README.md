@@ -1,3 +1,12 @@
+- [HTML5 安全](#html5-安全)
+  - [新标签、属性带来的危险](#新标签属性带来的危险)
+  - [sandbox 属性](#sandbox-属性)
+  - [noreferrer 属性](#noreferrer-属性)
+  - [CORS](#cors)
+  - [postMessage](#postmessage)
+    - [安全问题](#安全问题)
+  - [Web Storage](#web-storage)
+
 # HTML5 安全
 
 ## 新标签、属性带来的危险
@@ -75,7 +84,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
   var button = document.getElementById('button');
   var win = window.open('./test.html');
 
-  button.onclick = function() {
+  button.onclick = function () {
     win.postMessage('hello world', 'https://liuyib.github.io/');
   };
 </script>
@@ -92,7 +101,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 
   window.addEventListener(
     'message',
-    function(e) {
+    function (e) {
       showData.innerText = e.origin + ' said: ' + e.data;
     },
     false
@@ -127,7 +136,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
   var button = document.getElementById('button');
   var win = document.getElementById('iframe').contentWindow;
 
-  button.onclick = function() {
+  button.onclick = function () {
     win.postMessage('hello world');
   };
 </script>
@@ -144,7 +153,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 
   window.addEventListener(
     'message',
-    function(e) {
+    function (e) {
       showData.innerText = e.origin + ' said: ' + e.data;
     },
     false
@@ -186,7 +195,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
   var button = document.getElementById('button');
   var win = document.getElementById('iframe').contentWindow;
 
-  button.onclick = function() {
+  button.onclick = function () {
     win.postMessage('hello world');
   };
 
@@ -194,7 +203,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 
   window.addEventListener(
     'message',
-    function(e) {
+    function (e) {
       if (e.origin !== 'https://liuyib.github.io') {
         return;
       }
@@ -217,7 +226,7 @@ postMessage 用于跨窗口传递消息，它允许每一个 window（当前窗�
 
   window.addEventListener(
     'message',
-    function(e) {
+    function (e) {
       if (e.origin !== 'https://liuyib.github.io') {
         return;
       }
