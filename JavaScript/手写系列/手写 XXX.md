@@ -45,13 +45,10 @@ Function.prototype.call = function (context) {
   var args = [];
   // 注意循环从 1 开始，否则会把 context 包含进去
   for (var i = 1; i < arguments.length; i++) {
-    args.push('arguments[' + i + ']');
+    args.push('args[' + i + ']');
   }
 
-  var fn = new Function(
-    'context,arguments',
-    `return context.fn(${args.join(',')})`
-  );
+  var fn = new Function('ctx,args', `return ctx.fn(${args.join(',')})`);
   var result = fn(context, arguments);
 
   delete context.fn;
@@ -73,13 +70,10 @@ Function.prototype.apply = function (context, arr) {
 
   var args = [];
   for (let i = 0; i < arr.length; i++) {
-    args.push('arguments[' + i + ']');
+    args.push('args[' + i + ']');
   }
 
-  var fn = new Function(
-    'context,arguments',
-    `return context.fn(${args.join(',')})`
-  );
+  var fn = new Function('ctx,args', `return ctx.fn(${args.join(',')})`);
   var result = fn(context, arr);
 
   delete context.fn;
@@ -89,6 +83,8 @@ Function.prototype.apply = function (context, arr) {
 ```
 
 `bind`:
+
+https://github.com/zloirock/core-js/blob/master/packages/core-js/internals/function-bind.js
 
 > 这里直接使用 ES6 语法，省去不重要的细节。
 
@@ -132,5 +128,4 @@ Function.prototype.bind = function (context, ...args1) {
 参考资料：
 
 - call/apply: https://github.com/sisterAn/JavaScript-Algorithms/issues/78
-- bind: https://github.com/zloirock/core-js/blob/master/packages/core-js/internals/function-bind.js
 - bind: https://github.com/yygmind/blog/issues/23
