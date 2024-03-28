@@ -56,19 +56,20 @@ TL;DR
 
 宏任务（Macro Task）
 
-- script（主代码块）
 - 定时器（`setTimeout`/`setInterval`/`setImmediate（Node.js）`）
-- `MessageChannel`
+- script（主代码块）
 - DOM 操作
 - 事件回调
 - I/O 操作（文件 IO、网络 IO）
 - UI 渲染
+- `MessageChannel`
+- `requestAnimationFrame`
 
 微任务（Micro Task）
 
 - `Promise 的 .then/.catch/.finally`
-- `await 下面的代码`
 - `MutationObserver`
+- `await 下面的代码`（TODO: 待定）
 - [`queueMicrotask`](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask)
 - `Process.nextTick（Node.js）`
 - `Object.observe（废弃）`
