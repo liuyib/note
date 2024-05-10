@@ -3,7 +3,7 @@
   - [call、apply 和 bind 的区别](#callapply-和-bind-的区别)
   - [上下文 和 执行上下文](#上下文-和-执行上下文)
   - [继承](#继承)
-  - [节流和防抖](#节流和防抖)
+  - [防抖和节流](#防抖和节流)
     - [防抖的应用场景](#防抖的应用场景)
     - [节流的应用场景](#节流的应用场景)
   - [模块化](#模块化)
@@ -45,46 +45,9 @@
 
 // TODO
 
-## 节流和防抖
+## 防抖和节流
 
-节流（throttle）：事件持续触发的时候，每 n 秒执行一次函数
-
-```js
-function throttle(fn, timeout) {
-  let timer = null;
-
-  return function (...args) {
-    if (timer) return;
-
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-      timer = null;
-    }, timeout);
-  };
-}
-```
-
-防抖（debounce）：事件持续触发结束后，等待 n 秒才执行函数
-
-```js
-function debounce(fn, timeout) {
-  let timer = null;
-
-  return function (...args) {
-    if (timer) clearTimeout(timer);
-
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-      timer = null;
-    }, timeout);
-  };
-}
-```
-
-参考资料：
-
-- [JavaScript 专题之跟着 underscore 学节流](https://github.com/mqyqingfeng/Blog/issues/26)
-- [JavaScript 专题之跟着 underscore 学防抖](https://github.com/mqyqingfeng/Blog/issues/22)
+[手写防抖节流.md](./手写系列/手写防抖节流.md)
 
 ### 防抖的应用场景
 
